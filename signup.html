@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up - NAEMSS eLibrary</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjV8FJ0V7irTLQ8Uo0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+    <style>
+      body {
+        font-family: 'Poppins', sans-serif;
+      }
+
+      /* Slideshow styling */
+      .slideshow-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+      }
+
+      .slideshow {
+        display: flex;
+        transition: transform 0.7s ease-in-out;
+        height: 100%;
+      }
+
+      .slide {
+        width: 100%;
+        height: 100%;
+        flex-shrink: 0;
+      }
+
+      .slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.5; /* Subtle opacity to avoid form distraction */
+      }
+
+      /* Signup card styling */
+      .signup-card {
+        background: rgba(255, 255, 255, 0.9); /* Semi-transparent white for light mode */
+        border-top: 4px solid #FFD700; /* Gold */
+        transition: transform 0.3s ease;
+      }
+
+      .dark .signup-card {
+        background: rgba(30, 41, 59, 0.9); /* Semi-transparent deep slate for dark mode */
+        border-top: 4px solid #B8860B; /* Dark gold */
+      }
+
+      .signup-card:hover {
+        transform: scale(1.05);
+      }
+
+      /* Input focus and error styling */
+      input:focus {
+        outline: none;
+        ring: 2px;
+        ring-color: #FFD700; /* Gold for focus */
+      }
+
+      .error {
+        border: 2px solid #EF4444; /* Red for errors */
+      }
+
+      .error-message {
+        color: #EF4444;
+        font-size: 0.75rem;
+        margin-top: 0.25rem;
+      }
+
+      /* Responsive layout */
+      @media (max-width: 640px) {
+        .container {
+          padding: 1rem;
+        }
+        .signup-card {
+          padding: 1.5rem;
+        }
+      }
+    </style>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              poppins: ['Poppins', 'sans-serif']
+            },
+            colors: {
+              gold: '#FFD700',
+              darkgold: '#B8860B',
+              softBlue: '#60A5FA',
+              lightBlue: '#93C5FD',
+              paleGreen: '#A7F3D0',
+              deepSlate: '#1E293B'
+            }
+          }
+        }
+      }
+    </script>
+  </head>
+  <body class="bg-gray-100 dark:bg-deepSlate text-gray-900 dark:text-white min-h-screen flex items-center justify-center relative">
+    <!-- Slideshow -->
+    <div class="slideshow-container">
+      <div id="slideshow" class="slideshow">
+        <div class="slide">
+          <img src="download (5).jpg" alt="Atmospheric Monitoring" />
+        </div>
+        <div class="slide">
+          <img src="download.jpg" alt="Climate Modeling" />
+        </div>
+        <div class="slide">
+          <img src="images (1).jpg"Weather Observation" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Signup Card -->
+    <div class="container max-w-md mx-auto signup-card rounded-lg shadow-lg p-6 sm:p-8">
+      <h1 class="text-2xl sm:text-3xl font-bold text-gold dark:text-darkgold text-center mb-6">Sign Up for NAEMSS eLibrary</h1>
+      <form id="signupForm" class="space-y-4">
+        <div>
+          <label for="firstName" class="block text-sm font-medium text-gray-700 dark:text-gray-300">First Name</label>
+          <input
+            type="text"
+            id="firstName"
+            name="firstName"
+            class="mt-1 p-2 w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-gold"
+            required
+          />
+          <p id="firstNameError" class="error-message hidden">First name is required.</p>
+        </div>
+        <div>
+          <label for="lastName" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Last Name</label>
+          <input
+            type="text"
+            id="lastName"
+            name="lastName"
+            class="mt-1 p-2 w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-gold"
+            required
+          />
+          <p id="lastNameError" class="error-message hidden">Last name is required.</p>
+        </div>
+        <div>
+          <label for="matricNumber" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Matric Number (e.g., MST/12/1234)</label>
+          <input
+            type="text"
+            id="matricNumber"
+            name="matricNumber"
+            placeholder="MST/12/1234"
+            class="mt-1 p-2 w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-gold"
+            required
+          />
+          <p id="matricNumberError" class="error-message hidden">Matric number must start with AGY, AGP, MST, MCS, or RSG and follow the format XXX/YY/ZZZZ.</p>
+        </div>
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="mt-1 p-2 w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-gold"
+            required
+          />
+          <p id="emailError" class="error-message hidden">Please enter a valid email address.</p>
+        </div>
+        <div>
+          <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="mt-1 p-2 w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-gold"
+            required
+          />
+          <p id="passwordError" class="error-message hidden">Password must be at least 6 characters long.</p>
+        </div>
+        <button
+          type="submit"
+          class="w-full bg-gold dark:bg-darkgold text-white font-semibold py-2 px-4 rounded-md hover:bg-darkgold dark:hover:bg-gold transition duration-300"
+        >
+          Sign Up
+        </button>
+      </form>
+      <p class="text-center text-sm text-gray-600 dark:text-gray-300 mt-4">
+        Already have an account? <a href="/login.html" class="text-gold dark:text-darkgold hover:underline">Log In</a>
+      </p>
+      <p id="formError" class="error-message text-center hidden">An error occurred during signup. Please try again.</p>
+    </div>
+
+    <script>
+      // Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyBAxpD6750L0WkCUIMTs5k7qqygCVzl4xQ",
+        authDomain: "naemss-elibary.firebaseapp.com",
+        projectId: "naemss-elibary",
+        storageBucket: "naemss-elibary.firebasestorage.app",
+        messagingSenderId: "978697395651",
+        appId: "1:978697395651:web:954a5c3b29f4fc7c37b176",
+        measurementId: "G-72WG3MPKPL"
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+
+      // Slideshow functionality
+      let currentSlide = 0;
+      const slides = document.querySelectorAll('#slideshow .slide');
+      const totalSlides = slides.length;
+
+      function showSlide(index) {
+        if (index >= totalSlides) currentSlide = 0;
+        else if (index < 0) currentSlide = totalSlides - 1;
+        else currentSlide = index;
+        document.getElementById('slideshow').style.transform = `translateX(-${currentSlide * 100}%)`;
+      }
+
+      function nextSlide() {
+        showSlide(currentSlide + 1);
+      }
+
+      // Auto-rotate slideshow every 5 seconds
+      let slideInterval = setInterval(nextSlide, 5000);
+
+      // Pause slideshow on hover over form
+      const signupCard = document.querySelector('.signup-card');
+      signupCard.addEventListener('mouseenter', () => {
+        clearInterval(slideInterval);
+      });
+
+      signupCard.addEventListener('mouseleave', () => {
+        slideInterval = setInterval(nextSlide, 5000);
+      });
+
+      // Form submission handler
+      document.getElementById('signupForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        clearErrors();
+
+        const firstName = document.getElementById('firstName').value.trim();
+        const lastName = document.getElementById('lastName').value.trim();
+        const matricNumber = document.getElementById('matricNumber').value.trim().toUpperCase();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+
+        // Client-side validation
+        let isValid = true;
+
+        if (!firstName) {
+          showError('firstName', 'First name is required.');
+          isValid = false;
+        }
+
+        if (!lastName) {
+          showError('lastName', 'Last name is required.');
+          isValid = false;
+        }
+
+        // Matric number validation: Must start with AGY, AGP, MST, MCS, or RSG and follow format XXX/YY/ZZZZ
+        const matricRegex = /^(AGY|AGP|MST|MCS|RSG)\/\d{2}\/\d{4}$/;
+        if (!matricRegex.test(matricNumber)) {
+          showError('matricNumber', 'Matric number must start with AGY, AGP, MST, MCS, or RSG and follow the format XXX/YY/ZZZZ.');
+          isValid = false;
+        }
+
+        if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
+          showError('email', 'Please enter a valid email address.');
+          isValid = false;
+        }
+
+        if (password.length < 6) {
+          showError('password', 'Password must be at least 6 characters long.');
+          isValid = false;
+        }
+
+        if (!isValid) return;
+
+        // Firebase signup
+        auth.createUserWithEmailAndPassword(email, password)
+          .then((userCredential) => {
+            const user = userCredential.user;
+            // Update user profile with first name, last name, and matric number
+            return user.updateProfile({
+              displayName: `${firstName} ${lastName}`,
+              matricNumber: matricNumber // Note: Custom fields like matricNumber may need to be stored in Firestore
+            });
+          })
+          .then(() => {
+            alert('Signup successful! Welcome to NAEMSS eLibrary.');
+            document.getElementById('signupForm').reset();
+            // Redirect to home page or dashboard
+            window.location.href = '/index.html';
+          })
+          .catch((error) => {
+            showError('form', `Error: ${error.message}`);
+          });
+      });
+
+      // Show error message and highlight input
+      function showError(fieldId, message) {
+        const input = document.getElementById(fieldId);
+        const errorElement = document.getElementById(`${fieldId}Error`);
+        input.classList.add('error');
+        errorElement.textContent = message;
+        errorElement.classList.remove('hidden');
+      }
+
+      // Clear all errors
+      function clearErrors() {
+        const inputs = document.querySelectorAll('input');
+        const errorMessages = document.querySelectorAll('.error-message');
+        inputs.forEach((input) => input.classList.remove('error'));
+        errorMessages.forEach((msg) => {
+          msg.classList.add('hidden');
+          msg.textContent = '';
+        });
+      }
+    </script>
+  </body>
+</html>

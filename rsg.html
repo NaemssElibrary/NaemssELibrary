@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Remote Sensing & Geoinformatics - NAEMSS eLibrary</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjV8FJ0V7irTLQ8Uo0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+      body {
+        font-family: 'Poppins', sans-serif;
+      }
+
+      /* Card slide-in animation */
+      .card-animate {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.8s ease-in-out;
+      }
+
+      .card-animate.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Social icons */
+      .social-icons i {
+        font-size: 2rem;
+        transition: transform 0.3s ease;
+      }
+
+      .social-icons i:hover {
+        transform: scale(1.2);
+      }
+
+      /* Back to Top Button */
+      #backToTop {
+        position: fixed;
+        bottom: 30px;
+        right: 20px;
+        background-color: #00FFFF; /* Cyan */
+        color: #00FFFF; /* Cyan for light mode */
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+      }
+
+      #backToTop:hover {
+        background-color: #9932CC; /* Bright Purple */
+        transform: scale(1.1);
+      }
+
+      #backToTop.visible {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .dark #backToTop {
+        color: #FFFFFF; /* White for dark mode */
+      }
+
+      /* Responsive navbar title */
+      @media (max-width: 640px) {
+        .desktop-title {
+          display: none;
+        }
+        .mobile-title {
+          display: inline;
+        }
+        .book {
+          width: 40%;
+        }
+        .slide-nav-button {
+          padding: 0.75rem;
+        }
+      }
+
+      @media (min-width: 641px) {
+        .desktop-title {
+          display: inline;
+        }
+        .mobile-title {
+          display: none;
+        }
+      }
+
+      /* Tab styling */
+      .tab {
+        background-color: #00FFFF; /* Cyan */
+        color: white;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .tab:hover {
+        background-color: #32CD32; /* Lime Green */
+      }
+
+      .tab.active {
+        background-color: #9932CC; /* Bright Purple */
+        font-weight: bold;
+      }
+
+      .sub-tab {
+        background-color: #32CD32; /* Lime Green */
+        color: white;
+        padding: 0.5rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .sub-tab:hover {
+        background-color: #00FFFF; /* Cyan */
+      }
+
+      .sub-tab.active {
+        background-color: #9932CC; /* Bright Purple */
+        color: #FFFFFF; /* White text */
+      }
+
+      /* Book slider */
+      .book {
+        transition: transform 0.3s ease;
+      }
+
+      .book:hover {
+        transform: scale(1.05);
+      }
+
+      .slider-container {
+        position: relative;
+        width: 100%;
+        overflow-x: auto;
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE and Edge */
+      }
+
+      .slider-container::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera */
+      }
+
+      .book-slider {
+        display: flex;
+        flex-wrap: nowrap;
+        transition: transform 0.5s ease-in-out;
+        width: max-content;
+      }
+
+      .slide-nav-button {
+        transition: background-color 0.3s ease, opacity 0.3s ease;
+      }
+
+      .slide-nav-button.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    </style>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              poppins: ['Poppins', 'sans-serif']
+            },
+            colors: {
+              cyan: '#00FFFF',
+              limeGreen: '#32CD32',
+              brightPurple: '#9932CC',
+              darkSlate: '#2F4F4F'
+            }
+          }
+        }
+      }
+    </script>
+  </head>
+  <body class="bg-gray-100 dark:bg-darkSlate text-gray-900 dark:text-white transition duration-300">
+    <!-- Navbar -->
+    <nav class="bg-cyan dark:bg-brightPurple p-4 shadow-md fixed w-full top-0 z-50">
+      <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <h1 class="text-xl font-bold text-white">
+          NAEMSS eLibrary
+        </h1>
+        <button id="toggleMenu" class="sm:hidden text-white focus:outline-none text-2xl">
+          ☰
+        </button>
+        <ul id="menu" class="hidden sm:flex gap-4">
+          <li><a href="index.html" class="text-white hover:underline">Home</a></li>
+          <li><a href="#" class="text-white hover:underline">About</a></li>
+          <li><a href="#" class="text-white hover:underline">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Mobile menu -->
+    <div id="mobileMenu" class="sm:hidden hidden bg-cyan dark:bg-brightPurple px-4 py-2 space-y-2 mt-16">
+      <a href="index.html" class="block text-white py-2 hover:bg-brightPurple dark:hover:bg-cyan rounded">Home</a>
+      <a href="#" class="block text-white py-2 hover:bg-brightPurple dark:hover:bg-cyan rounded">About</a>
+      <a href="#" class="block text-white py-2 hover:bg-brightPurple dark:hover:bg-cyan rounded">Contact</a>
+    </div>
+
+    <!-- Slideshow -->
+    <div class="relative w-full overflow-hidden h-64 sm:h-80 md:h-96 mt-16">
+      <div id="slideshow" class="flex transition-transform duration-700 ease-in-out">
+        <div class="w-full flex-shrink-0">
+          <img src="https://via.placeholder.com/1200x400?text=Satellite+Imagery" alt="Satellite Imagery" class="w-full h-64 sm:h-80 md:h-96 object-cover" />
+        </div>
+        <div class="w-full flex-shrink-0">
+          <img src="https://via.placeholder.com/1200x400?text=GIS+Mapping" alt="GIS Mapping" class="w-full h-64 sm:h-80 md:h-96 object-cover" />
+        </div>
+        <div class="w-full flex-shrink-0">
+          <img src="https://via.placeholder.com/1200x400?text=Geospatial+Analysis" alt="Geospatial Analysis" class="w-full h-64 sm:h-80 md:h-96 object-cover" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Header Section -->
+    <section class="max-w-7xl mx-auto py-10 px-4">
+      <h2 class="text-3xl font-semibold mb-6 text-cyan dark:text-limeGreen">Department of Remote Sensing & Geoinformatics</h2>
+      <p class="text-gray-600 dark:text-gray-300 text-sm mb-6">Access resources, course materials, and tools for Remote Sensing and Geoinformatics students at all levels.</p>
+    </section>
+
+    <!-- Tabs for Levels -->
+    <section class="max-w-7xl mx-auto py-10 px-4">
+      <h3 class="text-2xl font-semibold mb-4 text-cyan dark:text-limeGreen">Course Materials by Level</h3>
+      <div class="flex flex-wrap gap-2 mb-4">
+        <button class="tab active" onclick="showLevel('level-100')">100 Level</button>
+        <button class="tab" onclick="showLevel('level-200')">200 Level</button>
+        <button class="tab" onclick="showLevel('level-300')">300 Level</button>
+        <button class="tab" onclick="showLevel('level-400')">400 Level</button>
+        <button class="tab" onclick="showLevel('level-500')">500 Level</button>
+      </div>
+
+      <!-- Level Content -->
+      <div id="level-100" class="level-content">
+        <div class="flex gap-2 mb-4">
+          <button class="sub-tab active" onclick="showSemester('level-100-sem1')">1st Semester</button>
+          <button class="sub-tab" onclick="showSemester('level-100-sem2')">2nd Semester</button>
+        </div>
+        <div id="level-100-sem1" class="semester-content">
+          <div class="slider-container">
+            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-cyan dark:bg-brightPurple text-white p-2 rounded-full hover:bg-brightPurple dark:hover:bg-cyan z-10">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-cyan dark:bg-brightPurple text-white p-2 rounded-full hover:bg-brightPurple dark:hover:bg-cyan z-10">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="book-slider">
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-cyan dark:bg-limeGreen rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Intro+RS" alt="Intro Remote Sensing Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Intro to Remote Sensing</h4>
+                  <button class="open-book bg-cyan dark:bg-brightPurple text-white py-1 px-3 rounded hover:bg-brightPurple dark:hover:bg-cyan text-sm" onclick="openBook('level-100-sem1-rs')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-limeGreen dark:bg-cyan rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=GIS+Basics" alt="GIS Basics Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">GIS Basics</h4>
+                  <button class="open-book bg-cyan dark:bg-brightPurple text-white py-1 px-3 rounded hover:bg-brightPurple dark:hover:bg-cyan text-sm" onclick="openBook('level-100-sem1-gis')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-brightPurple dark:bg-limeGreen rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Math" alt="Math Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Mathematics</h4>
+                  <button class="open-book bg-cyan dark:bg-brightPurple text-white py-1 px-3 rounded hover:bg-brightPurple dark:hover:bg-cyan text-sm" onclick="openBook('level-100-sem1-math')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="level-100-sem1-rs" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-cyan dark:text-limeGreen mb-2">Introduction to Remote Sensing</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Course notes and slides</p>
+          </div>
+          <div id="level-100-sem1-gis" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-cyan dark:text-limeGreen mb-2">GIS Basics</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Tutorials</p>
+          </div>
+          <div id="level-100-sem1-math" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-cyan dark:text-limeGreen mb-2">Mathematics for Geoinformatics</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Problem sets</p>
+          </div>
+        </div>
+        <div id="level-100-sem2" class="semester-content hidden">
+          <div class="slider-container">
+            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-cyan dark:bg-brightPurple text-white p-2 rounded-full hover:bg-brightPurple dark:hover:bg-cyan z-10">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-cyan dark:bg-brightPurple text-white p-2 rounded-full hover:bg-brightPurple dark:hover:bg-cyan z-10">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="book-slider">
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-cyan dark:bg-limeGreen rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Cartography" alt="Cartography Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Cartography</h4>
+                  <button class="open-book bg-cyan dark:bg-brightPurple text-white py-1 px-3 rounded hover:bg-brightPurple dark:hover:bg-cyan text-sm" onclick="openBook('level-100-sem2-cartography')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-limeGreen dark:bg-cyan rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Programming" alt="Programming Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Programming</h4>
+                  <button class="open-book bg-cyan dark:bg-brightPurple text-white py-1 px-3 rounded hover:bg-brightPurple dark:hover:bg-cyan text-sm" onclick="openBook('level-100-sem2-programming')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-brightPurple dark:bg-limeGreen rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Physics" alt="Physics Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Physics</h4>
+                  <button class="open-book bg-cyan dark:bg-brightPurple text-white py-1 px-3 rounded hover:bg-brightPurple dark:hover:bg-cyan text-sm" onclick="openBook('level-100-sem2-physics')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="level-100-sem2-cartography" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-cyan dark:text-limeGreen mb-2">Introduction to Cartography</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Map design guides</p>
+          </div>
+          <div id="level-100-sem2-programming" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-cyan dark:text-limeGreen mb-2">Programming for Geoinformatics</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Coding tutorials</p>
+          </div>
+          <div id="level-100-sem2-physics" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-cyan dark:text-limeGreen mb-2">Physics for Remote Sensing</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Lab manuals</p>
+          </div>
+        </div>
+      </div>
+      <div id="level-200" class="level-content hidden">
+        <div class="flex gap-2 mb-4">
+          <button class="sub-tab active" onclick="showSemester('level-200-sem1')">1st Semester</button>
+          <button class="sub-tab" onclick="showSemester('level-200-sem2')">2nd Semester</button>
+        </div>
+        <div id="level-200-sem1" class="semester-content">
+          <div class="slider-container">
+            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-cyan dark:bg-brightPurple text-white p-2 rounded-full hover:bg-brightPurple dark:hover:bg-cyan z-10">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-cyan dark:bg-brightPurple text-white p-2 rounded-full hover:bg-brightPurple dark:hover:bg-cyan z-10">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="book-slider">
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-cyan dark:bg-limeGreen rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Image+Analysis" alt="Image Analysis Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Image Analysis</h4>
+                  <button class="open-book bg-cyan dark:bg-brightPurple text-white py-1 px-3 rounded hover:bg-brightPurple dark:hover:bg-cyan text-sm" onclick="openBook('level-200-sem1-image')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-limeGreen dark:bg-cyan rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=GIS+Applications" alt="GIS Applications Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">GIS Applications</h4>
+                  <button class="open-book bg-cyan dark:bg-brightPurple text-white py-1 px-3 rounded hover:bg-brightPurple dark:hover:bg-cyan text-sm" onclick="openBook('level-200-sem1-gis')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-brightPurple dark:bg-limeGreen rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Surveying" alt="Surveying Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Surveying</h4>
+                  <button class="open-book bg-cyan dark:bg-brightPurple text-white py-1 px-3 rounded hover:bg-brightPurple dark:hover:bg-cyan text-sm" onclick="openBook('level-200-sem1-surveying')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="level-200-sem1-image" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-cyan dark:text-limeGreen mb-2">Remote Sensing Image Analysis</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Image processing tutorials</p>
+          </div>
+          <div id="level-200-sem1-gis" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-cyan dark:text-limeGreen mb-2">GIS Applications</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Case studies</p>
+          </div>
+          <div id="level-200-sem1-surveying" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-cyan dark:text-limeGreen mb-2">Surveying Techniques</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Field guides</p>
+          </div>
+        </div>
+        <div id="level-200-sem2" class="semester-content hidden">
+          <div class="slider-container">
+            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-cyan dark:bg-brightPurple text-white p-2 rounded-full hover:bg-brightPurple dark:hover:bg-cyan z-10">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-cyan dark:bg-brightPurple text-white p-2 rounded-full hover:bg-brightPurple dark:hover:bg-cyan z-10">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="book-slider">
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-cyan dark:bg-limeGreen rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Photogrammetry" alt="Photogrammetry Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Photogrammetry</h4>
+                  <button class="open-book bg-cyan dark:bg-brightPurple text-white py-1 px-3 rounded hover:bg-brightPurple dark:hover:bg-cyan text-sm" onclick="openBook('level-200-sem2-photogrammetry')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-limeGreen dark:bg-cyan rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Geo+Databases" alt="Geo Databases Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Geo Databases</h4>
+                  <button class="open-book bg-cyan dark:bg-brightPurple text-white py-1 px-3 rounded hover:bg-brightPurple dark:hover:bg-cyan text-sm" onclick="openBook('level-200-sem2-databases')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-brightPurple dark:bg-limeGreen rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Stats" alt="Geostatistics Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Geostatistics</h4>
+                  <button class="open-book bg-cyan dark:bg-brightPurple text-white py-1 px-3 rounded hover:bg-brightPurple dark:hover:bg-cyan text-sm" onclick="openBook('level-200-sem2-stats')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="level-200-sem2-photogrammetry" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-cyan dark:text-limeGreen mb-2">Photogrammetry</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">3D modeling tutorials</p>
+          </div>
+          <div id="level-200-sem2-databases" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-cyan dark:text-limeGreen mb-2">Geospatial Databases</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Database design</p>
+          </div>
+          <div id="level-200-sem2-stats" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-cyan dark:text-limeGreen mb-2">Geostatistics</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Statistical tools</p>
+          </div>
+        </div>
+      </div>
+      <div id="level-300" class="level-content hidden">
+        <div class="flex gap-2 mb-4">
+          <button class="sub-tab active" onclick="showSemester('level-300-sem1')">1st Semester</button>
+          <button class="sub-tab" onclick="showSemester('level-300-sem2')">2nd Semester</button>
+        </div>
+        <div id="level-300-sem1" class="semester-content">
+          <div class="slider-container">
+            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-cyan dark:bg-brightPurple text-white p-2 rounded-full hover:bg-brightPurple dark:hover:bg-cyan z-10">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-cyan dark:bg-brightPurple text-white p-2 rounded-full hover:bg-brightPurple dark:hover:bg-cyan z-10">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="book-slider">
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-cyan dark:bg-limeGreen rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Adv+RS" alt="Advanced Remote Sensing Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Advanced Remote Sensing</h4>
+                  <button class="open-book bg-cyan dark:bg-brightPurple text-white py-1 px-3 rounded hover:bg-brightPurple dark:hover:bg-cyan text-sm" onclick="openBook('level-300-sem1-adv-rs')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-limeGreen dark:bg-cyan rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Geo+Analysis" alt="Geospatial Analysis Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Geospatial Analysis</h4>
+                  <button class="open-book bg-cyan dark:bg-brightPurple text-white py-1 px-3 rounded hover:bg-brightPurple dark:hover:bg-cyan text-sm" onclick="openBook('level-300-sem1-analysis')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-brightPurple dark:bg-limeGreen rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Web+GIS" alt="Web GIS Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Web GIS</h4>
+                  <button class="open-book bg-cyan dark:bg-brightPurple text-white py-1 px-3 rounded hover:bg-brightPurple dark:hover:bg-cyan text-sm" onclick="openBook('level-300-sem1-webgis')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="level-300-sem1-adv-rs" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-cyan dark:text-limeGreen mb-2">Advanced Remote Sensing</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Hyperspectral imaging</p>
+          </div>
+          <div id="level-300-sem1-analysis" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-cyan dark:text-limeGreen mb-2">Geospatial Analysis</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Spatial statistics</p>
+          </div>
+          <div id="level-300-sem1-webgis" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-cyan dark:text-limeGreen mb-2">Web GIS</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Web mapping tutorials</p>
+          </div>
+        </div>
+        <div id="level-300-sem2" class="semester-content hidden">
+          <div class="slider-container">
+            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-cyan dark:bg-brightPurple text-white p-2 rounded-full hover:bg-brightPurple dark:hover:bg-cyan z-10">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-cyan dark:bg-brightPurple text-white p-2 rounded-full hover:bg-brightPurple dark:hover:bg-cyan z-10">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="book-slider">
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-cyan dark:bg-limeGreen rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=LiDAR" alt="LiDAR Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">LiDAR Technology</h4>
+                  <button class="open-book bg-cyan dark:bg-brightPurple text-white py-1 px-3 rounded hover:bg-brightPurple dark:hover:bg-cyan text-sm" onclick="openBook('level-300-sem2-lidar')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-limeGreen dark:bg-cyan rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Spatial+DB" alt="Spatial Databases Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Spatial Databases</h4>
+                  <button class="open-book bg-cyan dark:bg-brightPurple text-white py-1 px-3 rounded hover:bg-brightPurple dark:hover:bg-cyan text-sm" onclick="openBook('level-300-sem2-spatialdb')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-brightPurple dark:bg-limeGreen rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Geo+Modeling" alt="Geospatial Modeling Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Geospatial Modeling</h4>
+                  <button class="open-book bg-cyan dark:bg-brightPurple text-white py-1 px-3 rounded hover:bg-brightPurple dark:hover:bg-cyan text-sm" onclick="openBook('level-300-sem2-modeling')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="level-300-sem2-lidar" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-cyan dark:text-limeGreen mb-2">LiDAR Technology</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Point cloud processing</p>
+          </div>
+          <div id="level-300-sem2-spatialdb" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-cyan dark:text-limeGreen mb-2">Spatial Databases</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Query optimization</p>
+          </div>
+          <div id="level-300-sem2-modeling" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-cyan dark:text-limeGreen mb-2">Geospatial Modeling</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Simulation tools</p>
+          </div>
+        </div>
+      </div>
+      <div id="level-400" class="level-content hidden">
+        <div class="flex gap-2 mb-4">
+          <button class="sub-tab active" onclick="showSemester('level-400-sem1')">1st Semester</button>
+          <button class="sub-tab" onclick="showSemester('level-400-sem2')">2nd Semester</button>
+        </div>
+        <div id="level-400-sem1" class="semester-content">
+          <div class="slider-container">
+            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-cyan dark:bg-brightPurple text-white p-2 rounded-full hover:bg-brightPurple dark:hover:bg-cyan z-10">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-cyan dark:bg-brightPurple text-white p-2 rounded-full hover:bg-brightPurple dark:hover:bg-cyan z-10">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="book-slider">
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-cyan dark:bg-limeGreen rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Adv+Image+Proc" alt="Advanced Image Processing Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Adv. Image Processing</h4>
+                  <button class="open-book bg-cyan dark:bg-brightPurple text-white py-1 px-3 rounded hover:bg-brightPurple dark:hover:bg-cyan text-sm" onclick="openBook('level-400-sem1-imageproc')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-limeGreen dark:bg-cyan rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Geo+AI" alt="Geospatial AI Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Geospatial AI</h4>
+                  <button class="open-book bg-cyan dark:bg-brightPurple text-white py-1 px-3 rounded hover:bg-brightPurple dark:hover:bg-cyan text-sm" onclick="openBook('level-400-sem1-geoai')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-brightPurple dark:bg-limeGreen rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Research" alt="Research Methods Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Research Methods</h4>
+                  <button class="open-book bg-cyan dark:bg-brightPurple text-white py-1 px-3 rounded hover:bg-brightPurple dark:hover:bg-cyan text-sm" onclick="openBook('level-400-sem1-research')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="level-400-sem1-imageproc" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-cyan dark:text-limeGreen mb-2">Advanced Image Processing</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Machine learning applications</p>
+          </div>
+          <div id="level-400-sem1-geoai" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-cyan dark:text-limeGreen mb-2">Geospatial AI</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Deep learning tutorials</p>
+          </div>
+          <div id="level-400-sem1-research" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-cyan dark:text-limeGreen mb-2">Research Methods</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Proposal templates</p>
+          </div>
+        </div>
+        <div id="level-400-sem2" class="semester-content hidden">
+          <div class="slider-container">
+            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-cyan dark:bg-brightPurple text-white p-2 rounded-full hover:bg-brightPurple dark:hover:bg-cyan z-10">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-cyan dark:bg-brightPurple text-white p-2 rounded-full hover:bg-brightPurple dark:hover:bg-cyan z-10">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="book-slider">
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-cyan dark:bg-limeGreen rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Env+Monitoring" alt="Environmental Monitoring Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Environmental Monitoring</h4>
+                  <button class="open-book bg-cyan dark:bg-brightPurple text-white py-1 px-3 rounded hover:bg-brightPurple dark:hover:bg-cyan text-sm" onclick="openBook('level-400-sem2-monitoring')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-limeGreen dark:bg-cyan rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Geo+Cloud" alt="Geospatial Cloud Computing Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Geo Cloud Computing</h4>
+                  <button class="open-book bg-cyan dark:bg-brightPurple text-white py-1 px-3 rounded hover:bg-brightPurple dark:hover:bg-cyan text-sm" onclick="openBook('level-400-sem2-cloud')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-brightPurple dark:bg-limeGreen rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Project" alt="Project Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Project Work</h4>
+                  <button class="open-book bg-cyan dark:bg-brightPurple text-white py-1 px-3 rounded hover:bg-brightPurple dark:hover:bg-cyan text-sm" onclick="openBook('level-400-sem2-project')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="level-400-sem2-monitoring" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-cyan dark:text-limeGreen mb-2">Environmental Monitoring</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Remote sensing applications</p>
+          </div>
+          <div id="level-400-sem2-cloud" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-cyan dark:text-limeGreen mb-2">Geospatial Cloud Computing</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Cloud platforms</p>
+          </div>
+          <div id="level-400-sem2-project" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-cyan dark:text-limeGreen mb-2">Project Work</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Guidelines</p>
+          </div>
+        </div>
+      </div>
+      <div id="level-500" class="level-content hidden">
+        <div class="flex gap-2 mb-4">
+          <button class="sub-tab active" onclick="showSemester('level-500-sem1')">1st Semester</button>
+          <button class="sub-tab" onclick="showSemester('level-500-sem2')">2nd Semester</button>
+        </div>
+        <div id="level-500-sem1" class="semester-content">
+          <div class="slider-container">
+            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-cyan dark:bg-brightPurple text-white p-2 rounded-full hover:bg-brightPurple dark:hover:bg-cyan z-10">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-cyan dark:bg-brightPurple text-white p-2 rounded-full hover:bg-brightPurple dark:hover:bg-cyan z-10">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="book-slider">
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-cyan dark:bg-limeGreen rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Adv+GIS" alt="Advanced GIS Techniques Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Adv. GIS</h4>
+                  <button class="open-book bg-cyan dark:bg-brightPurple text-white py-1 px-3 rounded hover:bg-brightPurple dark:hover:bg-cyan text-sm" onclick="openBook('level-500-sem1-adv-gis')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-limeGreen dark:bg-cyan rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Big+Geo+Data" alt="Big Geo Data Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Big Geo Data</h4>
+                  <button class="open-book bg-cyan dark:bg-brightPurple text-white py-1 px-3 rounded hover:bg-brightPurple dark:hover:bg-cyan text-sm" onclick="openBook('level-500-sem1-bigdata')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-brightPurple dark:bg-limeGreen rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Thesis+Prep" alt="Thesis Preparation Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Thesis Prep</h4>
+                  <button class="open-book bg-cyan dark:bg-brightPurple text-white py-1 px-3 rounded hover:bg-brightPurple dark:hover:bg-cyan text-sm" onclick="openBook('level-500-sem1-thesis')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="level-500-sem1-adv-gis" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-cyan dark:text-limeGreen mb-2">Advanced GIS Techniques</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Spatial modeling</p>
+          </div>
+          <div id="level-500-sem1-bigdata" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-cyan dark:text-limeGreen mb-2">Big Geospatial Data</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Data analytics</p>
+          </div>
+          <div id="level-500-sem1-thesis" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-cyan dark:text-limeGreen mb-2">Thesis Preparation</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Research templates</p>
+          </div>
+        </div>
+        <div id="level-500-sem2" class="semester-content hidden">
+          <div class="slider-container">
+            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-cyan dark:bg-brightPurple text-white p-2 rounded-full hover:bg-brightPurple dark:hover:bg-cyan z-10">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-cyan dark:bg-brightPurple text-white p-2 rounded-full hover:bg-brightPurple dark:hover:bg-cyan z-10">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="book-slider">
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-cyan dark:bg-limeGreen rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Geo+Seminar" alt="Seminar Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Geo Seminar</h4>
+                  <button class="open-book bg-cyan dark:bg-brightPurple text-white py-1 px-3 rounded hover:bg-brightPurple dark:hover:bg-cyan text-sm" onclick="openBook('level-500-sem2-seminar')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-limeGreen dark:bg-cyan rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Adv+Modeling" alt="Advanced Modeling Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Adv Modeling</h4>
+                  <button class="open-book bg-cyan dark:bg-brightPurple text-white py-1 px-3 rounded hover:bg-brightPurple dark:hover:bg-cyan text-sm" onclick="openBook('level-500-sem2-modeling')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-brightPurple dark:bg-limeGreen rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Final+Project" alt="Final Project Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Final Project</h4>
+                  <button class="open-book bg-cyan dark:bg-brightPurple text-white py-1 px-3 rounded hover:bg-brightPurple dark:hover:bg-cyan text-sm" onclick="openBook('level-500-sem2-project')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-cyan hover:text-brightPurple" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="level-500-sem2-seminar" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-cyan dark:text-limeGreen mb-2">Geoinformatics Seminar</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Presentation guides</p>
+          </div>
+          <div id="level-500-sem2-modeling" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-cyan dark:text-limeGreen mb-2">Advanced Geospatial Modeling</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Case studies</p>
+          </div>
+          <div id="level-500-sem2-project" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-cyan dark:text-limeGreen mb-2">Final Year Project</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Submission guidelines</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Career Pathways -->
+      <section class="max-w-7xl mx-auto py-10 px-4">
+        <h2 class="text-2xl font-semibold mb-6 text-cyan dark:text-limeGreen">Career Pathways</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-cyan dark:border-limeGreen card-animate">
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">GIS Analyst</h3>
+            <p class="text-gray-600 dark:text-gray-300 text-sm"><a href="https://www.esri.com" target="_blank" class="underline hover:text-cyan">Esri</a> career resources</p>
+          </div>
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-cyan dark:border-limeGreen card-animate">
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Remote Sensing Specialist</h3>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Coming Soon - Remote sensing resources</p>
+          </div>
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-cyan dark:border-limeGreen card-animate">
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Geospatial Data Scientist</h3>
+            <p class="text-gray-600 dark:text-gray-300 text-sm"><a href="https://www.agiweb.org/" target="_blank" class="underline hover:text-cyan">American Geoscience Institute</a> data science resources</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="bg-cyan dark:bg-brightPurple text-white pt-10 px-4">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div>
+            <h3 class="text-lg font-semibold mb-4">Subscribe to Our Newsletter</h3>
+            <div class="flex flex-col space-y-3">
+              <input
+                type="email"
+                name="email"
+                placeholder="Your email"
+                class="p-2 rounded-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-white w-full"
+                required
+              />
+              <button
+                type="button"
+                id="submit"
+                class="bg-white text-cyan font-semibold dark:bg-brightPurple dark:text-white py-2 px-4 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+              >
+                Subscribe
+              </button>
+            </div>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+            <ul class="space-y-2">
+              <li><a href="index.html" class="hover:underline">Home</a></li>
+              <li><a href="/about.html" class="hover:underline">About Us</a></li>
+              <li><a href="/terms.html" class="hover:underline">Terms & Conditions</a></li>
+              <li><a href="/privacy.html" class="hover:underline">Privacy Policy</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
+            <ul class="space-y-2">
+              <li>Email: <a href="mailto:info@naemsslibrary.com" class="hover:underline">info@naemsslibrary.com</a></li>
+              <li>Phone: <a href="tel:+2341234567890" class="hover:underline">+234 123 456 7890</a></li>
+              <li>Address: NAEMSS Secretariat, University Campus</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold mb-4">Follow Us</h3>
+            <div class="social-icons flex gap-4">
+              <a href="#" class="text-white hover:text-limeGreen"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" class="text-white hover:text-limeGreen"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="text-white hover:text-limeGreen"><i class="fab fa-instagram"></i></a>
+              <a href="#" class="text-white hover:text-limeGreen"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="text-center py-6 mt-8 border-t border-white/20">
+          <p>&copy; 2025 NAEMSS eLibrary. All rights reserved.</p>
+        </div>
+      </footer>
+
+      <!-- Back to Top Button -->
+      <button id="backToTop" class="hidden">
+        <i class="fas fa-arrow-up"></i>
+      </button>
+
+      <script>
+        // Mobile menu toggle
+        const toggleMenu = document.getElementById('toggleMenu');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        toggleMenu.addEventListener('click', () => {
+          mobileMenu.classList.toggle('hidden');
+          toggleMenu.textContent = mobileMenu.classList.contains('hidden') ? '☰' : '✕';
+        });
+
+        // Slideshow functionality
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('#slideshow > div');
+        const totalSlides = slides.length;
+
+        function showSlide(index) {
+          if (index >= totalSlides) currentSlide = 0;
+          else if (index < 0) currentSlide = totalSlides - 1;
+          else currentSlide = index;
+          document.getElementById('slideshow').style.transform = `translateX(-${currentSlide * 100}%)`;
+        }
+
+        function nextSlide() {
+          showSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+          showSlide(currentSlide - 1);
+        }
+
+        // Auto-rotate slideshow every 5 seconds
+        let slideInterval = setInterval(nextSlide, 5000);
+
+        // Pause slideshow on hover
+        document.getElementById('slideshow').addEventListener('mouseenter', () => {
+          clearInterval(slideInterval);
+        });
+
+        document.getElementById('slideshow').addEventListener('mouseleave', () => {
+          slideInterval = setInterval(nextSlide, 5000);
+        });
+
+        // Card animation on scroll
+        const cards = document.querySelectorAll('.card-animate');
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+              }
+            });
+          },
+          { threshold: 0.1 }
+        );
+
+        cards.forEach((card) => observer.observe(card));
+
+        // Back to Top Button functionality
+        const backToTopButton = document.getElementById('backToTop');
+
+        window.addEventListener('scroll', () => {
+          if (window.scrollY > 300) {
+            backToTopButton.classList.add('visible');
+            backToTopButton.classList.remove('hidden');
+          } else {
+            backToTopButton.classList.remove('visible');
+            backToTopButton.classList.add('hidden');
+          }
+        });
+
+        backToTopButton.addEventListener('click', () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Level tabs
+        function showLevel(levelId) {
+          document.querySelectorAll('.level-content').forEach((content) => {
+            content.classList.add('hidden');
+          });
+          document.getElementById(levelId).classList.remove('hidden');
+
+          document.querySelectorAll('.tab').forEach((tab) => {
+            tab.classList.remove('active');
+          });
+          document.querySelector(`button[onclick="showLevel('${levelId}')"]`).classList.add('active');
+
+          // Show first semester by default
+          const firstSemester = document.querySelector(`#${levelId} .semester-content`);
+          const firstSubTab = document.querySelector(`#${levelId} .sub-tab`);
+          showSemester(firstSemester.id);
+          document.querySelectorAll(`#${levelId} .sub-tab`).forEach((tab) => {
+            tab.classList.remove('active');
+          });
+          firstSubTab.classList.add('active');
+        }
+
+        // Semester tabs
+        function showSemester(semesterId) {
+          document.querySelectorAll('.semester-content').forEach((content) => {
+            content.classList.add('hidden');
+          });
+          document.getElementById(semesterId).classList.remove('hidden');
+
+          document.querySelectorAll('.sub-tab').forEach((tab) => {
+            tab.classList.remove('active');
+          });
+          document.querySelector(`button[onclick="showSemester('${semesterId}')"]`).classList.add('active');
+
+          // Reset book slider for this semester
+          initializeSlider(semesterId);
+        }
+
+        // Book content toggle
+        function openBook(bookId) {
+          document.querySelectorAll('.book-content').forEach((content) => {
+            content.classList.add('hidden');
+          });
+          document.getElementById(bookId).classList.remove('hidden');
+        }
+
+        // Book slider functionality
+        function initializeSlider(semesterId) {
+          const sliderContainer = document.querySelector(`#${semesterId} .slider-container`);
+          const bookSlider = document.querySelector(`#${semesterId} .book-slider`);
+          const books = document.querySelectorAll(`#${semesterId} .book`);
+          const prevButton = document.querySelector(`#${semesterId} .prev-slide`);
+          const nextButton = document.querySelector(`#${semesterId} .next-slide`);
+
+          let currentPosition = 0;
+          const bookWidth = books[0].offsetWidth + 16; // Including margin
+          const maxPosition = -(books.length - 1) * bookWidth;
+
+          function updateButtons() {
+            prevButton.classList.toggle('disabled', currentPosition >= 0);
+            nextButton.classList.toggle('disabled', currentPosition <= maxPosition);
+          }
+
+          prevButton.addEventListener('click', () => {
+            if (currentPosition < 0) {
+              currentPosition += bookWidth;
+              bookSlider.style.transform = `translateX(${currentPosition}px)`;
+              updateButtons();
+            }
+          });
+
+          nextButton.addEventListener('click', () => {
+            if (currentPosition > maxPosition) {
+              currentPosition -= bookWidth;
+              bookSlider.style.transform = `translateX(${currentPosition}px)`;
+              updateButtons();
+            }
+          });
+
+          // Touch support for slider
+          let startX, currentX;
+          sliderContainer.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+          });
+
+          sliderContainer.addEventListener('touchmove', (e) => {
+            currentX = e.touches[0].clientX;
+          });
+
+          sliderContainer.addEventListener('touchend', () => {
+            const deltaX = currentX - startX;
+            if (deltaX > 50 && currentPosition < 0) {
+              currentPosition += bookWidth;
+              bookSlider.style.transform = `translateX(${currentPosition}px)`;
+            } else if (deltaX < -50 && currentPosition > maxPosition) {
+              currentPosition -= bookWidth;
+              bookSlider.style.transform = `translateX(${currentPosition}px)`;
+            }
+            updateButtons();
+          });
+
+          updateButtons();
+        }
+
+        // Initialize sliders for all semesters
+        document.querySelectorAll('.semester-content').forEach((semester) => {
+          if (!semester.classList.contains('hidden')) {
+            initializeSlider(semester.id);
+          }
+        });
+      </script>
+    </body>
+</html>

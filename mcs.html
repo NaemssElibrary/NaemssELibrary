@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Metrology and Climate Science - NAEMSS eLibrary</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjV8FJ0V7irTLQ8Uo0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+      body {
+        font-family: 'Poppins', sans-serif;
+      }
+
+      /* Card slide-in animation */
+      .card-animate {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.8s ease-in-out;
+      }
+
+      .card-animate.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Social icons */
+      .social-icons i {
+        font-size: 2rem;
+        transition: transform 0.3s ease;
+      }
+
+      .social-icons i:hover {
+        transform: scale(1.2);
+      }
+
+      /* Back to Top Button */
+      #backToTop {
+        position: fixed;
+        bottom: 30px;
+        right: 20px;
+        background-color: #60A5FA; /* Soft Blue */
+        color: #60A5FA; /* Soft Blue for light mode */
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+      }
+
+      #backToTop:hover {
+        background-color: #93C5FD; /* Light Blue */
+        transform: scale(1.1);
+      }
+
+      #backToTop.visible {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .dark #backToTop {
+        color: #FFFFFF; /* White for dark mode */
+      }
+
+      /* Responsive navbar title */
+      @media (max-width: 640px) {
+        .desktop-title {
+          display: none;
+        }
+        .mobile-title {
+          display: inline;
+        }
+        .book {
+          width: 40%;
+        }
+        .slide-nav-button {
+          padding: 0.75rem;
+        }
+      }
+      @media (min-width: 641px) {
+        .desktop-title {
+          display: inline;
+        }
+        .mobile-title {
+          display: none;
+        }
+      }
+
+      /* Tab styling */
+      .tab {
+        background-color: #60A5FA; /* Soft Blue */
+        color: white;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .tab:hover {
+        background-color: #A7F3D0; /* Pale Green */
+      }
+
+      .tab.active {
+        background-color: #93C5FD; /* Light Blue */
+        font-weight: bold;
+      }
+
+      .sub-tab {
+        background-color: #A7F3D0; /* Pale Green */
+        color: white;
+        padding: 0.5rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .sub-tab:hover {
+        background-color: #60A5FA; /* Soft Blue */
+      }
+
+      .sub-tab.active {
+        background-color: #93C5FD; /* Light Blue */
+        color: #FFFFFF; /* White text */
+      }
+
+      /* Book slider */
+      .book {
+        transition: transform 0.3s ease;
+      }
+
+      .book:hover {
+        transform: scale(1.05);
+      }
+
+      .slider-container {
+        position: relative;
+        width: 100%;
+        overflow-x: auto;
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE and Edge */
+      }
+
+      .slider-container::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera */
+      }
+
+      .book-slider {
+        display: flex;
+        flex-wrap: nowrap;
+        transition: transform 0.5s ease-in-out;
+        width: max-content;
+      }
+
+      .slide-nav-button {
+        transition: background-color 0.3s ease, opacity 0.3s ease;
+      }
+
+      .slide-nav-button.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    </style>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              poppins: ['Poppins', 'sans-serif']
+            },
+            colors: {
+              softBlue: '#60A5FA',
+              lightBlue: '#93C5FD',
+              paleGreen: '#A7F3D0',
+              deepSlate: '#1E293B'
+            }
+          }
+        }
+      }
+    </script>
+  </head>
+  <body class="bg-gray-100 dark:bg-deepSlate text-gray-900 dark:text-white transition duration-300">
+    <!-- Navbar -->
+    <nav class="bg-softBlue dark:bg-lightBlue p-4 shadow-md fixed w-full top-0 z-50">
+      <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <h1 class="text-xl font-bold text-white">
+          <span class="desktop-title">Metrology & Climate Science - NAEMSS eLibrary</span>
+          <span class="mobile-title">Metrology & Climate - NAEMSS</span>
+        </h1>
+        <button id="toggleMenu" class="sm:hidden text-white focus:outline-none text-2xl">
+          ☰
+        </button>
+        <ul id="menu" class="hidden sm:flex gap-4">
+          <li><a href="index.html" class="text-white hover:underline">Home</a></li>
+          <li><a href="#" class="text-white hover:underline">About</a></li>
+          <li><a href="#" class="text-white hover:underline">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Mobile menu -->
+    <div id="mobileMenu" class="sm:hidden hidden bg-softBlue dark:bg-lightBlue px-4 py-2 space-y-2 mt-16">
+      <a href="index.html" class="block text-white py-2 hover:bg-lightBlue dark:hover:bg-softBlue rounded">Home</a>
+      <a href="#" class="block text-white py-2 hover:bg-lightBlue dark:hover:bg-softBlue rounded">About</a>
+      <a href="#" class="block text-white py-2 hover:bg-lightBlue dark:hover:bg-softBlue rounded">Contact</a>
+    </div>
+
+    <!-- Slideshow -->
+    <div class="relative w-full overflow-hidden h-64 sm:h-80 md:h-96 mt-16">
+      <div id="slideshow" class="flex transition-transform duration-700 ease-in-out">
+        <div class="w-full flex-shrink-0">
+          <img src="https://via.placeholder.com/1200x400?text=Atmospheric+Monitoring" alt="Atmospheric Monitoring" class="w-full h-64 sm:h-80 md:h-96 object-cover" />
+        </div>
+        <div class="w-full flex-shrink-0">
+          <img src="https://via.placeholder.com/1200x400?text=Climate+Modeling" alt="Climate Modeling" class="w-full h-64 sm:h-80 md:h-96 object-cover" />
+        </div>
+        <div class="w-full flex-shrink-0">
+          <img src="https://via.placeholder.com/1200x400?text=Weather+Observation" alt="Weather Observation" class="w-full h-64 sm:h-80 md:h-96 object-cover" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Header Section -->
+    <section class="max-w-7xl mx-auto py-10 px-4">
+      <h2 class="text-3xl font-semibold mb-6 text-softBlue dark:text-paleGreen">Department of Metrology and Climate Science</h2>
+      <p class="text-gray-600 dark:text-gray-300 text-sm mb-6">Explore resources, course materials, and tools for Metrology and Climate Science students at all levels.</p>
+    </section>
+
+    <!-- Tabs for Levels -->
+    <section class="max-w-7xl mx-auto py-10 px-4">
+      <h3 class="text-2xl font-semibold mb-4 text-softBlue dark:text-paleGreen">Course Materials by Level</h3>
+      <div class="flex flex-wrap gap-2 mb-4">
+        <button class="tab active" onclick="showLevel('level-100')">100 Level</button>
+        <button class="tab" onclick="showLevel('level-200')">200 Level</button>
+        <button class="tab" onclick="showLevel('level-300')">300 Level</button>
+      </div>
+
+      <!-- Level Content -->
+      <div id="level-100" class="level-content">
+        <div class="flex gap-2 mb-4">
+          <button class="sub-tab active" onclick="showSemester('level-100-sem1')">1st Semester</button>
+          <button class="sub-tab" onclick="showSemester('level-100-sem2')">2nd Semester</button>
+        </div>
+        <div id="level-100-sem1" class="semester-content">
+          <div class="slider-container">
+            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-softBlue dark:bg-lightBlue text-white p-2 rounded-full hover:bg-lightBlue dark:hover:bg-softBlue z-10">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-softBlue dark:bg-lightBlue text-white p-2 rounded-full hover:bg-lightBlue dark:hover:bg-softBlue z-10">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="book-slider">
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-softBlue dark:bg-paleGreen rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Intro+Metrology" alt="Intro Metrology Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Intro to Metrology</h4>
+                  <button class="open-book bg-softBlue dark:bg-lightBlue text-white py-1 px-3 rounded hover:bg-lightBlue dark:hover:bg-softBlue text-sm" onclick="openBook('level-100-sem1-metrology')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-paleGreen dark:bg-softBlue rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Atm.+Physics" alt="Atmospheric Physics Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Atmospheric Physics</h4>
+                  <button class="open-book bg-softBlue dark:bg-lightBlue text-white py-1 px-3 rounded hover:bg-lightBlue dark:hover:bg-softBlue text-sm" onclick="openBook('level-100-sem1-physics')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-lightBlue dark:bg-paleGreen rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Climate+Fund." alt="Climate Fundamentals Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Climate Fundamentals</h4>
+                  <button class="open-book bg-softBlue dark:bg-lightBlue text-white py-1 px-3 rounded hover:bg-lightBlue dark:hover:bg-softBlue text-sm" onclick="openBook('level-100-sem1-climate')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="level-100-sem1-metrology" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-softBlue dark:text-paleGreen mb-2">Introduction to Metrology</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Course notes and slides</p>
+          </div>
+          <div id="level-100-sem1-physics" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-softBlue dark:text-paleGreen mb-2">Atmospheric Physics</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Problem sets</p>
+          </div>
+          <div id="level-100-sem1-climate" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-softBlue dark:text-paleGreen mb-2">Climate Fundamentals</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Tutorials</p>
+          </div>
+        </div>
+        <div id="level-100-sem2" class="semester-content hidden">
+          <div class="slider-container">
+            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-softBlue dark:bg-lightBlue text-white p-2 rounded-full hover:bg-lightBlue dark:hover:bg-softBlue z-10">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-softBlue dark:bg-lightBlue text-white p-2 rounded-full hover:bg-lightBlue dark:hover:bg-softBlue z-10">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="book-slider">
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-softBlue dark:bg-paleGreen rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Weather+Obs." alt="Weather Observation Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Weather Observation</h4>
+                  <button class="open-book bg-softBlue dark:bg-lightBlue text-white py-1 px-3 rounded hover:bg-lightBlue dark:hover:bg-softBlue text-sm" onclick="openBook('level-100-sem2-weather')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-paleGreen dark:bg-softBlue rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Data+Analysis" alt="Data Analysis Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Data Analysis</h4>
+                  <button class="open-book bg-softBlue dark:bg-lightBlue text-white py-1 px-3 rounded hover:bg-lightBlue dark:hover:bg-softBlue text-sm" onclick="openBook('level-100-sem2-data')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-lightBlue dark:bg-paleGreen rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Env.+Science" alt="Environmental Science Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Environmental Science</h4>
+                  <button class="open-book bg-softBlue dark:bg-lightBlue text-white py-1 px-3 rounded hover:bg-lightBlue dark:hover:bg-softBlue text-sm" onclick="openBook('level-100-sem2-environmental')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="level-100-sem2-weather" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-softBlue dark:text-paleGreen mb-2">Weather Observation</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Observation techniques</p>
+          </div>
+          <div id="level-100-sem2-data" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-softBlue dark:text-paleGreen mb-2">Data Analysis</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Statistical tutorials</p>
+          </div>
+          <div id="level-100-sem2-environmental" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-softBlue dark:text-paleGreen mb-2">Environmental Science</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Study guides</p>
+          </div>
+        </div>
+      </div>
+      <div id="level-200" class="level-content hidden">
+        <div class="flex gap-2 mb-4">
+          <button class="sub-tab active" onclick="showSemester('level-200-sem1')">1st Semester</button>
+          <button class="sub-tab" onclick="showSemester('level-200-sem2')">2nd Semester</button>
+        </div>
+        <div id="level-200-sem1" class="semester-content">
+          <div class="slider-container">
+            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-softBlue dark:bg-lightBlue text-white p-2 rounded-full hover:bg-lightBlue dark:hover:bg-softBlue z-10">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-softBlue dark:bg-lightBlue text-white p-2 rounded-full hover:bg-lightBlue dark:hover:bg-softBlue z-10">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="book-slider">
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-softBlue dark:bg-paleGreen rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Climate+Model" alt="Climate Modeling Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Climate Modeling</h4>
+                  <button class="open-book bg-softBlue dark:bg-lightBlue text-white py-1 px-3 rounded hover:bg-lightBlue dark:hover:bg-softBlue text-sm" onclick="openBook('level-200-sem1-modeling')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-paleGreen dark:bg-softBlue rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Remote+Sensing" alt="Remote Sensing Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Remote Sensing</h4>
+                  <button class="open-book bg-softBlue dark:bg-lightBlue text-white py-1 px-3 rounded hover:bg-lightBlue dark:hover:bg-softBlue text-sm" onclick="openBook('level-200-sem1-remote')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-lightBlue dark:bg-paleGreen rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=GHG+Measure" alt="GHG Measurements Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">GHG Measurements</h4>
+                  <button class="open-book bg-softBlue dark:bg-lightBlue text-white py-1 px-3 rounded hover:bg-lightBlue dark:hover:bg-softBlue text-sm" onclick="openBook('level-200-sem1-ghg')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="level-200-sem1-modeling" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-softBlue dark:text-paleGreen mb-2">Climate Modeling</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Simulation tutorials</p>
+          </div>
+          <div id="level-200-sem1-remote" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-softBlue dark:text-paleGreen mb-2">Remote Sensing</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Data analysis guides</p>
+          </div>
+          <div id="level-200-sem1-ghg" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-softBlue dark:text-paleGreen mb-2">GHG Measurements</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Measurement protocols</p>
+          </div>
+        </div>
+        <div id="level-200-sem2" class="semester-content hidden">
+          <div class="slider-container">
+            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-softBlue dark:bg-lightBlue text-white p-2 rounded-full hover:bg-lightBlue dark:hover:bg-softBlue z-10">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-softBlue dark:bg-lightBlue text-white p-2 rounded-full hover:bg-lightBlue dark:hover:bg-softBlue z-10">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="book-slider">
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-softBlue dark:bg-paleGreen rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Oceanography" alt="Oceanography Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Oceanography</h4>
+                  <button class="open-book bg-softBlue dark:bg-lightBlue text-white py-1 px-3 rounded hover:bg-lightBlue dark:hover:bg-softBlue text-sm" onclick="openBook('level-200-sem2-ocean')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-paleGreen dark:bg-softBlue rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Air+Quality" alt="Air Quality Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Air Quality</h4>
+                  <button class="open-book bg-softBlue dark:bg-lightBlue text-white py-1 px-3 rounded hover:bg-lightBlue dark:hover:bg-softBlue text-sm" onclick="openBook('level-200-sem2-air')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-lightBlue dark:bg-paleGreen rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Stats+Methods" alt="Statistical Methods Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Statistical Methods</h4>
+                  <button class="open-book bg-softBlue dark:bg-lightBlue text-white py-1 px-3 rounded hover:bg-lightBlue dark:hover:bg-softBlue text-sm" onclick="openBook('level-200-sem2-stats')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="level-200-sem2-ocean" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-softBlue dark:text-paleGreen mb-2">Oceanography</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Ocean data analysis</p>
+          </div>
+          <div id="level-200-sem2-air" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-softBlue dark:text-paleGreen mb-2">Air Quality</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Monitoring techniques</p>
+          </div>
+          <div id="level-200-sem2-stats" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-softBlue dark:text-paleGreen mb-2">Statistical Methods</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Software guides</p>
+          </div>
+        </div>
+      </div>
+      <div id="level-300" class="level-content hidden">
+        <div class="flex gap-2 mb-4">
+          <button class="sub-tab active" onclick="showSemester('level-300-sem1')">1st Semester</button>
+          <button class="sub-tab" onclick="showSemester('level-300-sem2')">2nd Semester</button>
+        </div>
+        <div id="level-300-sem1" class="semester-content">
+          <div class="slider-container">
+            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-softBlue dark:bg-lightBlue text-white p-2 rounded-full hover:bg-lightBlue dark:hover:bg-softBlue z-10">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-softBlue dark:bg-lightBlue text-white p-2 rounded-full hover:bg-lightBlue dark:hover:bg-softBlue z-10">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="book-slider">
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-softBlue dark:bg-paleGreen rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Adv.+Metrology" alt="Advanced Metrology Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Advanced Metrology</h4>
+                  <button class="open-book bg-softBlue dark:bg-lightBlue text-white py-1 px-3 rounded hover:bg-lightBlue dark:hover:bg-softBlue text-sm" onclick="openBook('level-300-sem1-metrology')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-paleGreen dark:bg-softBlue rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Climate+Policy" alt="Climate Policy Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Climate Policy</h4>
+                  <button class="open-book bg-softBlue dark:bg-lightBlue text-white py-1 px-3 rounded hover:bg-lightBlue dark:hover:bg-softBlue text-sm" onclick="openBook('level-300-sem1-policy')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-lightBlue dark:bg-paleGreen rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Sat.+Calib." alt="Satellite Calibration Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Satellite Calibration</h4>
+                  <button class="open-book bg-softBlue dark:bg-lightBlue text-white py-1 px-3 rounded hover:bg-lightBlue dark:hover:bg-softBlue text-sm" onclick="openBook('level-300-sem1-calibration')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="level-300-sem1-metrology" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-softBlue dark:text-paleGreen mb-2">Advanced Metrology</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Measurement standards</p>
+          </div>
+          <div id="level-300-sem1-policy" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-softBlue dark:text-paleGreen mb-2">Climate Policy</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Policy frameworks</p>
+          </div>
+          <div id="level-300-sem1-calibration" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-softBlue dark:text-paleGreen mb-2">Satellite Calibration</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Calibration techniques</p>
+          </div>
+        </div>
+        <div id="level-300-sem2" class="semester-content hidden">
+          <div class="slider-container">
+            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-softBlue dark:bg-lightBlue text-white p-2 rounded-full hover:bg-lightBlue dark:hover:bg-softBlue z-10">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-softBlue dark:bg-lightBlue text-white p-2 rounded-full hover:bg-lightBlue dark:hover:bg-softBlue z-10">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="book-slider">
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-softBlue dark:bg-paleGreen rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Climate+Risk" alt="Climate Risk Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Climate Risk</h4>
+                  <button class="open-book bg-softBlue dark:bg-lightBlue text-white py-1 px-3 rounded hover:bg-lightBlue dark:hover:bg-softBlue text-sm" onclick="openBook('level-300-sem2-risk')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-paleGreen dark:bg-softBlue rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Big+Data" alt="Big Data in Climate Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Big Data in Climate</h4>
+                  <button class="open-book bg-softBlue dark:bg-lightBlue text-white py-1 px-3 rounded hover:bg-lightBlue dark:hover:bg-softBlue text-sm" onclick="openBook('level-300-sem2-data')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-lightBlue dark:bg-paleGreen rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Forecasting" alt="Forecasting Models Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Forecasting Models</h4>
+                  <button class="open-book bg-softBlue dark:bg-lightBlue text-white py-1 px-3 rounded hover:bg-lightBlue dark:hover:bg-softBlue text-sm" onclick="openBook('level-300-sem2-forecasting')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="level-300-sem2-risk" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-softBlue dark:text-paleGreen mb-2">Climate Risk</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Risk assessment guides</p>
+          </div>
+          <div id="level-300-sem2-data" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-softBlue dark:text-paleGreen mb-2">Big Data in Climate</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Data processing tutorials</p>
+          </div>
+          <div id="level-300-sem2-forecasting" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-softBlue dark:text-paleGreen mb-2">Forecasting Models</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Modeling software</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Career Pathways -->
+      <section class="max-w-7xl mx-auto py-10 px-4">
+        <h2 class="text-2xl font-semibold mb-6 text-softBlue dark:text-paleGreen">Career Pathways</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-softBlue dark:border-lightBlue card-animate">
+            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Climate Scientist</h3>
+            <p class="text-gray-600 dark:text-gray-300 text-sm"><a href="https://www.ametsoc.org/" target="_blank" class="underline hover:text-softBlue">American Meteorological Society</a> career resources</p>
+          </div>
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-softBlue dark:border-lightBlue card-animate">
+            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Metrologist</h3>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Coming Soon - Metrology standards resources</p>
+          </div>
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-softBlue dark:border-lightBlue card-animate">
+            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Climate Policy Analyst</h3>
+            <p class="text-gray-600 dark:text-gray-300 text-sm"><a href="https://www.ipcc.ch/" target="_blank" class="underline hover:text-softBlue">IPCC</a> policy resources</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="bg-softBlue dark:bg-lightBlue text-white pt-10 px-4">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div>
+            <h3 class="text-lg font-semibold mb-4">Subscribe to Our Newsletter</h3>
+            <div class="flex flex-col space-y-3">
+              <input
+                type="email"
+                name="email"
+                placeholder="Your email"
+                class="p-2 rounded-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-white w-full"
+                required
+              />
+              <button
+                type="button"
+                id="submit"
+                class="bg-white text-softBlue font-semibold dark:bg-lightBlue dark:text-white py-2 px-4 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+              >
+                Subscribe
+              </button>
+            </div>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+            <ul class="space-y-2">
+              <li><a href="index.html" class="hover:underline">Home</a></li>
+              <li><a href="/about.html" class="hover:underline">About Us</a></li>
+              <li><a href="/terms.html" class="hover:underline">Terms & Conditions</a></li>
+              <li><a href="/privacy.html" class="hover:underline">Privacy Policy</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
+            <ul class="space-y-2">
+              <li>Email: <a href="mailto:info@naemsslibrary.com" class="hover:underline">info@naemsslibrary.com</a></li>
+              <li>Phone: <a href="tel:+2341234567890" class="hover:underline">+234 123 456 7890</a></li>
+              <li>Address: NAEMSS Secretariat, University Campus</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold mb-4">Follow Us</h3>
+            <div class="social-icons flex gap-4">
+              <a href="#" class="text-white hover:text-paleGreen"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" class="text-white hover:text-paleGreen"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="text-white hover:text-paleGreen"><i class="fab fa-instagram"></i></a>
+              <a href="#" class="text-white hover:text-paleGreen"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="text-center py-6 mt-8 border-t border-white/20">
+          <p>&copy; 2025 NAEMSS eLibrary. All rights reserved.</p>
+        </div>
+      </footer>
+
+      <!-- Back to Top Button -->
+      <button id="backToTop" class="hidden">
+        <i class="fas fa-arrow-up"></i>
+      </button>
+
+      <script>
+        // Mobile menu toggle
+        const toggleMenu = document.getElementById('toggleMenu');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        toggleMenu.addEventListener('click', () => {
+          mobileMenu.classList.toggle('hidden');
+          toggleMenu.textContent = mobileMenu.classList.contains('hidden') ? '☰' : '✕';
+        });
+
+        // Slideshow functionality
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('#slideshow > div');
+        const totalSlides = slides.length;
+
+        function showSlide(index) {
+          if (index >= totalSlides) currentSlide = 0;
+          else if (index < 0) currentSlide = totalSlides - 1;
+          else currentSlide = index;
+          document.getElementById('slideshow').style.transform = `translateX(-${currentSlide * 100}%)`;
+        }
+
+        function nextSlide() {
+          showSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+          showSlide(currentSlide - 1);
+        }
+
+        // Auto-rotate slideshow every 5 seconds
+        let slideInterval = setInterval(nextSlide, 5000);
+
+        // Pause slideshow on hover
+        document.getElementById('slideshow').addEventListener('mouseenter', () => {
+          clearInterval(slideInterval);
+        });
+
+        document.getElementById('slideshow').addEventListener('mouseleave', () => {
+          slideInterval = setInterval(nextSlide, 5000);
+        });
+
+        // Card animation on scroll
+        const cards = document.querySelectorAll('.card-animate');
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+              }
+            });
+          },
+          { threshold: 0.1 }
+        );
+
+        cards.forEach((card) => observer.observe(card));
+
+        // Back to Top Button functionality
+        const backToTopButton = document.getElementById('backToTop');
+
+        window.addEventListener('scroll', () => {
+          if (window.scrollY > 300) {
+            backToTopButton.classList.add('visible');
+            backToTopButton.classList.remove('hidden');
+          } else {
+            backToTopButton.classList.remove('visible');
+            backToTopButton.classList.add('hidden');
+          }
+        });
+
+        backToTopButton.addEventListener('click', () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Level tabs
+        function showLevel(levelId) {
+          document.querySelectorAll('.level-content').forEach((content) => {
+            content.classList.add('hidden');
+          });
+          document.getElementById(levelId).classList.remove('hidden');
+
+          document.querySelectorAll('.tab').forEach((tab) => {
+            tab.classList.remove('active');
+          });
+          document.querySelector(`button[onclick="showLevel('${levelId}')"]`).classList.add('active');
+
+          // Show first semester by default
+          const firstSemester = document.querySelector(`#${levelId} .semester-content`);
+          const firstSubTab = document.querySelector(`#${levelId} .sub-tab`);
+          showSemester(firstSemester.id);
+          document.querySelectorAll(`#${levelId} .sub-tab`).forEach((tab) => {
+            tab.classList.remove('active');
+          });
+          firstSubTab.classList.add('active');
+        }
+
+        // Semester tabs
+        function showSemester(semesterId) {
+          document.querySelectorAll('.semester-content').forEach((content) => {
+            content.classList.add('hidden');
+          });
+          document.getElementById(semesterId).classList.remove('hidden');
+
+          document.querySelectorAll('.sub-tab').forEach((tab) => {
+            tab.classList.remove('active');
+          });
+          document.querySelector(`button[onclick="showSemester('${semesterId}')"]`).classList.add('active');
+
+          // Reset book slider for this semester
+          initializeSlider(semesterId);
+        }
+
+        // Book content toggle
+        function openBook(bookId) {
+          document.querySelectorAll('.book-content').forEach((content) => {
+            content.classList.add('hidden');
+          });
+          document.getElementById(bookId).classList.remove('hidden');
+        }
+
+        // Book slider functionality
+        function initializeSlider(semesterId) {
+          const sliderContainer = document.querySelector(`#${semesterId} .slider-container`);
+          const bookSlider = document.querySelector(`#${semesterId} .book-slider`);
+          const books = document.querySelectorAll(`#${semesterId} .book`);
+          const prevButton = document.querySelector(`#${semesterId} .prev-slide`);
+          const nextButton = document.querySelector(`#${semesterId} .next-slide`);
+
+          let currentPosition = 0;
+          const bookWidth = books[0].offsetWidth + 16; // Including margin
+          const maxPosition = -(books.length - 1) * bookWidth;
+
+          function updateButtons() {
+            prevButton.classList.toggle('disabled', currentPosition >= 0);
+            nextButton.classList.toggle('disabled', currentPosition <= maxPosition);
+          }
+
+          prevButton.addEventListener('click', () => {
+            if (currentPosition < 0) {
+              currentPosition += bookWidth;
+              bookSlider.style.transform = `translateX(${currentPosition}px)`;
+              updateButtons();
+            }
+          });
+
+          nextButton.addEventListener('click', () => {
+            if (currentPosition > maxPosition) {
+              currentPosition -= bookWidth;
+              bookSlider.style.transform = `translateX(${currentPosition}px)`;
+              updateButtons();
+            }
+          });
+
+          // Touch support for slider
+          let startX, currentX;
+          sliderContainer.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+          });
+
+          sliderContainer.addEventListener('touchmove', (e) => {
+            currentX = e.touches[0].clientX;
+          });
+
+          sliderContainer.addEventListener('touchend', () => {
+            const deltaX = currentX - startX;
+            if (deltaX > 50 && currentPosition < 0) {
+              currentPosition += bookWidth;
+              bookSlider.style.transform = `translateX(${currentPosition}px)`;
+            } else if (deltaX < -50 && currentPosition > maxPosition) {
+              currentPosition -= bookWidth;
+              bookSlider.style.transform = `translateX(${currentPosition}px)`;
+            }
+            updateButtons();
+          });
+
+          updateButtons();
+        }
+
+        // Subscription form
+        document.getElementById('submit').addEventListener('click', () => {
+          const emailInput = document.querySelector('input[name="email"]');
+          if (emailInput.value) {
+            alert('Subscribed successfully!');
+            emailInput.value = '';
+          } else {
+            alert('Please enter a valid email address.');
+          }
+        });
+
+        // Initialize sliders for all semesters
+        document.querySelectorAll('.semester-content').forEach((semester) => {
+          if (!semester.classList.contains('hidden')) {
+            initializeSlider(semester.id);
+          }
+        });
+      </script>
+    </body>
+</html>

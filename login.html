@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Log In - NAEMSS eLibrary</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjV8FJ0V7irTLQ8Uo0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw==" crossorigin="anonymous" />
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+    <style>
+      body {
+        font-family: 'Poppins', sans-serif;
+      }
+
+      /* Slideshow styling */
+      .slideshow-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+      }
+
+      .slideshow {
+        display: flex;
+        transition: transform 0.7s ease-in-out;
+        height: 100%;
+      }
+
+      .slide {
+        width: 100%;
+        height: 100%;
+        flex-shrink: 0;
+      }
+
+      .slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.5; /* Subtle opacity for form readability */
+      }
+
+      /* Login card styling */
+      .login-card {
+        background: rgba(255, 255, 255, 0.9); /* Semi-transparent white for light mode */
+        border-top: 4px solid #FFD700; /* Gold */
+        transition: transform 0.3s ease;
+      }
+
+      .dark .login-card {
+        background: rgba(0, 0, 0, 0.5); /* Subtle opacity for dark mode */
+        border-top: 4px solid #B8860B; /* Dark gold */
+      }
+
+      .login-card:hover {
+        transform: scale(1.05);
+      }
+
+      /* Input focus and error styling */
+      input:focus {
+        outline: none;
+        border-color: #FFD700; /* Gold for focus */
+        ring: 2px solid #FFD700;
+      }
+
+      .error {
+        border: 2px solid #EF4444; /* Red for errors */
+      }
+
+      .error-message {
+        color: #EF4444;
+        font-size: 0.75rem;
+        margin-top: 0.25rem;
+      }
+
+      /* Responsive layout */
+      @media (max-width: 640px) {
+        .container {
+          padding: 1rem;
+        }
+        .login-card {
+          padding: 1.5rem;
+        }
+      }
+    </style>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              poppins: ['Poppins', 'sans-serif']
+            },
+            colors: {
+              gold: '#FFD700',
+              darkgold: '#B8860B',
+              softBlue: '#60A5FA',
+              lightBlue: '#93C5FD',
+              paleGreen: '#A7F3D0',
+              deepSlate: '#1E293B'
+            }
+          }
+        }
+      }
+    </script>
+  </head>
+  <body class="bg-gray-100 dark:bg-deepSlate text-gray-900 dark:text-white min-h-screen flex items-center justify-center relative">
+    <!-- Slideshow -->
+    <div class="slideshow-container">
+      <div id="slideshow" class="slideshow">
+        <div class="slide">
+          <img src="images (1).jpg" alt="Atmospheric Monitoring" />
+        </div>
+        <div class="slide">
+          <img src="images (2).jpg" alt="Climate Modeling" />
+        </div>
+        <div class="slide">
+          <img src="images (4).jpg" alt="Weather Observation" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Login Card -->
+    <div class="container max-w-md mx-auto login-card rounded-lg shadow-lg p-6 sm:p-8">
+      <h1 class="text-2xl sm:text-3xl font-bold text-gold dark:text-darkgold text-center mb-6">Log In to NAEMSS eLibrary</h1>
+      <form id="loginForm" class="space-y-4">
+        <div>
+          <label for="identifier" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email or Matric Number (e.g., MST/12/1234)</label>
+          <input
+            type="text"
+            id="identifier"
+            name="identifier"
+            placeholder="Email or MST/12/1234"
+            class="mt-1 p-2 w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-gold"
+            required
+          />
+          <p id="identifierError" class="error-message hidden">Please enter a valid email or matric number (AGY, AGP, MST, MCS, or RSG).</p>
+        </div>
+        <div>
+          <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="mt-1 p-2 w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-gold"
+            required
+          />
+          <p id="passwordError" class="error-message hidden">Password is required.</p>
+        </div>
+        <button
+          type="submit"
+          class="w-full bg-gold dark:bg-darkgold text-white font-semibold py-2 px-4 rounded-md hover:bg-darkgold dark:hover:bg-gold transition duration-300"
+        >
+          Log In
+        </button>
+      </form>
+      <p class="text-center text-sm text-gray-600 dark:text-gray-300 mt-4">
+        Don't have an account? <a href="/signup.html" class="text-gold dark:text-darkgold hover:underline">Sign Up</a>
+      </p>
+      <p id="formError" class="error-message text-center hidden">An error occurred during login. Please try again.</p>
+    </div>
+
+    <script>
+      // Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyBAxpD6750L0WkCUIMTs5k7qqygCVzl4xQ",
+        authDomain: "naemss-elibary.firebaseapp.com",
+        projectId: "naemss-elibary",
+        storageBucket: "naemss-elibary.firebasestorage.app",
+        messagingSenderId: "978697395651",
+        appId: "1:978697395651:web:954a5c3b29f4fc7c37b176",
+        measurementId: "G-72WG3MPKPL"
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+
+      // Slideshow functionality
+      let currentSlide = 0;
+      const slides = document.querySelectorAll('#slideshow .slide');
+      const totalSlides = slides.length;
+
+      function showSlide(index) {
+        if (index >= totalSlides) currentSlide = 0;
+        else if (index < 0) currentSlide = totalSlides - 1;
+        else currentSlide = index;
+        document.getElementById('slideshow').style.transform = `translateX(-${currentSlide * 100}%)`;
+      }
+
+      function nextSlide() {
+        showSlide(currentSlide + 1);
+      }
+
+      // Auto-rotate slideshow every 5 seconds
+      let slideInterval = setInterval(nextSlide, 5000);
+
+      // Pause slideshow on hover over form
+      const loginCard = document.querySelector('.login-card');
+      loginCard.addEventListener('mouseenter', () => {
+        clearInterval(slideInterval);
+      });
+
+      loginCard.addEventListener('mouseleave', () => {
+        slideInterval = setInterval(nextSlide, 5000);
+      });
+
+      // Form submission handler
+      document.getElementById('loginForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        clearErrors();
+
+        const identifier = document.getElementById('identifier').value.trim().toUpperCase();
+        const password = document.getElementById('password').value;
+
+        // Client-side validation
+        let isValid = true;
+        let email = '';
+
+        // Validate identifier as email or matric number
+        const emailRegex = /^\S+@\S+\.\S+$/;
+        const matricRegex = /^(AGY|AGP|MST|MCS|RSG)\/\d{2}\/\d{4}$/;
+
+        if (!identifier) {
+          showError('identifier', 'Email or matric number is required.');
+          isValid = false;
+        } else if (emailRegex.test(identifier.toLowerCase())) {
+          email = identifier.toLowerCase();
+        } else if (matricRegex.test(identifier)) {
+          // Placeholder for matric number to email mapping
+          // In production, fetch email from Firestore using matric number
+          email = `${identifier.toLowerCase().replace(/\//g, '.')}@naemss.edu`; // Example mapping: MST/12/1234 -> mst.12.1234@naemss.edu
+        } else {
+          showError('identifier', 'Please enter a valid email or matric number (AGY, AGP, MST, MCS, or RSG).');
+          isValid = false;
+        }
+
+        if (!password) {
+          showError('password', 'Password is required.');
+          isValid = false;
+        }
+
+        if (!isValid) return;
+
+        // Firebase login
+        auth.signInWithEmailAndPassword(email, password)
+          .then((userCredential) => {
+            alert('Login successful! Welcome to NAEMSS eLibrary.');
+            document.getElementById('loginForm').reset();
+            // Redirect to home page or dashboard
+            window.location.href = '/index.html';
+          })
+          .catch((error) => {
+            showError('form', `Error: ${error.message}`);
+          });
+      });
+
+      // Show error message and highlight input
+      function showError(fieldId, message) {
+        const input = document.getElementById(fieldId);
+        const errorElement = document.getElementById(`${fieldId}Error`);
+        input.classList.add('error');
+        errorElement.textContent = message;
+        errorElement.classList.remove('hidden');
+      }
+
+      // Clear all errors
+      function clearErrors() {
+        const inputs = document.querySelectorAll('input');
+        const errorMessages = document.querySelectorAll('.error-message');
+        inputs.forEach((input) => input.classList.remove('error'));
+        errorMessages.forEach((msg) => {
+          msg.classList.add('hidden');
+          msg.textContent = '';
+        });
+      }
+    </script>
+  </body>
+</html>

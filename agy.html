@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Applied Geology - NAEMSS eLibrary</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjV8FJ0V7irTLQ8Uo0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+      body {
+        font-family: 'Poppins', sans-serif;
+      }
+
+      /* Card slide-in animation */
+      .card-animate {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.8s ease-in-out;
+      }
+
+      .card-animate.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Social icons */
+      .social-icons i {
+        font-size: 2rem;
+        transition: transform 0.3s ease;
+      }
+
+      .social-icons i:hover {
+        transform: scale(1.2);
+      }
+
+      /* Back to Top Button */
+      #backToTop {
+        position: fixed;
+        bottom: 30px;
+        right: 20px;
+        background-color: #2E7D32; /* Forest Green */
+        color: #2E7D32; /* Forest Green for light mode */
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+      }
+
+      #backToTop:hover {
+        background-color: #4A7043; /* Olive Green */
+        transform: scale(1.1);
+      }
+
+      #backToTop.visible {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .dark #backToTop {
+        color: #FFFFFF; /* White for dark mode */
+      }
+
+      /* Responsive navbar title */
+      @media (max-width: 640px) {
+        .desktop-title {
+          display: none;
+        }
+        .mobile-title {
+          display: inline;
+        }
+        .book {
+          width: 40%;
+        }
+        .slide-nav-button {
+          padding: 0.75rem;
+        }
+      }
+      @media (min-width: 641px) {
+        .desktop-title {
+          display: inline;
+        }
+        .mobile-title {
+          display: none;
+        }
+      }
+
+      /* Tab styling */
+      .tab {
+        background-color: #2E7D32; /* Forest Green */
+        color: white;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .tab:hover {
+        background-color: #78909C; /* Stone Gray */
+      }
+
+      .tab.active {
+        background-color: #4A7043; /* Olive Green */
+        font-weight: bold;
+      }
+
+      .sub-tab {
+        background-color: #78909C; /* Stone Gray */
+        color: white;
+        padding: 0.5rem;
+        cursor: pointer;
+        transition: 0.3s ease;
+      }
+
+      .sub-tab:hover {
+        background-color: #2E7D32; /* Forest Green */
+      }
+
+      .sub-tab.active {
+        background-color: #4A7043; /* Olive Green */
+        color: #FFFFFF; /* White text */
+      }
+
+      /* Book slider */
+      .book {
+        transition: transform 0.3s ease;
+      }
+
+      .book:hover {
+        transform: scale(1.05);
+      }
+
+      .slider-container {
+        position: relative;
+        width: 100%;
+        overflow-x: auto;
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE and Edge */
+      }
+
+      .slider-container::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera */
+      }
+
+      .book-slider {
+        display: flex;
+        flex-wrap: nowrap;
+        transition: transform 0.5s ease-in-out;
+        width: max-content;
+      }
+
+      .slide-nav-button {
+        transition: background-color: 0.3s ease, opacity: 0.3s ease;
+      }
+
+      .slide-nav-button.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    </style>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              poppins: ['Poppins', 'sans-serif']
+            },
+            colors: {
+              forestGreen: '#2E7D32',
+              oliveGreen: '#4A7043',
+              stoneGray: '#78909C',
+              charcoal: '#1A2521'
+            }
+          }
+        }
+      }
+    </script>
+  </head>
+  <body class="bg-gray-100 dark:bg-charcoal text-gray-900 dark:text-white transition duration-300">
+    <!-- Navbar -->
+    <nav class="bg-forestGreen dark:bg-oliveGreen p-4 shadow-md fixed w-full top-0 z-50">
+      <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <h1 class="text-xl font-bold text-white">
+          NAEMSS eLibrary
+        </h1>
+        <button id="toggleMenu" class="sm:hidden text-white focus:outline-none text-2xl">
+          ☰
+        </button>
+        <ul id="menu" class="hidden sm:flex gap-4">
+          <li><a href="index.html" class="text-white hover:underline">Home</a></li>
+          <li><a href="#" class="text-white hover:underline">About</a></li>
+          <li><a href="#" class="text-white hover:underline">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Mobile menu -->
+    <div id="mobileMenu" class="sm:hidden hidden bg-forestGreen dark:bg-oliveGreen px-4 py-2 space-y-2 mt-16">
+      <a href="index.html" class="block text-white py-2 hover:bg-oliveGreen rounded">Home</a>
+      <a href="#" class="block text-white py-2 hover:bg-oliveGreen rounded">About</a>
+      <a href="#" class="block text-white py-2 hover:bg-oliveGreen rounded">Contact</a>
+    </div>
+
+    <!-- Slideshow -->
+    <div class="relative w-full overflow-hidden h-64 sm:h-80 md:h-96 mt-16">
+      <div id="slideshow" class="flex transition-transform duration-700 ease-in-out">
+        <div class="w-full flex-shrink-0">
+          <img src="https://via.placeholder.com/1200x400?text=Rock+Formations" alt="Rock Formations" class="w-full h-64 sm:h-80 md:h-96 object-cover" />
+        </div>
+        <div class="w-full flex-shrink-0">
+          <img src="https://via.placeholder.com/1200x400?text=Mining+Sites" alt="Mining Sites" class="w-full h-64 sm:h-80 md:h-96 object-cover" />
+        </div>
+        <div class="w-full flex-shrink-0">
+          <img src="https://via.placeholder.com/1200x400?text=Geological+Surveys" alt="Geological Surveys" class="w-full h-64 sm:h-80 md:h-96 object-cover" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Header Section -->
+    <section class="max-w-7xl mx-auto py-10 px-4">
+      <h2 class="text-3xl font-semibold mb-6 text-forestGreen dark:text-stoneGray">Department of Applied Geology</h2>
+      <p class="text-gray-600 dark:text-gray-300 text-sm mb-6">Access resources, course materials, and tools for Applied Geology students at all levels.</p>
+    </section>
+
+    <!-- Tabs for Levels -->
+    <section class="max-w-7xl mx-auto py-10 px-4">
+      <h3 class="text-2xl font-semibold mb-4 text-forestGreen dark:text-forestGreen">Course Materials by Level</h3>
+      <div class="flex flex-wrap gap-2 mb-4">
+        <button class="tab active" onclick="showLevel('level-100')">100 Level</button>
+        <button class="tab" onclick="showLevel('level-200')">200 Level</button>
+        <button class="tab" onclick="showLevel('level-300')">300 Level</button>
+        <button class="tab" onclick="showLevel('level-400')">400 Level</button>
+        <button class="tab" onclick="showLevel('level-500')">500 Level</button>
+      </div>
+
+      <!-- Level Content -->
+      <div id="level-100" class="level-content">
+        <div class="flex gap-2 mb-4">
+          <button class="sub-tab active" onclick="showSemester('level-100-sem1')">1st Semester</button>
+          <button class="sub-tab" onclick="showSemester('level-100-sem2')">2nd Semester</button>
+        </div>
+        <div id="level-100-sem1" class="semester-content">
+          <div class="slider-container">
+            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-forestGreen dark:bg-oliveGreen text-white p-2 rounded-full hover:bg-oliveGreen dark:hover:bg-forestGreen z-10">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-forestGreen dark:bg-oliveGreen text-white p-2 rounded-full hover:bg-oliveGreen dark:hover:bg-forestGreen z-10">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="book-slider">
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-forestGreen dark:bg-stoneGray rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Mineralogy" alt="Mineralogy Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Mineralogy</h4>
+                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-100-sem1-mineralogy')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-stoneGray dark:bg-forestGreen rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Petrology" alt="Petrology Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Petrology</h4>
+                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-100-sem1-petrology')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-oliveGreen dark:bg-stoneGray rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Geochemistry" alt="Geochemistry Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Geochemistry</h4>
+                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-100-sem1-geochemistry')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="level-100-sem1-mineralogy" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Introduction to Mineralogy</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Course notes and slides</p>
+          </div>
+          <div id="level-100-sem1-petrology" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Igneous and Metamorphic Petrology</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Textbook chapters</p>
+          </div>
+          <div id="level-100-sem1-geochemistry" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Geochemistry Basics</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Lab manuals</p>
+          </div>
+        </div>
+        <div id="level-100-sem2" class="semester-content hidden">
+          <div class="slider-container">
+            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-forestGreen dark:bg-oliveGreen text-white p-2 rounded-full hover:bg-oliveGreen dark:hover:bg-forestGreen z-10">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-forestGreen dark:bg-oliveGreen text-white p-2 rounded-full hover:bg-oliveGreen dark:hover:bg-forestGreen z-10">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="book-slider">
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-forestGreen dark:bg-stoneGray rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Structural" alt="Structural Geology Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Structural Geology</h4>
+                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-100-sem2-structural')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-stoneGray dark:bg-forestGreen rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Physics" alt="Physics Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Physics for Geology</h4>
+                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-100-sem2-physics')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-oliveGreen dark:bg-stoneGray rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Math" alt="Math Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Mathematics</h4>
+                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-100-sem2-math')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="level-100-sem2-structural" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Structural Geology</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Study guides</p>
+          </div>
+          <div id="level-100-sem2-physics" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Physics for Geologists</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Problem sets</p>
+          </div>
+          <div id="level-100-sem2-math" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Mathematics for Scientists</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Tutorials</p>
+          </div>
+        </div>
+      </div>
+      <div id="level-200" class="level-content hidden">
+        <div class="flex gap-2 mb-4">
+          <button class="sub-tab active" onclick="showSemester('level-200-sem1')">1st Semester</button>
+          <button class="sub-tab" onclick="showSemester('level-200-sem2')">2nd Semester</button>
+        </div>
+        <div id="level-200-sem1" class="semester-content">
+          <div class="slider-container">
+            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-forestGreen dark:bg-oliveGreen text-white p-2 rounded-full hover:bg-oliveGreen dark:hover:bg-forestGreen z-10">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-forestGreen dark:bg-oliveGreen text-white p-2 rounded-full hover:bg-oliveGreen dark:hover:bg-forestGreen z-10">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="book-slider">
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-forestGreen dark:bg-stoneGray rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Sedimentology" alt="Sedimentology Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Sedimentology</h4>
+                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-200-sem1-sedimentology')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-stoneGray dark:bg-forestGreen rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Stratigraphy" alt="Stratigraphy Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Stratigraphy</h4>
+                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-200-sem1-stratigraphy')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-oliveGreen dark:bg-stoneGray rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Geophysics" alt="Geophysics Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Geophysics</h4>
+                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-200-sem1-geophysics')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="level-200-sem1-sedimentology" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Sedimentology</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Lecture notes</p>
+          </div>
+          <div id="level-200-sem1-stratigraphy" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Stratigraphy</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Research papers</p>
+          </div>
+          <div id="level-200-sem1-geophysics" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Introduction to Geophysics</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Tutorials</p>
+          </div>
+        </div>
+        <div id="level-200-sem2" class="semester-content hidden">
+          <div class="slider-container">
+            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-forestGreen dark:bg-oliveGreen text-white p-2 rounded-full hover:bg-oliveGreen dark:hover:bg-forestGreen z-10">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-forestGreen dark:bg-oliveGreen text-white p-2 rounded-full hover:bg-oliveGreen dark:hover:bg-forestGreen z-10">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="book-slider">
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-forestGreen dark:bg-stoneGray rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Paleontology" alt="Paleontology Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Paleontology</h4>
+                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-200-sem2-paleontology')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-stoneGray dark:bg-forestGreen rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Field" alt="Field Geology Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Field Geology</h4>
+                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-200-sem2-field')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-oliveGreen dark:bg-stoneGray rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Stats" alt="Stats Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Geostatistics</h4>
+                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-200-sem2-stats')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="level-200-sem2-paleontology" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Paleontology</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Fossil guides</p>
+          </div>
+          <div id="level-200-sem2-field" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Field Geology Techniques</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Field manuals</p>
+          </div>
+          <div id="level-200-sem2-stats" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Geostatistics</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Software guides</p>
+          </div>
+        </div>
+      </div>
+      <div id="level-300" class="level-content hidden">
+        <div class="flex gap-2 mb-4">
+          <button class="sub-tab active" onclick="showSemester('level-300-sem1')">1st Semester</button>
+          <button class="sub-tab" onclick="showSemester('level-300-sem2')">2nd Semester</button>
+        </div>
+        <div id="level-300-sem1" class="semester-content">
+          <div class="slider-container">
+            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-forestGreen dark:bg-oliveGreen text-white p-2 rounded-full hover:bg-oliveGreen dark:hover:bg-forestGreen z-10">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-forestGreen dark:bg-oliveGreen text-white p-2 rounded-full hover:bg-oliveGreen dark:hover:bg-forestGreen z-10">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="book-slider">
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-forestGreen dark:bg-stoneGray rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Petroleum" alt="Petroleum Geology Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Petroleum Geology</h4>
+                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-300-sem1-petroleum')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-stoneGray dark:bg-forestGreen rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Hydrogeology" alt="Hydrogeology Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Hydrogeology</h4>
+                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-300-sem1-hydrogeology')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-oliveGreen dark:bg-stoneGray rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Geomorphology" alt="Geomorphology Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Geomorphology</h4>
+                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-300-sem1-geomorphology')">Open Book</button>
+                  <div>
+                  <div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="level-300-sem1-petroleum" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt- <p class="text-gray-600 dark:text-gray-300 text-sm">Reservoir analysis</p>
+          </div>
+          <div id="level-300-sem1-hydrogeology" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Hydrogeology</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Groundwater studies</p>
+          </div>
+          <div id="level-300-sem1-geomorphology" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Geomorphology</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Landform analysis</p>
+          </div>
+        </div>
+        <div id="level-300-sem2" class="semester-content hidden">
+          <div class="slider-container">
+            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-forestGreen dark:bg-oliveGreen text-white p-2 rounded-full hover:bg-oliveGreen dark:hover:bg-forestGreen z-10">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-forestGreen dark:bg-oliveGreen text-white p-2 rounded-full hover:bg-oliveGreen dark:hover:bg-forestGreen z-10">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="book-slider">
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-forestGreen dark:bg-stoneGray rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Geohazards" alt="Geohazards Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Geohazards</h4>
+                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-300-sem2-geohazards')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-stoneGray dark:bg-forestGreen rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Exploration" alt="Exploration Geology Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Exploration Geology</h4>
+                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-300-sem2-exploration')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-oliveGreen dark:bg-stoneGray rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=GIS" alt="GIS Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Geological GIS</h4>
+                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-300-sem2-gis')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="level-300-sem2-geohazards" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Geohazards</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Risk assessment guides</p>
+          </div>
+          <div id="level-300-sem2-exploration" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Exploration Geology</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Drilling techniques</p>
+          </div>
+          <div id="level-300-sem2-gis" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Geological GIS</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Software tutorials</p>
+          </div>
+        </div>
+      </div>
+      <div id="level-400" class="level-content hidden">
+        <div class="flex gap-2 mb-4">
+          <button class="sub-tab active" onclick="showSemester('level-400-sem1')">1st Semester</button>
+          <button class="sub-tab" onclick="showSemester('level-400-sem2')">2nd Semester</button>
+        </div>
+        <div id="level-400-sem1" class="semester-content">
+          <div class="slider-container">
+            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-forestGreen dark:bg-oliveGreen text-white p-2 rounded-full hover:bg-oliveGreen dark:hover:bg-forestGreen z-10">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-forestGreen dark:bg-oliveGreen text-white p-2 rounded-full hover:bg-oliveGreen dark:hover:bg-forestGreen z-10">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="book-slider">
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-forestGreen dark:bg-stoneGray rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Env.+Geology" alt="Environmental Geology Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Environmental Geology</h4>
+                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-400-sem1-envgeology')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-stoneGray dark:bg-forestGreen rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Mining" alt="Mining Geology Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Mining Geology</h4>
+                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-400-sem1-mining')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-oliveGreen dark:bg-stoneGray rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Research" alt="Research Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Research Methods</h4>
+                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-400-sem1-research')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="level-400-sem1-envgeology" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Environmental Geology</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Impact assessments</p>
+          </div>
+          <div id="level-400-sem1-mining" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Mining Geology</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Ore deposit studies</p>
+          </div>
+          <div id="level-400-sem1-research" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Research Methods</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Proposal templates</p>
+          </div>
+        </div>
+        <div id="level-400-sem2" class="semester-content hidden">
+          <div class="slider-container">
+            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-forestGreen dark:bg-oliveGreen text-white p-2 rounded-full hover:bg-oliveGreen dark:hover:bg-forestGreen z-10">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-forestGreen dark:bg-oliveGreen text-white p-2 rounded-full hover:bg-oliveGreen dark:hover:bg-forestGreen z-10">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="book-slider">
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-forestGreen dark:bg-stoneGray rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Geotechnics" alt="Geotechnics Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Geotechnics</h4>
+                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-400-sem2-geotechnics')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-stoneGray dark:bg-forestGreen rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Economic" alt="Economic Geology Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Economic Geology</h4>
+                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-400-sem2-economic')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-oliveGreen dark:bg-stoneGray rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Project" alt="Project Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Project Work</h4>
+                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-400-sem2-project')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="level-400-sem2-geotechnics" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Geotechnics</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Soil mechanics</p>
+          </div>
+          <div id="level-400-sem2-economic" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Economic Geology</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Mineral economics</p>
+          </div>
+          <div id="level-400-sem2-project" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Project Work</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Guidelines</p>
+          </div>
+        </div>
+      </div>
+      <div id="level-500" class="level-content hidden">
+        <div class="flex gap-2 mb-4">
+          <button class="sub-tab active" onclick="showSemester('level-500-sem1')">1st Semester</button>
+          <button class="sub-tab" onclick="showSemester('level-500-sem2')">2nd Semester</button>
+        </div>
+        <div id="level-500-sem1" class="semester-content">
+          <div class="slider-container">
+            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-forestGreen dark:bg-oliveGreen text-white p-2 rounded-full hover:bg-oliveGreen dark:hover:bg-forestGreen z-10">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-forestGreen dark:bg-oliveGreen text-white p-2 rounded-full hover:bg-oliveGreen dark:hover:bg-forestGreen z-10">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="book-slider">
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-forestGreen dark:bg-stoneGray rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Adv.+Geology" alt="Advanced Geology Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Adv. Geology</h4>
+                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-500-sem1-geology')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-stoneGray dark:bg-forestGreen rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Geochronology" alt="Geochronology Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Geochronology</h4>
+                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-500-sem1-geochronology')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-oliveGreen dark:bg-stoneGray rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Thesis" alt="Thesis Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Thesis Prep</h4>
+                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-500-sem1-thesis')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="level-500-sem1-geology" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Advanced Geology</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Research papers</p>
+          </div>
+          <div id="level-500-sem1-geochronology" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-md font-bold text-forestGreen dark:text-stoneGray mb-2">Geochronology</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Dating techniques</p>
+          </div>
+          <div id="level-Saxton-500-sem1-thesis" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Thesis Preparation</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Templates</p>
+          </div>
+        </div>
+        <div id="level-500-sem2" class="semester-content hidden">
+          <div class="slider-container">
+            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-forestGreen dark:bg-oliveGreen text-white p-2 rounded-full hover:bg-oliveGreen dark:hover:bg-forestGreen z-10">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-forestGreen dark:bg-oliveGreen text-white p-2 rounded-full hover:bg-oliveGreen dark:hover:bg-forestGreen z-10">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="book-slider">
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg="forestGreen dark:bg-stoneGray rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x150x200?text=Adv.+Mining" alt="Advanced Mining Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Adv. Mining</h4>
+                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-500-sem2-mining')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-stoneGray dark:bg-forestGreen rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Seminar" alt="Seminar Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Seminar</h4>
+                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-500-sem2-seminar')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
+                <div class="bg-oliveGreen dark:bg-stoneGray rounded-lg shadow-md p-4 text-center">
+                  <img src="https://via.placeholder.com/150x200?text=Project" alt="Project Book Cover" class="w-full h-40 object-cover rounded mb-2" />
+                  <h4 class="text-md font-bold text-white mb-2">Final Project</h4>
+                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-500-sem2-project')">Open Book</button>
+                  <div class="flex justify-center gap-2 mt-2">
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
+                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="level-500-sem2-mining" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Advanced Mining Geology</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Case studies</p>
+          </div>
+          <div id="level-500-sem2-seminar" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Seminar in Geology</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Presentation guides</p>
+          </div>
+          <div id="level-500-sem2-project" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+            <h4 class="text-lg font-bold text-forestGreen dark:text-white mb-2">Final Year Project</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Submission guidelines</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Career Pathways -->
+    <section class="max-w-7xl mx-auto py-10 px-4">
+      <h2 class="text-2xl font-semibold mb-6 text-forestGreen dark:text-forestGreen">Career Pathways</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-forestGreen dark:border-oliveGreen card-animate">
+          <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Geologist</h3>
+          <p class="text-gray-600 dark:text-gray-300 text-sm"><a href="https://www.geosociety.org/" class="underline hover:text-forestGreen">Geological Society of America</a> career resources</p>
+        </div>
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-forestGreen dark:border-oliveGreen card-animate">
+          <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Mining Engineer</h3>
+          <p class="text-gray-600 dark:text-gray-300 text-sm">Coming Soon - Resources for mining engineering careers</p>
+        </div>
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-forestGreen dark:border-oliveGreen card-animate">
+          <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Environmental Geologist</h3>
+          <p class="text-gray-600 dark:text-gray-300 text-sm"><a href="https://www.agiweb.org/" class="underline hover:text-forestGreen">American Geosciences Institute</a> environmental resources</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-forestGreen dark:bg-oliveGreen text-white pt-10 px-4">
+      <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Subscribe to Our Newsletter</h3>
+          <div class="flex flex-col space-y-3">
+            <input
+              type="email"
+              name="email"
+              placeholder="Your email"
+              class="p-2 rounded-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-white w-full"
+              required
+            />
+            <button
+              type="button"
+              class="bg-white text-forestGreen font-semibold dark:bg-oliveGreen dark:text-white py-2 px-4 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+            >
+              Subscribe
+            </button>
+          </div>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+          <ul class="space-y-2">
+            <li><a href="index.html" class="hover:underline">Home</a></li>
+            <li><a href="/about.html" class="hover:underline">About Us</a></li>
+            <li><a href="/terms.html" class="hover:underline">Terms & Conditions</a></li>
+            <li><a href="/contact.html" class="hover:underline">Contact</a></li>
+            <li><a href="/privacy.html" class="hover:underline">Privacy Policy</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
+          <ul class="space-y-2">
+            <li><i class="fas fa-map-marker-alt mr-2"></i>123 Science Avenue, Lagos, Nigeria</li>
+            <li><i class="fas fa-phone-alt mr-2"></i><a href="tel:+2341234567890" class="hover:underline">+234 123 456 7890</a></li>
+            <li><i class="fas fa-envelope mr-2"></i><a href="mailto:info@naemss.org" class="hover:underline">info@naemss.org</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Follow Us</h3>
+          <div class="social-icons flex gap-4">
+            <a href="https://facebook.com" class="text-white hover:text-stoneGray" title="Facebook"><i class="fab fa-facebook"></i></a>
+            <a href="https://twitter.com" class="text-white hover:text-stoneGray" title="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="https://instagram.com" class="text-white hover:text-stoneGray" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://linkedin.com" class="text-white hover:text-stoneGray" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="text-center py-6 mt-8 border-t border-stoneGray">
+        <p>&copy; 2025 NAEMSS eLibrary. All rights reserved.</p>
+      </div>
+    </footer>
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="hidden">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+      // Mobile menu toggle
+      const toggleMenu = document.getElementById('toggleMenu');
+      const mobileMenu = document.getElementById('mobileMenu');
+
+      toggleMenu.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+        toggleMenu.textContent = mobileMenu.classList.contains('hidden') ? '☰' : '✕';
+      });
+
+      // Slideshow functionality
+      let currentSlide = 0;
+      const slides = document.querySelectorAll('#slideshow > div');
+      const totalSlides = slides.length;
+
+      function showSlide(index) {
+        if (index >= totalSlides) currentSlide = 0;
+        else if (index < 0) currentSlide = totalSlides - 1;
+        else currentSlide = index;
+        document.getElementById('slideshow').style.transform = `translateX(-${currentSlide * 100}%)`;
+      }
+
+      function nextSlide() {
+        showSlide(currentSlide + 1);
+      }
+
+      function prevSlide() {
+        showSlide(currentSlide - 1);
+      }
+
+      // Auto-rotate slideshow every 5 seconds
+      let slideInterval = setInterval(nextSlide, 5000);
+
+      // Pause slideshow on hover
+      document.getElementById('slideshow').addEventListener('mouseenter', () => {
+        clearInterval(slideInterval);
+      });
+
+      document.getElementById('slideshow').addEventListener('mouseleave', () => {
+        slideInterval = setInterval(nextSlide, 5000);
+      });
+
+      // Card animation on scroll
+      const cards = document.querySelectorAll('.card-animate');
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      cards.forEach((card) => observer.observe(card));
+
+      // Back to Top Button functionality
+      const backToTopButton = document.getElementById('backToTop');
+
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+          backToTopButton.classList.add('visible');
+          backToTopButton.classList.remove('hidden');
+        } else {
+          backToTopButton.classList.remove('visible');
+          backToTopButton.classList.add('hidden');
+        }
+      });
+
+      backToTopButton.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      // Level tabs
+      function showLevel(levelId) {
+        document.querySelectorAll('.level-content').forEach((content) => {
+          content.classList.add('hidden');
+        });
+        document.getElementById(levelId).classList.remove('hidden');
+
+        document.querySelectorAll('.tab').forEach((tab) => {
+          tab.classList.remove('active');
+        });
+        document.querySelector(`button[onclick="showLevel('${levelId}')"]`).classList.add('active');
+
+        // Show first semester by default
+        const firstSemester = document.querySelector(`#${levelId} .semester-content`);
+        const firstSubTab = document.querySelector(`#${levelId} .sub-tab`);
+        showSemester(firstSemester.id);
+        document.querySelectorAll(`#${levelId} .sub-tab`).forEach((tab) => {
+          tab.classList.remove('active');
+        });
+        firstSubTab.classList.add('active');
+      }
+
+      // Semester tabs
+      function showSemester(semesterId) {
+        document.querySelectorAll('.semester-content').forEach((content) => {
+          content.classList.add('hidden');
+        });
+        document.getElementById(semesterId).classList.remove('hidden');
+
+        document.querySelectorAll('.sub-tab').forEach((tab) => {
+          tab.classList.remove('active');
+        });
+        document.querySelector(`button[onclick="showSemester('${semesterId}')"]`).classList.add('active');
+
+        // Reset book slider for this semester
+        initializeSlider(semesterId);
+      }
+
+      // Book content toggle
+      function openBook(bookId) {
+        document.querySelectorAll('.book-content').forEach((content) => {
+          content.classList.add('hidden');
+        });
+        document.getElementById(bookId).classList.remove('hidden');
+      }
+
+      // Book slider functionality
+      function initializeSlider(semesterId) {
+        const sliderContainer = document.querySelector(`#${semesterId} .slider-container`);
+        const bookSlider = document.querySelector(`#${semesterId} .book-slider`);
+        const books = document.querySelectorAll(`#${semesterId} .book`);
+        const prevButton = document.querySelector(`#${semesterId} .prev-slide`);
+        const nextButton = document.querySelector(`#${semesterId} .next-slide`);
+
+        let currentPosition = 0;
+        const bookWidth = books[0].offsetWidth + 16; // Including margin
+        const maxPosition = -(books.length - 1) * bookWidth;
+
+        function updateButtons() {
+          prevButton.classList.toggle('disabled', currentPosition >= 0);
+          nextButton.classList.toggle('disabled', currentPosition <= maxPosition);
+        }
+
+        prevButton.addEventListener('click', () => {
+          if (currentPosition < 0) {
+            currentPosition += bookWidth;
+            bookSlider.style.transform = `translateX(${currentPosition}px)`;
+            updateButtons();
+          }
+        });
+
+        nextButton.addEventListener('click', () => {
+          if (currentPosition > maxPosition) {
+            currentPosition -= bookWidth;
+            bookSlider.style.transform = `translateX(${currentPosition}px)`;
+            updateButtons();
+          }
+        });
+
+        // Touch support for slider
+        let startX, currentX;
+        sliderContainer.addEventListener('touchstart', (e) => {
+          startX = e.touches[0].clientX;
+        });
+
+        sliderContainer.addEventListener('touchmove', (e) => {
+          currentX = e.touches[0].clientX;
+        });
+
+        sliderContainer.addEventListener('touchend', () => {
+          const deltaX = currentX - startX;
+          if (deltaX > 50 && currentPosition < 0) {
+            currentPosition += bookWidth;
+            bookSlider.style.transform = `translateX(${currentPosition}px)`;
+          } else if (deltaX < -50 && currentPosition > maxPosition) {
+            currentPosition -= bookWidth;
+            bookSlider.style.transform = `translateX(${currentPosition}px)`;
+          }
+          updateButtons();
+        });
+
+        updateButtons();
+      }
+
+      // Initialize sliders for all semesters
+      document.querySelectorAll('.semester-content').forEach((semester) => {
+        if (!semester.classList.contains('hidden')) {
+          initializeSlider(semester.id);
+        }
+      });
+    </script>
+  </body>
+</html>
