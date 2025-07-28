@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Us - SEMS eLibrary</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjV8FJ0V7irTLQ8Uo0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw==" crossorigin="anonymous" />
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+    <style>
+      body {
+        font-family: 'Poppins', sans-serif;
+      }
+
+      /* Slideshow styling */
+      .slideshow-container {
+        position: relative;
+        width: 100%;
+        height: 20rem; /* h-80 */
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .slideshow {
+        display: flex;
+        transition: transform 0.7s ease-in-out;
+      }
+
+      .slide {
+        width: 100%;
+        flex-shrink: 0;
+      }
+
+      .slide img {
+        width: 100%;
+        height: 20rem;
+        object-fit: cover;
+        filter: brightness(0.8);
+      }
+
+      /* Navbar styling */
+      .navbar {
+        background-color: #FFD700; /* Gold */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .dark .navbar {
+        background-color: #B8860B; /* Dark gold */
+      }
+
+      /* Card styling */
+      .card {
+        background: #FFFFFF; /* White for light mode */
+        border-top: 4px solid #FFD700; /* Gold */
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .dark .card {
+        background: #1E293B; /* Deep slate for dark mode */
+        border-top: 4px solid #B8860B; /* Dark gold */
+      }
+
+      .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Input and button styling */
+      input:focus {
+        outline: none;
+        border-color: #FFD700;
+        ring: 2px solid #FFD700;
+      }
+
+      /* Responsive navbar title */
+      @media (max-width: 640px) {
+        .desktop-title {
+          display: none;
+        }
+        .mobile-title {
+          display: inline;
+        }
+      }
+      @media (min-width: 641px) {
+        .desktop-title {
+          display: inline;
+        }
+        .mobile-title {
+          display: none;
+        }
+      }
+
+      /* Responsive layout */
+      @media (max-width: 640px) {
+        .slideshow-container {
+          height: 12rem; /* h-48 for mobile */
+        }
+        .slide img {
+          height: 12rem;
+        }
+        .card {
+          padding: 1rem;
+        }
+      }
+      @media (min-width: 640px) and (max-width: 1024px) {
+        .slideshow-container {
+          height: 16rem; /* h-64 for tablet */
+        }
+        .slide img {
+          height: 16rem;
+        }
+      }
+    </style>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              poppins: ['Poppins', 'sans-serif']
+            },
+            colors: {
+              gold: '#FFD700',
+              darkgold: '#B8860B',
+              softBlue: '#60A5FA',
+              lightBlue: '#93C5FD',
+              paleGreen: '#A7F3D0',
+              deepSlate: '#1E293B'
+            }
+          }
+        }
+      }
+    </script>
+  </head>
+  <body class="bg-gray-100 dark:bg-deepSlate text-gray-900 dark:text-white">
+    <!-- Navbar -->
+    <nav class="navbar p-4 shadow-md fixed w-full top-0 z-50">
+      <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <h1 class="text-xl font-bold text-deepSlate dark:text-white">
+         ABOUT US - NAEMSS 
+        </h1>
+        <div class="flex items-center gap-4">
+          <button id="toggleMenu" class="sm:hidden text-deepSlate dark:text-white focus:outline-none text-2xl">
+            ☰
+          </button>
+        </div>
+        <ul id="menu" class="hidden sm:flex gap-4">
+          <li><a href="/index.html" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition">Home</a></li>
+          <li><a href="mst.html" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition">Marine Science and Technology</a></li>
+          <li><a href="agy.html" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition">Applied Geology</a></li>
+          <li id="signupLink"><a href="/signup.html" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition">Sign Up</a></li>
+          <li id="loginLink"><a href="/login.html" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition">Log In</a></li>
+          <li id="dashboardLink" class="hidden"><a href="/dashboard.html" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition">Dashboard</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Mobile menu -->
+    <div id="mobileMenu" class="sm:hidden hidden bg-gold dark:bg-darkgold px-4 py-2 space-y-2 mt-16">
+      <a href="/index.html" class="block text-deepSlate dark:text-white py-2 hover:bg-lightBlue dark:hover:bg-softBlue rounded transition">Home</a>
+      <a href="/mcs.html" class="block text-deepSlate dark:text-white py-2 hover:bg-lightBlue dark:hover:bg-softBlue rounded transition">Metrology & Climate Science</a>
+      <a href="/agy.html" class="block text-deepSlate dark:text-white py-2 hover:bg-lightBlue dark:hover:bg-softBlue rounded transition">Applied Geology</a>
+      <a id="signupMobileLink" href="/signup.html" class="block text-deepSlate dark:text-white py-2 hover:bg-lightBlue dark:hover:bg-softBlue rounded transition">Sign Up</a>
+      <a id="loginMobileLink" href="/login.html" class="block text-deepSlate dark:text-white py-2 hover:bg-lightBlue dark:hover:bg-softBlue rounded transition">Log In</a>
+      <a id="dashboardMobileLink" href="/dashboard.html" class="block text-deepSlate dark:text-white py-2 hover:bg-lightBlue dark:hover:bg-softBlue rounded transition hidden">Dashboard</a>
+    </div>
+
+    <!-- Hero Section with Slideshow -->
+    <div class="slideshow-container mt-16">
+      <div id="slideshow" class="slideshow">
+        <div class="slide">
+          <img src="images (1).jpg" alt="Library Resources" />
+        </div>
+        <div class="slide">
+          <img src="images (2).jpg" alt="Academic Excellence" />
+        </div>
+        <div class="slide">
+          <img src="images (3).jpg" alt="Research Innovation" />
+        </div>
+      </div>
+      <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center">
+        <h2 class="text-3xl sm:text-4xl font-bold text-white drop-shadow-lg">About SEMS eLibrary</h2>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <section class="max-w-7xl mx-auto py-10 px-4">
+      <h2 class="text-3xl font-semibold mb-6 text-gold dark:text-darkgold">Our Story</h2>
+      <p class="text-gray-600 dark:text-gray-300 text-sm mb-8">Discover the journey and mission of SEMS eLibrary, your trusted resource for academic excellence.</p>
+
+      <!-- Mission Section -->
+      <div class="mb-12">
+        <h3 class="text-xl font-semibold text-gold dark:text-darkgold mb-4">Our Mission</h3>
+        <div class="card rounded-lg p-6 shadow-md">
+          <p class="text-gray-800 dark:text-gray-200 mb-4">
+            SEMS eLibrary is dedicated to empowering students, researchers, and faculty at the National Association of Earth and Mineral Sciences Students (NAEMSS) with seamless access to a vast repository of academic resources. Our mission is to foster a culture of learning, innovation, and collaboration by providing high-quality, curated materials in fields such as Marine Science and Technology, Applied Geology, Applied Geophysics, Remote Sensing and Geoinformatics System, and Metrology and Climate Science. We aim to bridge the gap between knowledge and application, ensuring every user can excel in their academic and professional pursuits.
+          </p>
+          <p class="text-gray-800 dark:text-gray-200">
+            By leveraging cutting-edge technology and a user-centric platform, we strive to make research accessible, efficient, and impactful for the NAEMSS community and the broader scientific world.
+          </p>
+        </div>
+      </div>
+
+      <!-- History Section -->
+      <div class="mb-12">
+        <h3 class="text-xl font-semibold text-gold dark:text-darkgold mb-4">Our History</h3>
+        <div class="card rounded-lg p-6 shadow-md">
+          <p class="text-gray-800 dark:text-gray-200 mb-4">
+            Founded in 2025 by the 25/26 NAEMSS Administration led by Fakayode Joseph (Faks) and the library was developed by Adeniji Gabriel (Gabriel) the serving Assistant General Secretary, SEMS eLibrary was born out of a need for a centralized, digital platform to support Earth and Mineral Sciences education. Recognizing the challenges of accessing specialized resources in fields like Marine Science and Technology and Applied Geology, the administration deemed it fit to create a robust online library tailored to the unique needs of our all students in the faculty.
+          </p>
+          <p class="text-gray-800 dark:text-gray-200 mb-4">
+            The platform integrates the use of Firebase for secure user authentication and a responsive design to ensure accessibility across devices. SEMS eLibrary hopes to grow into a comprehensive resource hub, serving thousands of users with a focus on academic excellence and research innovation.
+          </p>
+          <p class="text-gray-800 dark:text-gray-200">
+            Proudly built by Gabriel for NAEMSSITES, SEMS eLibrary continues to evolve, incorporating user feedback and technological advancements to remain a cornerstone of NAEMSS’s academic ecosystem.
+          </p>
+        </div>
+      </div>
+
+      <!-- Team Section -->
+      <div class="mb-12">
+        <h3 class="text-xl font-semibold text-gold dark:text-darkgold mb-4">NAEMSS 25/26 ADMINISTRATION</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="card rounded-lg p-6 shadow-md text-center">
+            <img src="Gabriel .jpg" alt="Team Member" class="w-24 h-24 rounded-full mx-auto mb-4" />
+            <h4 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Gabriel Adeniji</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Web Designer and Developer</p>
+            <p class="text-gray-600 dark:text-gray-300 text-sm mt-2">Assistant General Secretary NAEMSS 25/26 <br>Designed and built the SEMS eLibrary platform for NAEMMSITES.</p>
+          </div>
+          <div class="card rounded-lg p-6 shadow-md text-center">
+            <img src="faks.jpg" alt="Team Member" class="w-24 h-24 rounded-full mx-auto mb-4" />
+            <h4 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Fakayode Joseph</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">President NAEMSS 25/26</p>
+          </div>
+          <div class="card rounded-lg p-6 shadow-md text-center">
+            <img src="Jaybee.jpg" alt="Jaybee" class="w-24 h-24 rounded-full mx-auto mb-4" />
+            <h4 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Joseph Bello </h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Vice President NAEMSS 25/26</p>
+          </div>
+          <div class="card rounded-lg p-6 shadow-md text-center">
+            <img src="Genius Peter.jpg" alt="Team Member" class="w-24 h-24 rounded-full mx-auto mb-4" />
+            <h4 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Genius Peter</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">General Secretary NAEMSS 25/26</p>
+          </div>
+          <div class="card rounded-lg p-6 shadow-md text-center">
+            <img src="Oracle.jpg" alt="Oracle" class="w-24 h-24 rounded-full mx-auto mb-4" />
+            <h4 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Oracle</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Financial Secretary NAEMSS 25/26</p>
+          </div>
+          <div class="card rounded-lg p-6 shadow-md text-center">
+            <img src="Ife.jpg" alt="Ife" class="w-24 h-24 rounded-full mx-auto mb-4" />
+            <h4 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Ife</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Treasurer NAEMSS 25/26</p>
+          </div>
+          <div class="card rounded-lg p-6 shadow-md text-center">
+            <img src="Bishop picture.jpg" alt="Team Member" class="w-24 h-24 rounded-full mx-auto mb-4" />
+            <h4 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Bishop Praise</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Welfare Director NAEMSS 25/26</p>
+          </div>
+          <div class="card rounded-lg p-6 shadow-md text-center">
+            <img src="shizzy.jpg" alt="Team Member" class="w-24 h-24 rounded-full mx-auto mb-4" />
+            <h4 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Shizzy</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Director of Sports NAEMSS 25/26</p>
+          </div>
+          <div class="card rounded-lg p-6 shadow-md text-center">
+            <img src="Oxlade picture.jpg" alt="Team Member" class="w-24 h-24 rounded-full mx-auto mb-4" />
+            <h4 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Oxlade</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Director of Socials NAEMSS 25/26</p>
+            <p class="text-gray-600 dark:text-gray-300 text-sm mt-2">Manages resource curation for Metrology and Geology departments.</p>
+          </div>
+          <div class="card rounded-lg p-6 shadow-md text-center">
+            <img src="AOT picture.jpg" alt="Team Member" class="w-24 h-24 rounded-full mx-auto mb-4" />
+            <h4 class="text-lg font-bold text-gray-800 dark:text-white mb-2">AOT</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Public Relations Officer 1 NAEMSS 25/26</p>
+            <p class="text-gray-600 dark:text-gray-300 text-sm mt-2">Manages resource curation for Metrology and Geology departments.</p>
+          </div>
+          <div class="card rounded-lg p-6 shadow-md text-center">
+            <img src="David picture.jpg" alt="Team Member" class="w-24 h-24 rounded-full mx-auto mb-4" />
+            <h4 class="text-lg font-bold text-gray-800 dark:text-white mb-2">David</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Public Relations Officer 2 NAEMSS 25/26</p>
+            <p class="text-gray-600 dark:text-gray-300 text-sm mt-2">Manages resource curation for Metrology and Geology departments.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Features Section -->
+      <div class="mb-12">
+        <h3 class="text-xl font-semibold text-gold dark:text-darkgold mb-4">Why Choose SEMS eLibrary?</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div class="card rounded-lg p-6 shadow-md">
+            <h4 class="text-lg font-bold text-gray-800 dark:text-white mb-2"><a href="index.html">Extensive Resource Library</a></h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Access thousands of books, articles, and research papers in Earth and Mineral Sciences.</p>
+          </div>
+          <div class="card rounded-lg p-6 shadow-md">
+            <h4 class="text-lg font-bold text-gray-800 dark:text-white mb-2"><a href="index.html">User-Friendly Interface</a></h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Navigate seamlessly with our responsive, intuitive design across all devices.</p>
+          </div>
+          <div class="card rounded-lg p-6 shadow-md">
+            <h4 class="text-lg font-bold text-gray-800 dark:text-white mb-2"><a href="login.html">Secure Authentication</a></h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Log in securely with email or matric number, powered by Firebase.</p>
+          </div>
+          <div class="card rounded-lg p-6 shadow-md">
+            <h4 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Community-Driven</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Built for NAEMSS students and faculty, with continuous updates based on user feedback.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gold dark:bg-darkgold text-deepSlate dark:text-white pt-10 px-4">
+      <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Subscribe to Our Newsletter</h3>
+          <div class="flex flex-col space-y-3">
+            <input
+              type="email"
+              id="newsletterEmail"
+              placeholder="Your email"
+              class="p-2 rounded-md text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-darkgold dark:focus:ring-gold w-full"
+              required
+            />
+            <button
+              id="subscribeBtn"
+              class="bg-deepSlate dark:bg-white dark:text-deepSlate text-white font-semibold py-2 px-4 rounded-md hover:bg-gray-700 dark:hover:bg-gray-200 transition"
+            >
+              Subscribe
+            </button>
+          </div>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+          <ul class="space-y-2">
+            <li><a href="/index.html" class="hover:text-softBlue dark:hover:text-lightBlue transition">Home</a></li>
+            <li><a href="/about.html" class="hover:text-softBlue dark:hover:text-lightBlue transition">About Us</a></li>
+            <li><a href="/terms.html" class="hover:text-softBlue dark:hover:text-lightBlue transition">Terms & Conditions</a></li>
+            <li><a href="/privacy.html" class="hover:text-softBlue dark:hover:text-lightBlue transition">Privacy Policy</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
+          <ul class="space-y-2">
+            <li>Email: <a href="mailto:info@naemsslibrary.com" class="hover:text-softBlue dark:hover:text-lightBlue transition">info@naemsslibrary.com</a></li>
+            <li>Phone: <a href="tel:+2341234567890" class="hover:text-softBlue dark:hover:text-lightBlue transition">+234 123 456 7890</a></li>
+            <li>Address: NAEMSS Secretariat, University Campus</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Follow Us</h3>
+          <div class="flex gap-4">
+            <a href="#" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="text-center py-6 mt-8 border-t border-deepSlate/20 dark:border-white/20">
+        <p>&copy; 2025 SEMS eLibrary. Proudly built by Gabriel for NAEMMSITES.</p>
+      </div>
+    </footer>
+
+    <script>
+      // Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyBAxpD6750L0WkCUIMTs5k7qqygCVzl4xQ",
+        authDomain: "naemss-elibary.firebaseapp.com",
+        projectId: "naemss-elibary",
+        storageBucket: "naemss-elibary.firebasestorage.app",
+        messagingSenderId: "978697395651",
+        appId: "1:978697395651:web:954a5c3b29f4fc7c37b176",
+        measurementId: "G-72WG3MPKPL"
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+
+      // Mobile menu toggle
+      const toggleMenu = document.getElementById('toggleMenu');
+      const mobileMenu = document.getElementById('mobileMenu');
+
+      toggleMenu.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+        toggleMenu.textContent = mobileMenu.classList.contains('hidden') ? '☰' : '✕';
+      });
+
+      // Slideshow functionality
+      let currentSlide = 0;
+      const slides = document.querySelectorAll('#slideshow .slide');
+      const totalSlides = slides.length;
+
+      function showSlide(index) {
+        if (index >= totalSlides) currentSlide = 0;
+        else if (index < 0) currentSlide = totalSlides - 1;
+        else currentSlide = index;
+        document.getElementById('slideshow').style.transform = `translateX(-${currentSlide * 100}%)`;
+      }
+
+      function nextSlide() {
+        showSlide(currentSlide + 1);
+      }
+
+      // Auto-rotate slideshow every 5 seconds
+      let slideInterval = setInterval(nextSlide, 5000);
+
+      // Pause slideshow on hover
+      const slideshowContainer = document.querySelector('.slideshow-container');
+      slideshowContainer.addEventListener('mouseenter', () => {
+        clearInterval(slideInterval);
+      });
+
+      slideshowContainer.addEventListener('mouseleave', () => {
+        slideInterval = setInterval(nextSlide, 5000);
+      });
+
+      // User authentication state
+      auth.onAuthStateChanged((user) => {
+        if (user) {
+          // User is signed in, show Dashboard, hide Sign Up/Login
+          document.getElementById('signupLink').classList.add('hidden');
+          document.getElementById('loginLink').classList.add('hidden');
+          document.getElementById('dashboardLink').classList.remove('hidden');
+          document.getElementById('signupMobileLink').classList.add('hidden');
+          document.getElementById('loginMobileLink').classList.add('hidden');
+          document.getElementById('dashboardMobileLink').classList.remove('hidden');
+        } else {
+          // No user, show Sign Up/Login, hide Dashboard
+          document.getElementById('signupLink').classList.remove('hidden');
+          document.getElementById('loginLink').classList.remove('hidden');
+          document.getElementById('dashboardLink').classList.add('hidden');
+          document.getElementById('signupMobileLink').classList.remove('hidden');
+          document.getElementById('loginMobileLink').classList.remove('hidden');
+          document.getElementById('dashboardMobileLink').classList.add('hidden');
+        }
+      });
+
+      // Subscription form
+      document.getElementById('subscribeBtn').addEventListener('click', () => {
+        const emailInput = document.getElementById('newsletterEmail');
+        if (emailInput.value && /^\S+@\S+\.\S+$/.test(emailInput.value)) {
+          alert('Subscribed successfully!');
+          emailInput.value = '';
+        } else {
+          alert('Please enter a valid email address.');
+        }
+      });
+    </script>
+  </body>
+</html>
