@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CBT Quiz | Gabriel E-Library</title>
+  <!-- Tailwind CSS CDN for styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Papa Parse for CSV parsing -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            gold: '#D4AF37',
+            darkgold: '#B8972E',
+            'gold-hover': '#C19A2A',
+            submit: '#28a745',
+            'submit-hover': '#1e7e34',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans transition-colors duration-300">
+  <!-- Navbar -->
+  <nav class="bg-white dark:bg-gray-800 shadow-md border-b border-gray-200 dark:border-gray-700">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16">
+        <div class="flex items-center">
+          <a href="index.html" class="text-2xl font-bold text-gold dark:text-darkgold">NAEMSS E-Library</a>
+        </div>
+        <!-- Hamburger Menu Button for Mobile -->
+        <div class="flex items-center sm:hidden">
+          <button id="hamburgerBtn" class="text-gray-700 dark:text-gray-300 hover:text-gold dark:hover:text-darkgold focus:outline-none">
+            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+        </div>
+        <!-- Desktop Menu -->
+        <div class="hidden sm:flex sm:items-center sm:space-x-4">
+          <a href="index.html" class="text-gray-700 dark:text-gray-300 hover:text-gold dark:hover:text-darkgold px-3 py-2 rounded-md text-sm font-medium">Home</a>
+          <a href="cbt.html" class="text-gray-700 dark:text-gray-300 hover:text-gold dark:hover:text-darkgold px-3 py-2 rounded-md text-sm font-medium">CBT Platform</a>
+          <a href="https://phet.colorado.edu/en/simulations/category/earth-science" class="text-gray-700 dark:text-gray-300 hover:text-gold dark:hover:text-darkgold px-3 py-2 rounded-md text-sm font-medium">Virtual Labs</a>
+          <a href="login.html?redirect=cbt-quiz.html" class="text-gray-700 dark:text-gray-300 hover:text-gold dark:hover:text-darkgold px-3 py-2 rounded-md text-sm font-medium">Login</a>
+          <button id="themeToggleNav" class="px-3 py-2 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none">Toggle Theme</button>
+        </div>
+      </div>
+      <!-- Mobile Menu (Hidden by Default) -->
+      <div id="mobileMenu" class="hidden sm:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+        <div class="flex flex-col space-y-2 px-4 py-4">
+          <a href="index.html" class="text-gray-700 dark:text-gray-300 hover:text-gold dark:hover:text-darkgold px-3 py-2 rounded-md text-sm font-medium">Home</a>
+          <a href="cbt.html" class="text-gray-700 dark:text-gray-300 hover:text-gold dark:hover:text-darkgold px-3 py-2 rounded-md text-sm font-medium">CBT Platform</a>
+          <a href="https://phet.colorado.edu/en/simulations/category/earth-science" class="text-gray-700 dark:text-gray-300 hover:text-gold dark:hover:text-darkgold px-3 py-2 rounded-md text-sm font-medium">Virtual Labs</a>
+          <a href="login.html?redirect=cbt-quiz.html" class="text-gray-700 dark:text-gray-300 hover:text-gold dark:hover:text-darkgold px-3 py-2 rounded-md text-sm font-medium">Login</a>
+          <button id="themeToggleMobile" class="px-3 py-2 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none text-left">Toggle Theme</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Title -->
+  <h1 class="text-4xl font-extrabold text-center text-gold dark:text-darkgold mt-8 mb-10 tracking-tight transition-transform duration-300 hover:scale-105" style="font-family: 'Georgia', serif;">
+    NAEMSS <br> Computer Based Testing Platform
+  </h1>
+
+  <!-- Input controls for quiz settings and course selection -->
+  <div class="flex flex-wrap justify-center gap-4 mb-8">
+    <div>
+      <label for="timeInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Set total time (min):</label>
+      <input type="number" id="timeInput" value="2" min="1" max="60" class="mt-1 p-2 w-24 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-gold focus:border-gold">
+    </div>
+    <div>
+      <label for="questionLimit" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Number of Questions:</label>
+      <input type="number" id="questionLimit" value="10" min="1" class="mt-1 p-2 w-24 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-gold focus:border-gold">
+    </div>
+    <div>
+      <label for="courseSelect" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Course:</label>
+      <select id="courseSelect" class="mt-1 p-2 w-48 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
+        <option>Loading courses...</option>
+      </select>
+    </div>
+    <button id="startQuizBtn" class="mt-6 px-4 py-2 bg-gold text-white rounded-md hover:bg-gold-hover focus:outline-none focus:ring-2 focus:ring-gold" disabled>Start Quiz</button>
+    <button id="themeToggle" class="mt-6 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none">Toggle Theme</button>
+    <button id="viewResultsBtn" class="mt-6 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none" disabled>View Past Results</button>
+  </div>
+  <div>
+    <a href="index.html" class="mt-6 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none">Back to Home</a>
+  </div>
+
+  <!-- Area to display quiz questions or results -->
+  <div id="quizArea" class="max-w-2xl mx-auto mt-8"></div>
+
+  <!-- Footer -->
+  <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-12">
+    <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div>
+          <h3 class="text-lg font-semibold text-gold dark:text-darkgold mb-4">NAEMSS E-Library</h3>
+          <p class="text-gray-600 dark:text-gray-300 text-sm">Empowering students with geoscience knowledge and resources through NAEMSS.</p>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold text-gold dark:text-darkgold mb-4">Quick Links</h3>
+          <ul class="space-y-2 text-sm">
+            <li><a href="index.html" class="text-gray-600 dark:text-gray-300 hover:text-gold dark:hover:text-darkgold">Home</a></li>
+            <li><a href="cbt.html" class="text-gray-600 dark:text-gray-300 hover:text-gold dark:hover:text-darkgold">CBT Platform</a></li>
+            <li><a href="https://phet.colorado.edu/en/simulations/category/earth-science" class="text-gray-600 dark:text-gray-300 hover:text-gold dark:hover:text-darkgold">Virtual Labs</a></li>
+            <li><a href="login.html?redirect=cbt-quiz.html" class="text-gray-600 dark:text-gray-300 hover:text-gold dark:hover:text-darkgold">Login</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold text-gold dark:text-darkgold mb-4">Contact Us</h3>
+          <p class="text-gray-600 dark:text-gray-300 text-sm">Email: naemsselibrary@gmail.com</p>
+          <p class="text-gray-600 dark:text-gray-300 text-sm">Phone: +234 123 456 7890</p>
+        </div>
+      </div>
+      <div class="mt-8 border-t border-gray-200 dark:border-gray-700 pt-6 text-center">
+        <p class="text-gray-600 dark:text-gray-300 text-sm">&copy; 2025 Gabriel E-Library. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Firebase and JavaScript logic -->
+  <script type="module">
+    // Import Firebase modules
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyAjvmfBfZt0EUyliktI5Y_LRKnTKMMljkQ",
+      authDomain: "gabrielfutacbt.firebaseapp.com",
+      projectId: "gabrielfutacbt",
+      storageBucket: "gabrielfutacbt.firebasestorage.app",
+      messagingSenderId: "601258712395",
+      appId: "1:601258712395:web:62df6ae65925aea05f9cce"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    // DOM elements
+    const courseSelect = document.getElementById("courseSelect");
+    const timeInput = document.getElementById("timeInput");
+    const questionLimit = document.getElementById("questionLimit");
+    const quizArea = document.getElementById("quizArea");
+    const startBtn = document.getElementById("startQuizBtn");
+    const themeToggle = document.getElementById("themeToggle");
+    const themeToggleNav = document.getElementById("themeToggleNav");
+    const themeToggleMobile = document.getElementById("themeToggleMobile");
+    const viewResultsBtn = document.getElementById("viewResultsBtn");
+    const hamburgerBtn = document.getElementById("hamburgerBtn");
+    const mobileMenu = document.getElementById("mobileMenu");
+
+    // Quiz state variables
+    let questions = [], answers = {}, currentQuestion = 1, totalQuestions = 0, totalTimeSeconds = 0;
+    let currentCourse = "", timerInterval;
+    let loggedInUser = null;
+
+    // List of available courses
+    const courses = [
+      { id: "CHE102", name: "CHE 102", file: "CHE102questions.csv" },
+      { id: "PHY102", name: "PHY 102", file: "PHY102questions.csv" },
+      { id: "MTS102", name: "MTS 102", file: "MTS102questions.csv" },
+      { id: "GNS106", name: "GNS 106", file: "GNS106questions.csv" },
+      { id: "CSC102", name: "CSC 102", file: "CSC102questions.csv" },
+      { id: "MTS104", name: "MTS 104", file: "MTS104questions.csv" },
+      { id: "RANDOM QUESTIONS", name: "Random Questions", file: "randomquestions.csv" }
+    ];
+
+    // Theme handling
+    let isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    function applyTheme(dark) {
+      document.documentElement.classList.toggle('dark', dark);
+      themeToggle.textContent = dark ? 'Switch to Light Mode' : 'Switch to Dark Mode';
+      themeToggleNav.textContent = dark ? 'Switch to Light Mode' : 'Switch to Dark Mode';
+      themeToggleMobile.textContent = dark ? 'Switch to Light Mode' : 'Switch to Dark Mode';
+    }
+    applyTheme(isDarkMode);
+
+    themeToggle.addEventListener('click', () => {
+      isDarkMode = !isDarkMode;
+      applyTheme(isDarkMode);
+    });
+
+    themeToggleNav.addEventListener('click', () => {
+      isDarkMode = !isDarkMode;
+      applyTheme(isDarkMode);
+    });
+
+    themeToggleMobile.addEventListener('click', () => {
+      isDarkMode = !isDarkMode;
+      applyTheme(isDarkMode);
+    });
+
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener('change', (e) => {
+      isDarkMode = e.matches;
+      applyTheme(isDarkMode);
+    });
+
+    // Hamburger menu toggle
+    hamburgerBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      const isOpen = !mobileMenu.classList.contains('hidden');
+      hamburgerBtn.innerHTML = isOpen
+        ? `<svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>`
+        : `<svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>`;
+    });
+
+    // Authentication
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        loggedInUser = { uid: user.uid, email: user.email || "anonymous@gfl.com" };
+        console.log('Authenticated user:', loggedInUser);
+        startBtn.disabled = false;
+        startBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        viewResultsBtn.disabled = false;
+        viewResultsBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        await ensureCollectionExists();
+        loadCourses();
+      } else {
+        console.log('No authenticated user');
+        quizArea.innerHTML = '<p class="text-red-500 dark:text-red-400 text-center">Please sign in to take the quiz. <a href="login.html?redirect=cbt-quiz.html" class="underline text-gold">Login</a></p>';
+        startBtn.disabled = true;
+        startBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        viewResultsBtn.disabled = true;
+        viewResultsBtn.classList.add('opacity-50', 'cursor-not-allowed');
+      }
+    });
+
+    // Ensure cbt_results collection exists
+    async function ensureCollectionExists() {
+      try {
+        const resultsRef = collection(db, "cbt_results");
+        const snapshot = await getDocs(resultsRef);
+        if (snapshot.empty) {
+          console.log('Creating cbt_results collection with a dummy document');
+          await addDoc(resultsRef, {
+            dummy: true,
+            createdAt: new Date().toISOString()
+          });
+          console.log('cbt_results collection initialized');
+        }
+      } catch (err) {
+        console.error('Error checking/creating cbt_results collection:', err);
+        quizArea.innerHTML = `<p class="text-red-500 dark:text-red-400 text-center">Error initializing Firestore collection: ${err.message}</p>`;
+      }
+    }
+
+    // Load available courses
+    function loadCourses() {
+      courseSelect.innerHTML = '<option value="">-- Select Course --</option>';
+      if (courses.length === 0) {
+        courseSelect.innerHTML = '<option value="">No courses available</option>';
+        quizArea.innerHTML = '<p class="text-red-500 dark:text-red-400 text-center">No courses defined. Please add courses to the courses array.</p>';
+        return;
+      }
+      courses.forEach(course => {
+        const option = document.createElement("option");
+        option.value = course.id;
+        option.textContent = course.name;
+        courseSelect.appendChild(option);
+      });
+    }
+
+    // Load questions from CSV
+    async function loadQuestions(courseId) {
+      const course = courses.find(c => c.id === courseId);
+      if (!course) {
+        quizArea.innerHTML = '<p class="text-red-500 dark:text-red-400 text-center">Invalid course selected.</p>';
+        return [];
+      }
+
+      try {
+        console.log(`Fetching: ${course.file}`);
+        const response = await fetch(course.file);
+        if (!response.ok) {
+          console.error(`Fetch failed: ${response.status} ${response.statusText}`);
+          throw new Error(`Failed to fetch ${course.file}: ${response.statusText}`);
+        }
+        const csvText = await response.text();
+        console.log(`CSV content length for ${course.name}: ${csvText.length}`);
+
+        return new Promise((resolve, reject) => {
+          Papa.parse(csvText, {
+            header: true,
+            skipEmptyLines: true,
+            complete: (result) => {
+              const expectedHeaders = ['question', 'optionA', 'optionB', 'optionC', 'optionD', 'correctAnswer'];
+              const headers = result.meta.fields;
+              console.log(`CSV headers for ${course.name}:`, headers);
+              if (!expectedHeaders.every(h => headers.includes(h))) {
+                throw new Error('Invalid CSV format: missing or incorrect headers');
+              }
+
+              const parsedQuestions = result.data.map(row => ({
+                question: row.question,
+                options: {
+                  A: row.optionA,
+                  B: row.optionB,
+                  C: row.optionC,
+                  D: row.optionD
+                },
+                correctAnswer: row.correctAnswer
+              })).filter(q => q.question && q.correctAnswer && Object.values(q.options).every(opt => opt));
+              console.log(`Parsed questions for ${course.name}:`, parsedQuestions.length);
+              if (parsedQuestions.length === 0) {
+                console.error(`No valid questions after filtering for ${course.name}`);
+              }
+              resolve(parsedQuestions);
+            },
+            error: (err) => {
+              console.error(`Papa Parse error for ${course.name}:`, err);
+              reject(err);
+            }
+          });
+        });
+      } catch (err) {
+        console.error(`Error loading questions for ${course.name}:`, err);
+        quizArea.innerHTML = `<p class="text-red-500 dark:text-red-400 text-center">Error loading questions for ${course.name}: ${err.message}</p>`;
+        return [];
+      }
+    }
+
+    // Retrieve and display past results
+    async function displayPastResults() {
+      if (!loggedInUser) {
+        quizArea.innerHTML = '<p class="text-red-500 dark:text-red-400 text-center">Please sign in to view past results. <a href="login.html?redirect=cbt-quiz.html" class="underline text-gold">Login</a></p>';
+        return;
+      }
+
+      quizArea.innerHTML = '<p class="text-center">Loading past results...</p>';
+      try {
+        const resultsRef = collection(db, "cbt_results");
+        const q = query(resultsRef, where("dummy", "==", null), orderBy("date", "desc"));
+        const querySnapshot = await getDocs(q);
+
+        if (querySnapshot.empty) {
+          quizArea.innerHTML = '<p class="text-center text-gray-700 dark:text-gray-300">No past quiz results found.</p>';
+          return;
+        }
+
+        let resultsHtml = `
+          <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
+            <h2 class="text-2xl font-bold text-center text-gold dark:text-darkgold mb-4">Past Quiz Results</h2>
+            <button id="backToQuiz" class="mb-4 px-4 py-2 bg-gold text-white rounded-md hover:bg-gold-hover focus:outline-none focus:ring-2 focus:ring-gold">Back to Quiz</button>
+        `;
+
+        querySnapshot.forEach(doc => {
+          const data = doc.data();
+          if (data.dummy) return;
+          const date = new Date(data.date).toLocaleString();
+          resultsHtml += `
+            <div class="mb-4 p-4 border-l-4 border-gold dark:border-darkgold bg-gray-50 dark:bg-gray-700">
+              <p class="font-semibold">Course: ${data.course}</p>
+              <p>Date: ${date}</p>
+              <p>Score: ${data.score} / ${data.totalQuestions} (${data.percentage}%)</p>
+              <p>User: ${data.email}</p>
+              <details class="mt-2">
+                <summary class="cursor-pointer text-gold dark:text-darkgold">View Details</summary>
+                ${data.questions.map((q, i) => `
+                  <div class="ml-4 mt-2 p-2 border-l-2 ${q.userAnswer === q.correctAnswer ? 'border-green-500' : 'border-red-500'}">
+                    <p class="font-semibold">Question ${i + 1}: ${q.question}</p>
+                    <p>Your answer: ${q.userAnswer === "Not answered" ? q.userAnswer : `${q.userAnswer}`} 
+                      ${q.userAnswer === q.correctAnswer ? '<span class="text-green-500 dark:text-green-400">(Correct)</span>' : '<span class="text-red-500 dark:text-red-400">(Incorrect)</span>'}</p>
+                    <p>Correct answer: ${q.correctAnswer}</p>
+                  </div>
+                `).join('')}
+              </details>
+            </div>
+          `;
+        });
+
+        resultsHtml += '</div>';
+        quizArea.innerHTML = resultsHtml;
+
+        document.getElementById("backToQuiz").onclick = () => {
+          quizArea.innerHTML = "";
+          startBtn.disabled = false;
+          startBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        };
+      } catch (err) {
+        console.error('Error retrieving past results:', err);
+        let errorMessage = 'Error retrieving past results: ' + err.message;
+        if (err.message.includes('requires an index')) {
+          errorMessage += `<br>Please create the required index in the Firebase Console: <a href="https://console.firebase.google.com/v1/r/project/legacy-by-gabriel/firestore/indexes?create_composite=ClVwcm9qZWN0cy9sZWdhY3ktYnktZ2FicmllbC9kYXRhYmFzZXMvKGRlZmF1bHQpL2NvbGxlY3Rpb25Hcm91cHMvY2J0X3Jlc3VsdHMvaW5kZXhlcy9fEAEaCQoFZHVtbXkQARoKCgZ1c2VySWQQARoICgRkYXRlEAIaDAoIX19uYW1lX18QAg" class="underline text-gold" target="_blank">Create Index</a>`;
+        }
+        quizArea.innerHTML = `<p class="text-red-500 dark:text-red-400 text-center">${errorMessage}</p>`;
+      }
+    }
+
+    // Start quiz button click handler
+    startBtn.addEventListener("click", async () => {
+      if (!loggedInUser) {
+        quizArea.innerHTML = '<p class="text-red-500 dark:text-red-400 text-center">Please sign in to take the quiz. <a href="login.html?redirect=cbt-quiz.html" class="underline text-gold">Login</a></p>';
+        return;
+      }
+
+      currentCourse = courseSelect.value;
+      const time = parseFloat(timeInput.value);
+      const limit = parseInt(questionLimit.value);
+      if (!currentCourse || !time || time <= 0) {
+        quizArea.innerHTML = '<p class="text-red-500 dark:text-red-400 text-center">Please choose a course and valid time.</p>';
+        return;
+      }
+      if (!limit || limit <= 0) {
+        quizArea.innerHTML = '<p class="text-red-500 dark:text-red-400 text-center">Please enter a valid number of questions.</p>';
+        return;
+      }
+
+      quizArea.innerHTML = '<p class="text-center">Loading questions...</p>';
+      startBtn.disabled = true;
+      startBtn.classList.add('opacity-50', 'cursor-not-allowed');
+
+      questions = await loadQuestions(currentCourse);
+      if (questions.length === 0) {
+        quizArea.innerHTML = '<p class="text-red-500 dark:text-red-400 text-center">No questions available for this course.</p>';
+        startBtn.disabled = false;
+        startBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        return;
+      }
+
+      if (limit > questions.length) {
+        quizArea.innerHTML = `<p class="text-red-500 dark:text-red-400 text-center">Only ${questions.length} questions available for this course.</p>`;
+        questionLimit.value = questions.length;
+        startBtn.disabled = false;
+        startBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        return;
+      }
+
+      questions = questions.sort(() => Math.random() - 0.5);
+      totalQuestions = limit;
+      questions = questions.slice(0, totalQuestions);
+      totalTimeSeconds = Math.min(time * 60, totalQuestions * 30);
+      timeInput.value = Math.floor(totalTimeSeconds / 60);
+
+      currentQuestion = 1;
+      answers = {};
+      renderQuestion(currentQuestion);
+      startTimer();
+    });
+
+    // View past results button
+    viewResultsBtn.addEventListener("click", displayPastResults);
+
+    // Render a single question
+    function renderQuestion(index) {
+      const q = questions[index - 1];
+      let html = `
+        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
+          <p class="text-lg font-semibold mb-4">${index}. ${q.question}</p>
+          ${["A","B","C","D"].map(opt => `
+            <label class="block mb-2">
+              <input type="radio" name="answer" value="${opt}" ${answers[index] === opt ? "checked" : ""} 
+                class="mr-2 text-gold focus:ring-gold" />
+              ${opt}: ${q.options[opt]}
+            </label>`).join("")}
+        </div>
+        <div class="flex justify-center gap-4 mb-4">
+          <button id="prevBtn" class="px-4 py-2 bg-gold text-white rounded-md hover:bg-gold-hover disabled:opacity-50 disabled:cursor-not-allowed"
+            ${index === 1 ? "disabled" : ""}>Previous</button>
+          <button id="nextBtn" class="px-4 py-2 bg-gold text-white rounded-md hover:bg-gold-hover">
+            ${index === totalQuestions ? "Finish Quiz" : "Next"}
+          </button>
+          <button id="submitNow" class="px-4 py-2 bg-submit text-white rounded-md hover:bg-submit-hover focus:outline-none focus:ring-2 focus:ring-submit">Submit Quiz Now</button>
+        </div>
+        <div id="timer" class="text-center font-bold text-lg text-gray-700 dark:text-gray-300">Time left: ${formatTime(totalTimeSeconds)}</div>
+      `;
+      quizArea.innerHTML = html;
+
+      document.getElementById("prevBtn").onclick = () => {
+        saveAnswer(index);
+        renderQuestion(--currentQuestion);
+      };
+      document.getElementById("nextBtn").onclick = () => {
+        saveAnswer(index);
+        if (index === totalQuestions) {
+          console.log('Finish Quiz clicked');
+          if (confirm("Submit your quiz now?")) {
+            console.log('Submitting quiz from Finish Quiz...');
+            submitQuiz();
+          }
+        } else {
+          renderQuestion(++currentQuestion);
+        }
+      };
+      document.getElementById("submitNow").onclick = () => {
+        console.log('Submit Quiz Now clicked');
+        if (confirm("Are you sure you want to submit early?")) {
+          console.log('Submitting quiz from Submit Quiz Now...');
+          saveAnswer(index);
+          submitQuiz();
+        }
+      };
+    }
+
+    // Save the user's answer
+    function saveAnswer(index) {
+      const selected = document.querySelector('input[name="answer"]:checked');
+      if (selected) {
+        answers[index] = selected.value;
+        console.log(`Saved answer for question ${index}: ${selected.value}`);
+      } else {
+        console.log(`No answer selected for question ${index}`);
+      }
+    }
+
+    // Start the quiz timer
+    function startTimer() {
+      clearInterval(timerInterval);
+      updateTimer();
+      timerInterval = setInterval(() => {
+        totalTimeSeconds--;
+        updateTimer();
+        if (totalTimeSeconds <= 0) {
+          clearInterval(timerInterval);
+          alert("Time's up! Submitting your quiz.");
+          console.log('Submitting quiz due to timer expiration...');
+          saveAnswer(currentQuestion);
+          submitQuiz();
+        }
+      }, 1000);
+    }
+
+    // Update the timer display
+    function updateTimer() {
+      const timerDiv = document.getElementById("timer");
+      if (timerDiv) timerDiv.textContent = `Time left: ${formatTime(totalTimeSeconds)}`;
+    }
+
+    // Format time in MM:SS
+    function formatTime(sec) {
+      const m = Math.floor(sec / 60), s = sec % 60;
+      return `${m}:${s.toString().padStart(2, '0')}`;
+    }
+
+    // Submit the quiz and display results
+    async function submitQuiz() {
+      clearInterval(timerInterval);
+      
+      let score = 0;
+      for (let i = 1; i <= totalQuestions; i++) {
+        const q = questions[i - 1];
+        const userAnswer = answers[i] || "Not answered";
+        const correctAnswer = q.correctAnswer;
+        if (userAnswer === correctAnswer) score++;
+      }
+
+      let resultsHtml = `
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
+          <h2 class="text-2xl font-bold text-center text-gold dark:text-darkgold mb-4">Quiz Results</h2>
+          <p class="text-center text-lg mb-6">Your score: ${score} / ${totalQuestions} (${((score / totalQuestions) * 100).toFixed(2)}%)</p>
+          <h3 class="text-xl font-semibold mb-4 text-gold dark:text-darkgold">Answer Review</h3>
+      `;
+
+      for (let i = 1; i <= totalQuestions; i++) {
+        const q = questions[i - 1];
+        const userAnswer = answers[i] || "Not answered";
+        const correctAnswer = q.correctAnswer;
+        const isCorrect = userAnswer === correctAnswer;
+
+        resultsHtml += `
+          <div class="mb-4 p-4 border-l-4 ${isCorrect ? 'border-green-500' : 'border-red-500'} bg-gray-50 dark:bg-gray-700">
+            <p class="font-semibold">Question ${i}: ${q.question}</p>
+            <p class="mt-2">Your answer: ${userAnswer === "Not answered" ? userAnswer : `${userAnswer}: ${q.options[userAnswer]}`} 
+              ${isCorrect ? '<span class="text-green-500 dark:text-green-400">(Correct)</span>' : '<span class="text-red-500 dark:text-red-400">(Incorrect)</span>'}</p>
+            <p class="mt-1">Correct answer: ${correctAnswer}: ${q.options[correctAnswer]}</p>
+          </div>
+        `;
+      }
+
+      resultsHtml += `
+        <p class="text-center text-lg mt-6">Final Score: ${score} / ${totalQuestions} (${((score / totalQuestions) * 100).toFixed(2)}%)</p>
+        <div class="flex justify-center mt-6">
+          <button id="restartQuiz" class="px-4 py-2 bg-gold text-white rounded-md hover:bg-gold-hover focus:outline-none focus:ring-2 focus:ring-gold">Restart Quiz</button>
+        </div>
+      </div>
+      `;
+
+      quizArea.innerHTML = resultsHtml;
+      console.log(`Quiz submitted. Score: ${score}/${totalQuestions}`);
+
+      document.getElementById("restartQuiz").onclick = () => {
+        quizArea.innerHTML = "";
+        startBtn.disabled = false;
+        startBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+      };
+
+      // Save results to Firestore
+      try {
+        console.log('Attempting to save quiz results:', {
+          userId: loggedInUser.uid,
+          email: loggedInUser.email,
+          course: currentCourse,
+          score: score,
+          totalQuestions: totalQuestions,
+          percentage: ((score / totalQuestions) * 100).toFixed(2),
+          date: new Date().toISOString(),
+          userType: "student",
+          answers: answers,
+          questions: questions.map(q => ({
+            question: q.question,
+            correctAnswer: q.correctAnswer,
+            userAnswer: answers[questions.indexOf(q) + 1] || "Not answered"
+          }))
+        });
+        await addDoc(collection(db, "cbt_results"), {
+          userId: loggedInUser.uid,
+          email: loggedInUser.email,
+          course: currentCourse,
+          score: score,
+          totalQuestions: totalQuestions,
+          percentage: ((score / totalQuestions) * 100).toFixed(2),
+          date: new Date().toISOString(),
+          userType: "student",
+          answers: answers,
+          questions: questions.map(q => ({
+            question: q.question,
+            correctAnswer: q.correctAnswer,
+            userAnswer: answers[questions.indexOf(q) + 1] || "Not answered"
+          }))
+        });
+        console.log('Results successfully saved to Firestore');
+      } catch (err) {
+        console.error('Error saving results to Firestore:', err);
+        let errorMessage = 'Error saving results to Firestore. ';
+        if (err.code === 'permission-denied') {
+          errorMessage += 'Insufficient permissions. Please check Firestore security rules.';
+        } else if (err.code === 'unavailable') {
+          errorMessage += 'Firestore service unavailable. Please check your network connection.';
+        } else {
+          errorMessage += `Error code: ${err.code}. Please try again or contact support.`;
+        }
+        quizArea.innerHTML += `<p class="text-red-500 dark:text-red-400 text-center mt-4">${errorMessage}</p>`;
+      }
+    }
+  </script>
+</body>
+</html>

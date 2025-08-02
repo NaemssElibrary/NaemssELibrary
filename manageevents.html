@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manage Events - NAEMSS eLibrary</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjV8FJ0V7irTLQ8U0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw==" crossorigin="anonymous" />
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+    <style>
+      body {
+        font-family: 'Poppins', sans-serif;
+      }
+
+      /* Slideshow styling */
+      .slideshow-container {
+        position: relative;
+        width: 100%;
+        height: 16rem;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .slideshow {
+        display: flex;
+        transition: transform 0.7s ease-in-out;
+      }
+
+      .slide {
+        width: 100%;
+        flex-shrink: 0;
+      }
+
+      .slide img {
+        width: 100%;
+        height: 16rem;
+        object-fit: cover;
+        filter: brightness(0.8);
+      }
+
+      /* Navbar styling */
+      .navbar {
+        background-color: #FFD700;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .dark .navbar {
+        background-color: #B8860B;
+      }
+
+      /* Card styling */
+      .card {
+        background: #FFFFFF;
+        border-top: 4px solid #FFD700;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .dark .card {
+        background: #1E293B;
+        border-top: 4px solid #B8860B;
+      }
+
+      .card:hover {
+        transform: scale(1.02);
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      /* Table styling */
+      .events-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #FFFFFF;
+        border-top: 4px solid #FFD700;
+      }
+
+      .dark .events-table {
+        background: #1E293B;
+        border-top: 4px solid #B8860B;
+      }
+
+      .events-table th,
+      .events-table td {
+        border: 1px solid #E5E7EB;
+        padding: 0.5rem;
+        text-align: left;
+        font-size: 0.875rem;
+      }
+
+      .dark .events-table th,
+      .dark .events-table td {
+        border-color: #4B5563;
+      }
+
+      .events-table th {
+        background: #F3F4F6;
+        font-weight: 600;
+        color: #1E293B;
+      }
+
+      .dark .events-table th {
+        background: #2D3748;
+        color: #FFFFFF;
+      }
+
+      .events-table td {
+        background: #FFFFFF;
+        color: #1E293B;
+        word-break: break-word;
+      }
+
+      .dark .events-table td {
+        background: #1E293B;
+        color: #FFFFFF;
+      }
+
+      .action-btn {
+        font-size: 0.75rem;
+        padding: 0.25rem;
+        min-width: 1.5rem;
+        min-height: 1.5rem;
+        line-height: 1;
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 640px) {
+        .slideshow-container {
+          height: 10rem;
+        }
+        .slide img {
+          height: 10rem;
+        }
+        .navbar {
+          padding: 0.5rem;
+        }
+        .desktop-title {
+          display: none;
+        }
+        .mobile-title {
+          display: inline;
+          font-size: 1rem;
+        }
+        .card {
+          padding: 0.75rem;
+        }
+        .events-table {
+          font-size: 0.75rem;
+        }
+        .events-table th,
+        .events-table td {
+          padding: 0.25rem;
+        }
+        .action-btn {
+          font-size: 0.65rem;
+          min-width: 1.25rem;
+          min-height: 1.25rem;
+        }
+        h2 {
+          font-size: 1.5rem;
+        }
+        h3 {
+          font-size: 1rem;
+        }
+        p.text-sm {
+          font-size: 0.75rem;
+        }
+        input, textarea {
+          font-size: 0.75rem;
+        }
+        footer .text-lg {
+          font-size: 0.875rem;
+        }
+        footer .space-y-2 > li {
+          font-size: 0.75rem;
+        }
+      }
+      @media (min-width: 641px) {
+        .desktop-title {
+          display: inline;
+        }
+        .mobile-title {
+          display: none;
+        }
+      }
+      @media (min-width: 640px) and (max-width: 1024px) {
+        .slideshow-container {
+          height: 12rem;
+        }
+        .slide img {
+          height: 12rem;
+        }
+      }
+    </style>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              poppins: ['Poppins', 'sans-serif']
+            },
+            colors: {
+              gold: '#FFD700',
+              darkgold: '#B8860B',
+              softBlue: '#60A5FA',
+              lightBlue: '#93C5FD',
+              paleGreen: '#A7F3D0',
+              deepSlate: '#1E293B'
+            }
+          }
+        }
+      }
+    </script>
+  </head>
+  <body class="bg-gray-100 dark:bg-deepSlate text-gray-900 dark:text-white">
+    <!-- Navbar -->
+    <nav class="navbar p-4 shadow-md fixed w-full top-0 z-50">
+      <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <h1 class="text-xl font-bold text-deepSlate dark:text-white">
+          <span class="desktop-title">Manage Events - NAEMSS eLibrary</span>
+          <span class="mobile-title">Manage Events - NAEMSS</span>
+        </h1>
+        <div class="flex items-center gap-2 sm:gap-4">
+          <button id="toggleMenu" class="sm:hidden text-deepSlate dark:text-white focus:outline-none text-lg sm:text-xl">
+            ☰
+          </button>
+        </div>
+        <ul id="menu" class="hidden sm:flex gap-2 sm:gap-4 text-sm sm:text-base">
+          <li><a href="index.html" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition">Home</a></li>
+          <li><a href="mcs.html" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition">Metrology & Climate Science</a></li>
+          <li><a href="agy.html" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition">Applied Geology</a></li>
+          <li><a href="about.html" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition">About Us</a></li>
+          <li><a href="contact.html" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition">Contact</a></li>
+          <li><a href="discussion-forum.html" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition">Discussion Forum</a></li>
+          <li><a href="event-calendar.html" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition">Event Calendar</a></li>
+          <li id="signupLink"><a href="signup.html" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition">Sign Up</a></li>
+          <li id="loginLink"><a href="login.html" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition">Log In</a></li>
+          <li id="dashboardLink" class="hidden"><a href="dashboard.html" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition">Dashboard</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Mobile menu -->
+    <div id="mobileMenu" class="sm:hidden hidden bg-gold dark:bg-darkgold px-2 py-2 space-y-1 mt-14">
+      <a href="index.html" class="block text-deepSlate dark:text-white py-1 text-sm hover:bg-lightBlue dark:hover:bg-softBlue rounded transition">Home</a>
+      <a href="mcs.html" class="block text-deepSlate dark:text-white py-1 text-sm hover:bg-lightBlue dark:hover:bg-softBlue rounded transition">Metrology & Climate Science</a>
+      <a href="agy.html" class="block text-deepSlate dark:text-white py-1 text-sm hover:bg-lightBlue dark:hover:bg-softBlue rounded transition">Applied Geology</a>
+      <a href="about.html" class="block text-deepSlate dark:text-white py-1 text-sm hover:bg-lightBlue dark:hover:bg-softBlue rounded transition">About Us</a>
+      <a href="contact.html" class="block text-deepSlate dark:text-white py-1 text-sm hover:bg-lightBlue dark:hover:bg-softBlue rounded transition">Contact</a>
+      <a href="discussion-forum.html" class="block text-deepSlate dark:text-white py-1 text-sm hover:bg-lightBlue dark:hover:bg-softBlue rounded transition">Discussion Forum</a>
+      <a href="event-calendar.html" class="block text-deepSlate dark:text-white py-1 text-sm hover:bg-lightBlue dark:hover:bg-softBlue rounded transition">Event Calendar</a>
+      <a id="signupMobileLink" href="signup.html" class="block text-deepSlate dark:text-white py-1 text-sm hover:bg-lightBlue dark:hover:bg-softBlue rounded transition">Sign Up</a>
+      <a id="loginMobileLink" href="login.html" class="block text-deepSlate dark:text-white py-1 text-sm hover:bg-lightBlue dark:hover:bg-softBlue rounded transition">Log In</a>
+      <a id="dashboardMobileLink" href="dashboard.html" class="block text-deepSlate dark:text-white py-1 text-sm hover:bg-lightBlue dark:hover:bg-softBlue rounded transition hidden">Dashboard</a>
+    </div>
+
+    <!-- Hero Section with Slideshow -->
+    <div class="slideshow-container mt-14 sm:mt-16">
+      <div id="slideshow" class="slideshow">
+        <div class="slide">
+          <img src="images (1).jpg" alt="Manage Events" />
+        </div>
+        <div class="slide">
+          <img src="images (2).jpg" alt="NAEMSS Events" />
+        </div>
+        <div class="slide">
+          <img src="download (5).jpg" alt="Community Gatherings" />
+        </div>
+      </div>
+      <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center">
+        <h2 class="text-xl sm:text-3xl font-bold text-white drop-shadow-lg">Manage Events</h2>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <section class="max-w-7xl mx-auto py-6 sm:py-10 px-2 sm:px-4">
+      <h2 class="text-2xl sm:text-3xl font-semibold mb-4 sm:mb-6 text-gold dark:text-darkgold">Manage NAEMSS Events</h2>
+      <p class="text-gray-600 dark:text-gray-300 text-xs sm:text-sm mb-6 sm:mb-8">Add, edit, or delete events for the NAEMSS Event Calendar.</p>
+
+      <!-- Event Creation Form -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6 mb-6 sm:mb-8 card">
+        <h3 class="text-base sm:text-lg font-bold text-gray-800 dark:text-white mb-3 sm:mb-4">Add/Edit Event</h3>
+        <div id="authMessage" class="text-red-500 text-xs sm:text-sm mb-3 sm:mb-4 hidden">Please log in to manage events.</div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4">
+          <input type="text" id="eventTitleInput" placeholder="Event Title" class="p-2 rounded-md text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gold dark:focus:ring-darkgold w-full" />
+          <input type="date" id="eventDateInput" class="p-2 rounded-md text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gold dark:focus:ring-darkgold w-full" />
+          <input type="time" id="eventTimeInput" placeholder="Event Time (e.g., 14:00)" class="p-2 rounded-md text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gold dark:focus:ring-darkgold w-full" />
+          <input type="text" id="eventLocationInput" placeholder="Event Location" class="p-2 rounded-md text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gold dark:focus:ring-darkgold w-full" />
+          <textarea id="eventDescriptionInput" placeholder="Event Description" class="p-2 rounded-md text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gold dark:focus:ring-darkgold w-full col-span-1 sm:col-span-2" rows="4"></textarea>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-2 sm:gap-4 mt-4">
+          <button id="createEventBtn" class="bg-deepSlate dark:bg-white dark:text-deepSlate text-white font-semibold py-2 px-4 rounded-md hover:bg-gray-700 dark:hover:bg-gray-200 transition w-full sm:w-auto">Add Event</button>
+          <button id="updateEventBtn" class="hidden bg-deepSlate dark:bg-white dark:text-deepSlate text-white font-semibold py-2 px-4 rounded-md hover:bg-gray-700 dark:hover:bg-gray-200 transition w-full sm:w-auto">Update Event</button>
+          <button id="cancelEditBtn" class="hidden bg-gray-500 dark:bg-gray-600 text-white font-semibold py-2 px-4 rounded-md hover:bg-gray-600 dark:hover:bg-gray-500 transition w-full sm:w-auto">Cancel</button>
+        </div>
+        <input type="hidden" id="editEventId" />
+      </div>
+
+      <!-- Events Table -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6 card">
+        <h3 class="text-base sm:text-lg font-bold text-gray-800 dark:text-white mb-3 sm:mb-4">Existing Events</h3>
+        <div id="eventsTable" class="overflow-x-auto">
+          <table class="events-table">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Location</th>
+                <th>Description</th>
+                <th>Posted By</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="eventsTableBody">
+              <!-- Events will be dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gold dark:bg-darkgold text-deepSlate dark:text-white pt-6 sm:pt-10 px-2 sm:px-4">
+      <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
+        <div>
+          <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Subscribe to Our Newsletter</h3>
+          <div class="flex flex-col space-y-2 sm:space-y-3">
+            <input
+              type="email"
+              id="newsletterEmail"
+              placeholder="Your email"
+              class="p-2 rounded-md text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-darkgold dark:focus:ring-gold w-full text-sm sm:text-base"
+              required
+            />
+            <button
+              id="subscribeBtn"
+              class="bg-deepSlate dark:bg-white dark:text-deepSlate text-white font-semibold py-2 px-4 rounded-md hover:bg-gray-700 dark:hover:bg-gray-200 transition text-sm sm:text-base"
+            >
+              Subscribe
+            </button>
+          </div>
+        </div>
+        <div>
+          <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Quick Links</h3>
+          <ul class="space-y-1 sm:space-y-2 text-xs sm:text-sm">
+            <li><a href="/index.html" class="hover:text-softBlue dark:hover:text-lightBlue transition">Home</a></li>
+            <li><a href="/about.html" class="hover:text-softBlue dark:hover:text-lightBlue transition">About Us</a></li>
+            <li><a href="/terms.html" class="hover:text-softBlue dark:hover:text-lightBlue transition">Terms & Conditions</a></li>
+            <li><a href="/privacy.html" class="hover:text-softBlue dark:hover:text-lightBlue transition">Privacy Policy</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Contact Us</h3>
+          <ul class="space-y-1 sm:space-y-2 text-xs sm:text-sm">
+            <li>Email: <a href="mailto:info@naemsslibrary.com" class="hover:text-softBlue dark:hover:text-lightBlue transition">info@naemsslibrary.com</a></li>
+            <li>Phone: <a href="tel:+2341234567890" class="hover:text-softBlue dark:hover:text-lightBlue transition">+234 123 456 7890</a></li>
+            <li>Address: NAEMSS Secretariat, University Campus</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Follow Us</h3>
+          <div class="flex gap-2 sm:gap-4 text-sm sm:text-base">
+            <a href="#" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="text-center py-4 sm:py-6 mt-4 sm:mt-8 border-t border-deepSlate/20 dark:border-white/20 text-xs sm:text-sm">
+        <p>&copy; 2025 SEMS eLibrary. Proudly built by Gabriel for NAEMMSITES.</p>
+      </div>
+    </footer>
+
+    <script>
+      // Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyBAxpD6750L0WkCUIMTs5k7qqygCVzl4xQ",
+        authDomain: "naemss-elibary.firebaseapp.com",
+        projectId: "naemss-elibary",
+        storageBucket: "naemss-elibary.firebasestorage.app",
+        messagingSenderId: "978697395651",
+        appId: "1:978697395651:web:954a5c3b29f4fc7c37b176",
+        measurementId: "G-72WG3MPKPL"
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+      const db = firebase.firestore();
+
+      // DOM elements
+      const authMessage = document.getElementById('authMessage');
+      const eventTitleInput = document.getElementById('eventTitleInput');
+      const eventDateInput = document.getElementById('eventDateInput');
+      const eventTimeInput = document.getElementById('eventTimeInput');
+      const eventLocationInput = document.getElementById('eventLocationInput');
+      const eventDescriptionInput = document.getElementById('eventDescriptionInput');
+      const createEventBtn = document.getElementById('createEventBtn');
+      const updateEventBtn = document.getElementById('updateEventBtn');
+      const cancelEditBtn = document.getElementById('cancelEditBtn');
+      const editEventId = document.getElementById('editEventId');
+      const eventsTableBody = document.getElementById('eventsTableBody');
+      const toggleMenu = document.getElementById('toggleMenu');
+      const mobileMenu = document.getElementById('mobileMenu');
+
+      // Mobile menu toggle
+      toggleMenu.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+        toggleMenu.textContent = mobileMenu.classList.contains('hidden') ? '☰' : '✕';
+      });
+
+      // Slideshow functionality
+      let currentSlide = 0;
+      const slides = document.querySelectorAll('#slideshow .slide');
+      const totalSlides = slides.length;
+
+      function showSlide(index) {
+        if (index >= totalSlides) currentSlide = 0;
+        else if (index < 0) currentSlide = totalSlides - 1;
+        else currentSlide = index;
+        document.getElementById('slideshow').style.transform = `translateX(-${currentSlide * 100}%)`;
+      }
+
+      function nextSlide() {
+        showSlide(currentSlide + 1);
+      }
+
+      let slideInterval = setInterval(nextSlide, 5000);
+
+      const slideshowContainer = document.querySelector('.slideshow-container');
+      slideshowContainer.addEventListener('mouseenter', () => {
+        clearInterval(slideInterval);
+      });
+
+      slideshowContainer.addEventListener('mouseleave', () => {
+        slideInterval = setInterval(nextSlide, 5000);
+      });
+
+      // User authentication state
+      let currentUserId = null;
+      let currentUserName = 'Anonymous';
+
+      auth.onAuthStateChanged((user) => {
+        if (user) {
+          currentUserId = user.uid;
+          document.getElementById('signupLink').classList.add('hidden');
+          document.getElementById('loginLink').classList.add('hidden');
+          document.getElementById('dashboardLink').classList.remove('hidden');
+          document.getElementById('signupMobileLink').classList.add('hidden');
+          document.getElementById('loginMobileLink').classList.add('hidden');
+          document.getElementById('dashboardMobileLink').classList.remove('hidden');
+          authMessage.classList.add('hidden');
+          createEventBtn.disabled = false;
+          updateEventBtn.disabled = false;
+          cancelEditBtn.disabled = false;
+          db.collection('users').doc(user.uid).get().then((doc) => {
+            if (doc.exists && doc.data().displayName) {
+              currentUserName = doc.data().displayName;
+            } else {
+              currentUserName = user.email || 'Anonymous';
+              db.collection('users').doc(user.uid).set({ displayName: currentUserName }, { merge: true });
+            }
+            loadEvents();
+          });
+        } else {
+          currentUserId = null;
+          currentUserName = 'Anonymous';
+          document.getElementById('signupLink').classList.remove('hidden');
+          document.getElementById('loginLink').classList.remove('hidden');
+          document.getElementById('dashboardLink').classList.add('hidden');
+          document.getElementById('signupMobileLink').classList.remove('hidden');
+          document.getElementById('loginMobileLink').classList.remove('hidden');
+          document.getElementById('dashboardMobileLink').classList.add('hidden');
+          authMessage.classList.remove('hidden');
+          createEventBtn.disabled = true;
+          updateEventBtn.disabled = true;
+          cancelEditBtn.disabled = true;
+          eventsTableBody.innerHTML = '<tr><td colspan="7" class="text-gray-600 dark:text-gray-300 text-sm">Please log in to manage events.</td></tr>';
+        }
+      });
+
+      // Load events
+      function loadEvents() {
+        eventsTableBody.innerHTML = '';
+        db.collection('events')
+          .orderBy('date', 'asc')
+          .get()
+          .then((querySnapshot) => {
+            if (querySnapshot.empty) {
+              eventsTableBody.innerHTML = '<tr><td colspan="7" class="text-gray-600 dark:text-gray-300 text-sm">No events found. Add one above!</td></tr>';
+              return;
+            }
+            querySnapshot.forEach((doc) => {
+              const event = doc.data();
+              const eventDate = event.date ? new Date(event.date.toDate()).toLocaleDateString() : 'N/A';
+              db.collection('users').doc(event.createdBy).get().then((userDoc) => {
+                const creatorName = userDoc.exists && userDoc.data().displayName ? userDoc.data().displayName : 'Anonymous';
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                  <td>${event.title}</td>
+                  <td>${eventDate}</td>
+                  <td>${event.time || 'N/A'}</td>
+                  <td>${event.location || 'N/A'}</td>
+                  <td>${event.description || 'No description'}</td>
+                  <td>${creatorName}</td>
+                  <td>
+                    <button class="action-btn edit-btn text-softBlue dark:text-lightBlue hover:underline" data-id="${doc.id}"><i class="fas fa-edit mr-0.5"></i>Edit</button>
+                    <button class="action-btn delete-btn text-red-500 hover:underline" data-id="${doc.id}"><i class="fas fa-trash mr-0.5"></i>Delete</button>
+                  </td>
+                `;
+                eventsTableBody.appendChild(row);
+              });
+            });
+
+            // Add event listeners for edit and delete
+            document.querySelectorAll('.edit-btn').forEach((btn) => {
+              btn.addEventListener('click', () => editEvent(btn.dataset.id));
+            });
+            document.querySelectorAll('.delete-btn').forEach((btn) => {
+              btn.addEventListener('click', () => deleteEvent(btn.dataset.id));
+            });
+          }).catch((error) => {
+            console.error('Error loading events:', error);
+            eventsTableBody.innerHTML = '<tr><td colspan="7" class="text-red-500 text-sm">Failed to load events. Please try again.</td></tr>';
+          });
+      }
+
+      // Create event
+      createEventBtn.addEventListener('click', () => {
+        if (!currentUserId) {
+          authMessage.classList.remove('hidden');
+          return;
+        }
+        const title = eventTitleInput.value.trim();
+        const date = eventDateInput.value;
+        const time = eventTimeInput.value;
+        const location = eventLocationInput.value.trim();
+        const description = eventDescriptionInput.value.trim();
+
+        if (!title || !date) {
+          alert('Please fill in at least the title and date.');
+          return;
+        }
+
+        db.collection('events').add({
+          title,
+          date: new Date(date),
+          time: time || null,
+          location: location || null,
+          description: description || null,
+          createdBy: currentUserId,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        }).then(() => {
+          eventTitleInput.value = '';
+          eventDateInput.value = '';
+          eventTimeInput.value = '';
+          eventLocationInput.value = '';
+          eventDescriptionInput.value = '';
+          loadEvents();
+        }).catch((error) => {
+          console.error('Error creating event:', error);
+          alert('Failed to create event. Please try again.');
+        });
+      });
+
+      // Edit event
+      function editEvent(eventId) {
+        if (!currentUserId) return;
+        db.collection('events').doc(eventId).get().then((doc) => {
+          if (doc.exists) {
+            const event = doc.data();
+            eventTitleInput.value = event.title;
+            eventDateInput.value = event.date ? new Date(event.date.toDate()).toISOString().split('T')[0] : '';
+            eventTimeInput.value = event.time || '';
+            eventLocationInput.value = event.location || '';
+            eventDescriptionInput.value = event.description || '';
+            editEventId.value = eventId;
+            createEventBtn.classList.add('hidden');
+            updateEventBtn.classList.remove('hidden');
+            cancelEditBtn.classList.remove('hidden');
+          }
+        }).catch((error) => {
+          console.error('Error fetching event:', error);
+          alert('Failed to load event for editing.');
+        });
+      }
+
+      // Update event
+      updateEventBtn.addEventListener('click', () => {
+        if (!currentUserId) return;
+        const eventId = editEventId.value;
+        const title = eventTitleInput.value.trim();
+        const date = eventDateInput.value;
+        const time = eventTimeInput.value;
+        const location = eventLocationInput.value.trim();
+        const description = eventDescriptionInput.value.trim();
+
+        if (!title || !date) {
+          alert('Please fill in at least the title and date.');
+          return;
+        }
+
+        db.collection('events').doc(eventId).update({
+          title,
+          date: new Date(date),
+          time: time || null,
+          location: location || null,
+          description: description || null,
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        }).then(() => {
+          eventTitleInput.value = '';
+          eventDateInput.value = '';
+          eventTimeInput.value = '';
+          eventLocationInput.value = '';
+          eventDescriptionInput.value = '';
+          editEventId.value = '';
+          createEventBtn.classList.remove('hidden');
+          updateEventBtn.classList.add('hidden');
+          cancelEditBtn.classList.add('hidden');
+          loadEvents();
+        }).catch((error) => {
+          console.error('Error updating event:', error);
+          alert('Failed to update event. Please try again.');
+        });
+      });
+
+      // Cancel edit
+      cancelEditBtn.addEventListener('click', () => {
+        eventTitleInput.value = '';
+        eventDateInput.value = '';
+        eventTimeInput.value = '';
+        eventLocationInput.value = '';
+        eventDescriptionInput.value = '';
+        editEventId.value = '';
+        createEventBtn.classList.remove('hidden');
+        updateEventBtn.classList.add('hidden');
+        cancelEditBtn.classList.add('hidden');
+      });
+
+      // Delete event
+      function deleteEvent(eventId) {
+        if (!currentUserId) return;
+        if (confirm('Are you sure you want to delete this event?')) {
+          db.collection('events').doc(eventId)
+            .delete()
+            .then(() => {
+              loadEvents();
+            }).catch((error) => {
+              console.error('Error deleting event:', error);
+              alert('Failed to delete event. Please try again.');
+            });
+        }
+      }
+
+      // Subscription form
+      document.getElementById('subscribeBtn').addEventListener('click', () => {
+        const emailInput = document.getElementById('newsletterEmail');
+        if (emailInput.value && /^\S+@\S+\.\S+$/.test(emailInput.value)) {
+          alert('Subscribed successfully!');
+          emailInput.value = '';
+        } else {
+          alert('Please enter a valid email address.');
+        }
+      });
+    </script>
+  </body>
+</html>

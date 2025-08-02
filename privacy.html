@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Privacy Policy - NAEMSS eLibrary</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjV8FJ0V7irTLQ8U0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw==" crossorigin="anonymous" />
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+    <style>
+      body {
+        font-family: 'Poppins', sans-serif;
+      }
+
+      /* Navbar styling */
+      .navbar {
+        background-color: #FFD700; /* Gold */
+      }
+
+      .dark .navbar {
+        background-color: #B8860B; /* Dark gold */
+      }
+
+      /* Responsive navbar title */
+      @media (max-width: 640px) {
+        .desktop-title {
+          display: none;
+        }
+        .mobile-title {
+          display: inline;
+        }
+      }
+      @media (min-width: 641px) {
+        .desktop-title {
+          display: inline;
+        }
+        .mobile-title {
+          display: none;
+        }
+      }
+
+      /* Content styling */
+      .prose h2 {
+        color: #FFD700; /* Gold */
+      }
+
+      .dark .prose h2 {
+        color: #B8860B; /* Dark gold */
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 640px) {
+        .prose {
+          padding: 1rem;
+        }
+        .prose h2 {
+          font-size: 1.5rem;
+        }
+        .prose p, .prose li {
+          font-size: 0.875rem;
+        }
+      }
+    </style>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              poppins: ['Poppins', 'sans-serif']
+            },
+            colors: {
+              gold: '#FFD700',
+              darkgold: '#B8860B',
+              softBlue: '#60A5FA',
+              lightBlue: '#93C5FD',
+              paleGreen: '#A7F3D0',
+              deepSlate: '#1E293B'
+            }
+          }
+        }
+      }
+    </script>
+  </head>
+  <body class="bg-gray-100 dark:bg-deepSlate text-gray-900 dark:text-white">
+    <!-- Navbar -->
+    <nav class="navbar p-4 shadow-md fixed w-full top-0 z-50">
+      <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <h1 class="text-xl font-bold text-deepSlate dark:text-white">
+          <span class="desktop-title">NAEMSS eLibrary</span>
+          <span class="mobile-title">NAEMSS</span>
+        </h1>
+        <div class="flex items-center gap-4">
+          <button id="logoutBtn" class="bg-gold dark:bg-darkgold text-white font-semibold py-2 px-4 rounded-md hover:bg-darkgold dark:hover:bg-gold transition duration-300">
+            Log Out
+          </button>
+          <button id="toggleMenu" class="sm:hidden text-deepSlate dark:text-white focus:outline-none text-2xl">
+            ☰
+          </button>
+        </div>
+        <ul id="menu" class="hidden sm:flex gap-4">
+          <li><a href="/index.html" class="text-deepSlate dark:text-white hover:underline">Home</a></li>
+          <li><a href="/mcs.html" class="text-deepSlate dark:text-white hover:underline">Metrology & Climate Science</a></li>
+          <li><a href="/agy.html" class="text-deepSlate dark:text-white hover:underline">Applied Geology</a></li>
+          <li><a href="/signup.html" class="text-deepSlate dark:text-white hover:underline">Sign Up</a></li>
+          <li><a href="/login.html" class="text-deepSlate dark:text-white hover:underline">Log In</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Mobile menu -->
+    <div id="mobileMenu" class="sm:hidden hidden bg-gold dark:bg-darkgold px-4 py-2 space-y-2 mt-16">
+      <a href="/index.html" class="block text-deepSlate dark:text-white py-2 hover:bg-lightBlue dark:hover:bg-softBlue rounded">Home</a>
+      <a href="/mcs.html" class="block text-deepSlate dark:text-white py-2 hover:bg-lightBlue dark:hover:bg-softBlue rounded">Metrology & Climate Science</a>
+      <a href="/agy.html" class="block text-deepSlate dark:text-white py-2 hover:bg-lightBlue dark:hover:bg-softBlue rounded">Applied Geology</a>
+      <a href="/signup.html" class="block text-deepSlate dark:text-white py-2 hover:bg-lightBlue dark:hover:bg-softBlue rounded">Sign Up</a>
+      <a href="/login.html" class="block text-deepSlate dark:text-white py-2 hover:bg-lightBlue dark:hover:bg-softBlue rounded">Log In</a>
+    </div>
+
+    <!-- Main Content -->
+    <section class="max-w-7xl mx-auto py-10 px-4 mt-16 prose prose-sm sm:prose lg:prose-lg">
+      <h1 class="text-3xl font-semibold mb-6 text-gold dark:text-darkgold">Privacy Policy</h1>
+      <p class="text-gray-600 dark:text-gray-300 text-sm mb-6">Last Updated: August 2, 2025</p>
+
+      <h2>1. Introduction</h2>
+      <p>The Nigeria Earth and Mineral Sciences Students (NAEMSS) eLibrary ("we," "us," or "our") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your personal information when you use our platform ("Service"), including accessing geoscience resources and tools like the NAEMSS Scientific Calculator and GeoMap Studio. By using the Service, you consent to the practices described in this policy.</p>
+
+      <h2>2. Information We Collect</h2>
+      <p>We collect the following types of information to provide and improve the Service:</p>
+      <ul>
+        <li><strong>Personal Information</strong>: When you sign up or use the Service, we collect your name, email address, matric number (if provided), and profile picture URL (optional).</li>
+        <li><strong>Usage Data</strong>: We may collect information about how you interact with the Service, such as pages visited, tools used (e.g., NAEMSS Grapher), and time spent on the platform.</li>
+        <li><strong>Newsletter Subscriptions</strong>: If you subscribe to our newsletter, we collect your email address.</li>
+      </ul>
+
+      <h2>3. How We Use Your Information</h2>
+      <p>We use your information to provide, maintain, and enhance the NAEMSS eLibrary, including:</p>
+      <ul>
+        <li>Authenticating your account and personalizing your experience (e.g., displaying your name and profile picture).</li>
+        <li>Providing access to academic resources, such as geoscience glossaries, mapping tools, and virtual lab simulations.</li>
+        <li>Sending newsletters, updates, or notifications about the Service (with your consent).</li>
+        <li>Analyzing usage patterns to improve platform functionality and content.</li>
+      </ul>
+
+      <h2>4. Data Sharing</h2>
+      <p>We do not sell or rent your personal information. We may share your information in the following cases:</p>
+      <ul>
+        <li><strong>Service Providers</strong>: With third-party providers (e.g., Firebase for authentication, FormSubmit for newsletters) to operate the Service, subject to strict confidentiality agreements.</li>
+        <li><strong>Legal Requirements</strong>: If required by law or to protect the rights, safety, or property of NAEMSS eLibrary or others.</li>
+        <li><strong>Academic Purposes</strong>: Anonymized data may be shared with university partners for research or educational purposes.</li>
+      </ul>
+
+      <h2>5. Data Security</h2>
+      <p>We implement reasonable security measures, such as encryption via Firebase Authentication, to protect your personal information from unauthorized access or disclosure. However, no online platform is completely secure, and we cannot guarantee absolute security. You are responsible for maintaining the confidentiality of your account credentials.</p>
+
+      <h2>6. Your Rights</h2>
+      <p>As a user, you have the following rights regarding your personal information:</p>
+      <ul>
+        <li><strong>Access</strong>: Request a copy of the personal information we hold about you.</li>
+        <li><strong>Correction</strong>: Update your name, email, or profile picture via the user dashboard.</li>
+        <li><strong>Deletion</strong>: Request deletion of your account by contacting <a href="mailto:info@naemsslibrary.com" class="underline hover:text-gold dark:hover:text-darkgold">info@naemsslibrary.com</a>.</li>
+        <li><strong>Opt-Out</strong>: Unsubscribe from newsletters using the link provided in emails or by contacting us.</li>
+      </ul>
+
+      <h2>7. Cookies and Tracking</h2>
+      <p>The NAEMSS eLibrary does not currently use cookies or similar tracking technologies. If implemented in the future, we will notify you and provide options to manage cookie preferences. Third-party services (e.g., Firebase Analytics) may use tracking for usage analysis, as described in their privacy policies.</p>
+
+      <h2>8. Third-Party Links</h2>
+      <p>The Service includes links to third-party websites, such as QGIS, ObsPy, and PhET simulations. These sites have their own privacy policies, and NAEMSS eLibrary is not responsible for their practices. We encourage you to review the privacy policies of any third-party sites you visit.</p>
+
+      <h2>9. Children’s Privacy</h2>
+      <p>The NAEMSS eLibrary is intended for university students and is not directed at individuals under 13 years of age. We do not knowingly collect personal information from children under 13. If you believe we have such information, please contact us at <a href="mailto:naemsselibrary@gmail.com" class="underline hover:text-gold dark:hover:text-darkgold">naemsselibrary@gmail.com</a> to request its removal.</p>
+
+      <h2>10. Changes to This Privacy Policy</h2>
+      <p>We may update this Privacy Policy to reflect changes in our practices or legal requirements. We will notify users of significant changes via email or a notice on the platform. Your continued use of the Service after updates constitutes acceptance of the revised policy.</p>
+
+      <h2>11. Contact Information</h2>
+      <p>For questions or concerns about this Privacy Policy or your personal information, please contact us at:</p>
+      <ul>
+        <li>Email: <a href="mailto:info@naemsslibrary.com" class="underline hover:text-gold dark:hover:text-darkgold">naemsselibrary@gmail.com</a></li>
+        <li>Phone: <a href="tel:+2341234567890" class="underline hover:text-gold dark:hover:text-darkgold">+234 123 456 7890</a></li>
+        <li>Address: NAEMSS Secretariat, University Campus, Nigeria</li>
+      </ul>
+
+      <p class="text-gray-600 dark:text-gray-300 text-sm mt-6">By using the NAEMSS eLibrary, you acknowledge that you have read and understood this Privacy Policy.</p>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gold dark:bg-darkgold text-deepSlate dark:text-white pt-10 px-4">
+      <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Subscribe to Our Newsletter</h3>
+          <div class="flex flex-col space-y-3">
+            <input
+              type="email"
+              name="email"
+              placeholder="Your email"
+              class="p-2 rounded-md text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-darkgold dark:focus:ring-gold w-full"
+              required
+            />
+            <button
+              type="button"
+              id="submit"
+              class="bg-deepSlate dark:bg-white dark:text-deepSlate text-white font-semibold py-2 px-4 rounded-md hover:bg-gray-700 dark:hover:bg-gray-200 transition"
+            >
+              Subscribe
+            </button>
+          </div>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+          <ul class="space-y-2">
+            <li><a href="/index.html" class="hover:underline">Home</a></li>
+            <li><a href="/about.html" class="hover:underline">About Us</a></li>
+            <li><a href="/terms.html" class="hover:underline">Terms & Conditions</a></li>
+            <li><a href="/privacy.html" class="hover:underline">Privacy Policy</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
+          <ul class="space-y-2">
+            <li>Email: <a href="mailto:naemsselibrary@gmail.com" class="hover:underline">naemsselibrary@gmail.com</a></li>
+            <li>Phone: <a href="tel:+2341234567890" class="hover:underline">+234 123 456 7890</a></li>
+            <li>Address: NAEMSS Secretariat, University Campus</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Follow Us</h3>
+          <div class="flex gap-4">
+            <a href="#" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="text-center py-6 mt-8 border-t border-deepSlate/20 dark:border-white/20">
+        <p>&copy; 2025 NAEMSS eLibrary. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      // Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyBAxpD6750L0WkCUIMTs5k7qqygCVzl4xQ",
+        authDomain: "naemss-elibary.firebaseapp.com",
+        projectId: "naemss-elibary",
+        storageBucket: "naemss-elibary.firebasestorage.app",
+        messagingSenderId: "978697395651",
+        appId: "1:978697395651:web:954a5c3b29f4fc7c37b176",
+        measurementId: "G-72WG3MPKPL"
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+
+      // Mobile menu toggle
+      const toggleMenu = document.getElementById('toggleMenu');
+      const mobileMenu = document.getElementById('mobileMenu');
+      toggleMenu.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+        toggleMenu.textContent = mobileMenu.classList.contains('hidden') ? '☰' : '✕';
+      });
+
+      // User authentication state
+      auth.onAuthStateChanged((user) => {
+        if (!user) {
+          // No user is signed in, redirect to login
+          window.location.href = '/login.html';
+        }
+      });
+
+      // Logout functionality
+      document.getElementById('logoutBtn').addEventListener('click', () => {
+        auth.signOut()
+          .then(() => {
+            alert('Logged out successfully!');
+            window.location.href = '/login.html';
+          })
+          .catch((error) => {
+            alert(`Error: ${error.message}`);
+          });
+      });
+
+      // Subscription form
+      document.getElementById('submit').addEventListener('click', () => {
+        const emailInput = document.querySelector('input[name="email"]');
+        if (emailInput.value) {
+          alert('Subscribed successfully!');
+          emailInput.value = '';
+        } else {
+          alert('Please enter a valid email address.');
+        }
+      });
+    </script>
+  </body>
+</html>

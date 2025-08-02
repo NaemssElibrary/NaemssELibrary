@@ -6,36 +6,12 @@
     <title>User Dashboard - NAEMSS eLibrary</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjV8FJ0V7irTLQ8Uo0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjV8FJ0V7irTLQ8U0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw==" crossorigin="anonymous" />
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
     <style>
       body {
         font-family: 'Poppins', sans-serif;
-      }
-
-      /* Slideshow styling */
-      .slideshow-container {
-        position: relative;
-        width: 100%;
-        height: 16rem; /* h-64 */
-        overflow: hidden;
-      }
-
-      .slideshow {
-        display: flex;
-        transition: transform 0.7s ease-in-out;
-      }
-
-      .slide {
-        width: 100%;
-        flex-shrink: 0;
-      }
-
-      .slide img {
-        width: 100%;
-        height: 16rem; /* h-64 */
-        object-fit: cover;
       }
 
       /* Navbar styling */
@@ -45,39 +21,6 @@
 
       .dark .navbar {
         background-color: #B8860B; /* Dark gold */
-      }
-
-      /* Tab styling */
-      .tab {
-        background-color: #FFD700; /* Gold */
-        color: #1E293B; /* Deep slate */
-        padding: 0.5rem 1rem;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-      }
-
-      .dark .tab {
-        background-color: #B8860B; /* Dark gold */
-        color: #FFFFFF;
-      }
-
-      .tab:hover {
-        background-color: #60A5FA; /* Soft blue */
-        color: #FFFFFF;
-      }
-
-      .dark .tab:hover {
-        background-color: #93C5FD; /* Light blue */
-      }
-
-      .tab.active {
-        background-color: #60A5FA; /* Soft blue */
-        color: #FFFFFF;
-        font-weight: bold;
-      }
-
-      .dark .tab.active {
-        background-color: #93C5FD; /* Light blue */
       }
 
       /* Profile card styling */
@@ -96,13 +39,66 @@
         transform: scale(1.05);
       }
 
-      /* Responsive navbar title */
+      /* Profile picture styling */
+      .profile-picture {
+        width: 8rem; /* 128px */
+        height: 8rem;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #FFD700; /* Gold border */
+        cursor: pointer;
+      }
+
+      .dark .profile-picture {
+        border: 2px solid #B8860B; /* Dark gold border */
+      }
+
+      /* Modal styling */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5); /* Backdrop */
+        z-index: 100;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .modal-content {
+        background: #FFFFFF;
+        border-top: 4px solid #FFD700;
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        width: 90%;
+        max-width: 28rem; /* 448px */
+      }
+
+      .dark .modal-content {
+        background: #1E293B;
+        border-top: 4px solid #B8860B;
+      }
+
+      /* Responsive adjustments */
       @media (max-width: 640px) {
         .desktop-title {
           display: none;
         }
         .mobile-title {
           display: inline;
+        }
+        .profile-picture {
+          width: 6rem; /* 96px for mobile */
+          height: 6rem;
+        }
+        .profile-card {
+          padding: 1rem;
+        }
+        .modal-content {
+          padding: 1rem;
+          width: 95%;
         }
       }
       @media (min-width: 641px) {
@@ -111,31 +107,6 @@
         }
         .mobile-title {
           display: none;
-        }
-      }
-
-      /* Responsive layout */
-      @media (max-width: 640px) {
-        .slideshow-container {
-          height: 12rem; /* h-48 for mobile */
-        }
-        .slide img {
-          height: 12rem;
-        }
-        .tab {
-          padding: 0.5rem;
-          font-size: 0.875rem;
-        }
-        .profile-card {
-          padding: 1rem;
-        }
-      }
-      @media (min-width: 640px) and (max-width: 1024px) {
-        .slideshow-container {
-          height: 20rem; /* h-80 for tablet */
-        }
-        .slide img {
-          height: 20rem;
         }
       }
     </style>
@@ -165,7 +136,8 @@
     <nav class="navbar p-4 shadow-md fixed w-full top-0 z-50">
       <div class="max-w-7xl mx-auto flex justify-between items-center">
         <h1 class="text-xl font-bold text-deepSlate dark:text-white">
-         NAEMSS ELibrary
+          <span class="desktop-title">NAEMSS eLibrary</span>
+          <span class="mobile-title">NAEMSS</span>
         </h1>
         <div class="flex items-center gap-4">
           <button id="logoutBtn" class="bg-gold dark:bg-darkgold text-white font-semibold py-2 px-4 rounded-md hover:bg-darkgold dark:hover:bg-gold transition duration-300">
@@ -194,167 +166,126 @@
       <a href="/login.html" class="block text-deepSlate dark:text-white py-2 hover:bg-lightBlue dark:hover:bg-softBlue rounded">Log In</a>
     </div>
 
-    <!-- Hero Section with Slideshow -->
-    <div class="slideshow-container mt-16">
-      <div id="slideshow" class="slideshow">
-        <div class="slide">
-          <img src="images (1).jpg" alt="Atmospheric Monitoring" />
+    <!-- Profile Picture Modal -->
+    <div id="pictureModal" class="modal">
+      <div class="modal-content">
+        <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4">Update Profile Picture</h3>
+        <p id="pictureError" class="text-red-500 text-sm hidden mb-2"></p>
+        <input
+          type="text"
+          id="pictureUrl"
+          placeholder="Enter image URL (e.g., https://example.com/image.jpg)"
+          class="p-2 rounded-md text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-700 w-full mb-4 focus:outline-none focus:ring-2 focus:ring-gold dark:focus:ring-darkgold"
+        />
+        <div class="flex justify-end gap-2">
+          <button id="cancelPictureBtn" class="bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600 transition">Cancel</button>
+          <button id="submitPictureBtn" class="bg-deepSlate dark:bg-white dark:text-deepSlate text-white py-2 px-4 rounded-md hover:bg-gray-700 dark:hover:bg-gray-200 transition">Submit</button>
         </div>
-        <div class="slide">
-          <img src="images (2).jpg" alt="Climate Modeling" />
+      </div>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div id="editModal" class="modal">
+      <div class="modal-content">
+        <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4">Edit Profile</h3>
+        <p id="editError" class="text-red-500 text-sm hidden mb-2"></p>
+        <div class="space-y-4">
+          <div>
+            <label for="editName" class="block text-sm font-medium text-gray-800 dark:text-white">Name</label>
+            <input
+              type="text"
+              id="editName"
+              class="p-2 rounded-md text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-gold dark:focus:ring-darkgold"
+            />
+          </div>
+          <div>
+            <label for="editMatric" class="block text-sm font-medium text-gray-800 dark:text-white">Matric Number</label>
+            <input
+              type="text"
+              id="editMatric"
+              class="p-2 rounded-md text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-gold dark:focus:ring-darkgold"
+            />
+          </div>
+          <div>
+            <label for="editEmail" class="block text-sm font-medium text-gray-800 dark:text-white">Email</label>
+            <input
+              type="email"
+              id="editEmail"
+              class="p-2 rounded-md text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-gold dark:focus:ring-darkgold"
+            />
+          </div>
         </div>
-        <div class="slide">
-          <img src="images (3).jpg" alt="Weather Observation" />
+        <div class="flex justify-end gap-2 mt-4">
+          <button id="cancelEditBtn" class="bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600 transition">Cancel</button>
+          <button id="submitEditBtn" class="bg-deepSlate dark:bg-white dark:text-deepSlate text-white py-2 px-4 rounded-md hover:bg-gray-700 dark:hover:bg-gray-200 transition">Submit</button>
         </div>
       </div>
     </div>
 
     <!-- Main Content -->
-    <section class="max-w-7xl mx-auto py-10 px-4">
+    <section class="max-w-7xl mx-auto py-10 px-4 mt-16">
       <h2 class="text-3xl font-semibold mb-6 text-gold dark:text-darkgold">User Dashboard</h2>
-      <p class="text-gray-600 dark:text-gray-300 text-sm mb-6">Manage your profile and explore NAEMSS eLibrary resources.</p>
+      <p class="text-gray-600 dark:text-gray-300 text-sm mb-6">Manage your profile and explore NAEMSS eLibrary tools.</p>
 
       <!-- User Profile -->
       <div class="mb-8">
         <h3 class="text-xl font-semibold text-gold dark:text-darkgold mb-4">User Profile</h3>
-        <div class="profile-card rounded-lg p-6 shadow-md">
-          <p><span class="font-bold text-gray-800 dark:text-white">Name:</span> <span id="userName">Loading...</span></p>
-          <p><span class="font-bold text-gray-800 dark:text-white">Matric Number:</span> <span id="userMatric">Loading...</span></p>
-          <p><span class="font-bold text-gray-800 dark:text-white">Email:</span> <span id="userEmail">Loading...</span></p>
+        <div class="profile-card rounded-lg p-6 shadow-md text-center">
+          <img id="userPicture" src="https://via.placeholder.com/128" alt="User Profile Picture" class="profile-picture mx-auto mb-4" />
+          <div class="text-left max-w-sm mx-auto">
+            <p><span class="font-bold text-gray-800 dark:text-white">Name:</span> <span id="userName">Loading...</span></p>
+            <p><span class="font-bold text-gray-800 dark:text-white">Matric Number:</span> <span id="userMatric">Loading...</span></p>
+            <p><span class="font-bold text-gray-800 dark:text-white">Email:</span> <span id="userEmail">Loading...</span></p>
+            <button id="editProfileBtn" class="mt-4 text-gold dark:text-darkgold hover:text-softBlue dark:hover:text-lightBlue">
+              <i class="fas fa-pencil-alt mr-2"></i>Edit Profile
+            </button>
+          </div>
         </div>
       </div>
 
-     <section class="max-w-7xl mx-auto py-10 px-4">
-        <h2 class="text-2xl font-semibold mb-6 text-gold dark:text-gold">Departments</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-gold dark:border-darkgold card-animate">
-            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2"><a href="agy.html">Department of Applied Geology</a></h3>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Explore books and materials</p>
-          </div>
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-gold dark:border-darkgold card-animate">
-            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2"><a href="agp.html">Department of Applied Geophysics</a></h3>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Explore books and materials</p>
-          </div>
-<div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-gold dark:border-darkgold card-animate">
-            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2"><a href="mst.html">Department of Marine Science and Technology</a></h3>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Explore books and materials</p>
-          </div>
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-gold dark:border-darkgold card-animate">
-            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2"><a href="mcs.html">Department of Metrology and Climate Science</a></h3>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Explore books and materials</p>
-          </div>
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-gold dark:border-darkgold card-animate">
-            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2"><a href="rsg.html">Department of Remote Sensing and Geoinformatics Systems</a></h3>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Explore books and materials</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- Student Resources and Tools -->
+      <!-- Student Tools -->
       <section class="max-w-7xl mx-auto py-10 px-4">
-        <h2 class="text-2xl font-semibold mb-6 text-gold dark:text-gold">Student Resources</h2>
+        <h2 class="text-2xl font-semibold mb-6 text-gold dark:text-darkgold">Student Tools</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-gold dark:border-darkgold card-animate">
-            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Interactive Quiz Platform</h3>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Test your geoscience knowledge with NAEMSS-specific quizzes (Coming Soon - Under Development)</p>
-          </div>
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-gold dark:border-darkgold card-animate">
-            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Virtual Lab Simulations</h3>
-            <p class="text-gray-600 dark:text-gray-300 text-sm"><a href="https://phet.colorado.edu/en/simulations/category/earth-science" class="underline hover:text-gold">Explore free geoscience simulations</a> for rock cycles and geophysical modeling</p>
-          </div>
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-gold dark:border-darkgold card-animate">
-            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Geoscience Glossary</h3>
-            <p class="text-gray-600 dark:text-gray-300 text-sm"><a href="https://www.americangeosciences.org/glossary" class="underline hover:text-gold">Access the AGI Glossary of Geology</a> for key terms and definitions</p>
-          </div>
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-gold dark:border-darkgold card-animate">
-            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Open-Access Journals</h3>
-            <p class="text-gray-600 dark:text-gray-300 text-sm"><a href="https://www.geoscienceworld.org/" class="underline hover:text-gold">Browse GeoScienceWorld</a> and <a href="https://pubs.usgs.gov/" class="underline hover:text-gold">USGS publications</a> for research articles</p>
-          </div>
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-gold dark:border-darkgold card-animate">
-            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">E-Book Repository</h3>
-            <p class="text-gray-600 dark:text-gray-300 text-sm"><a href="https://www.doabooks.org/" class="underline hover:text-gold">Access open-access e-books</a> on geoscience topics</p>
-          </div>
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-gold dark:border-darkgold card-animate">
-            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Geological Mapping Software</h3>
-            <p class="text-gray-600 dark:text-gray-300 text-sm"><a href="https://qgis.org/" class="underline hover:text-gold">Download QGIS</a> or use <a href="https://www.google.com/earth/" class="underline hover:text-gold">Google Earth Pro</a> for mapping</p>
-          </div>
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-gold dark:border-darkgold card-animate">
-            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Data Visualization Tools</h3>
-            <p class="text-gray-600 dark:text-gray-300 text-sm"><a href="https://www.goldensoftware.com/products/grapher" class="underline hover:text-gold">Try Grapher</a> or <a href="https://matplotlib.org/" class="underline hover:text-gold">Matplotlib</a> for geological graphs</p>
-          </div>
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-gold dark:border-darkgold card-animate">
-            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Mineral and Rock ID Apps</h3>
-            <p class="text-gray-600 dark:text-gray-300 text-sm"><a href="https://rockidentifier.com/" class="underline hover:text-gold">Use Rock Identifier</a> for field identification</p>
-          </div>
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-gold dark:border-darkgold card-animate">
-            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Geophysical Data Analysis</h3>
-            <p class="text-gray-600 dark:text-gray-300 text-sm"><a href="https://obspy.org/" class="underline hover:text-gold">Explore ObsPy</a> for seismic data analysis</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- Student Utilities and Tools -->
-      <section class="max-w-7xl mx-auto py-10 px-4">
-        <h2 class="text-2xl font-semibold mb-6 text-gold dark:text-gold">Student Utilities and Tools</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-gold dark:border-darkgold card-animate">
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-gold dark:border-darkgold">
             <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">NAEMSS Scientific Calculator</h3>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">A calculator designed for School of Earth and Mineral Sciences students (Coming Soon - Under Development)</p>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">A specialized calculator for NAEMSS students, supporting advanced geoscience calculations like mineral density and seismic wave velocity. Currently under development, it will integrate unit conversions and statistical tools for fieldwork. Check back for updates!</p>
           </div>
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-gold dark:border-darkgold card-animate">
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-gold dark:border-darkgold">
             <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">NAEMSS GeoMap Studio</h3>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">An all-in-one mapping tool for NAEMSS students (Coming Soon - Under Development)</p>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">An all-in-one mapping tool for NAEMSS students to create geological maps and analyze spatial data. This tool, under development, will support importing field data and visualizing geological features. Stay tuned for its release!</p>
           </div>
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-gold dark:border-darkgold card-animate">
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-gold dark:border-darkgold">
+            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">NAEMSS Grapher</h3>
+            <p class="text-gray-600 dark:text-white text-sm"><a href="/naemss-grapher.html" class="underline hover:text-gold">Create interactive graphs</a> for geoscience data, including line, bar, and scatter plots, with support for mathematical functions and CSV imports. Ideal for visualizing climate trends or geological measurements.</p>
+          </div>
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-gold dark:border-darkgold">
             <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Citation Management Tools</h3>
-            <p class="text-gray-600 dark:text-gray-300 text-sm"><a href="https://www.zotero.org/" class="underline hover:text-gold">Use Zotero</a> or <a href="https://www.mendeley.com/" class="underline hover:text-gold">Mendeley</a> for research references</p>
+            <p class="text-gray-600 dark:text-gray-300 text-sm"><a href="https://www.zotero.org/" class="underline hover:text-gold">Zotero</a> and <a href="https://www.mendeley.com/" class="underline hover:text-gold">Mendeley</a> help NAEMSS students organize research references for geoscience papers. Import citations from journals like GeoScienceWorld and generate bibliographies in APA or MLA formats.</p>
           </div>
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-gold dark:border-darkgold card-animate">
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-gold dark:border-darkgold">
             <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Study Planners</h3>
-            <p class="text-gray-600 dark:text-gray-300 text-sm"><a href="https://www.notion.so/templates/study-planner" class="underline hover:text-gold">Download Notion study templates</a> for coursework organization</p>
+            <p class="text-gray-600 dark:text-gray-300 text-sm"><a href="https://www.notion.so/templates/study-planner" class="underline hover:text-gold">Notion study templates</a> allow NAEMSS students to organize coursework, track deadlines for geology labs, and plan study sessions. Customize templates to manage field trips and research projects efficiently.</p>
           </div>
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-gold dark:border-darkgold card-animate">
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-gold dark:border-darkgold">
             <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Collaboration Platforms</h3>
-            <p class="text-gray-600 dark:text-gray-300 text-sm"><a href="https://www.notion.so/" class="underline hover:text-gold">Notion</a> or <a href="https://slack.com/" class="underline hover:text-gold">Slack</a> for group projects</p>
+            <p class="text-gray-600 dark:text-gray-300 text-sm"><a href="https://www.notion.so/" class="underline hover:text-gold">Notion</a> and <a href="https://slack.com/" class="underline hover:text-gold">Slack</a> enable NAEMSS students to collaborate on group projects, share field data, and discuss research findings. Create shared workspaces for team assignments or study groups.</p>
           </div>
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-gold dark:border-darkgold card-animate">
-            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">NAEMSS Discussion Forum</h3>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Join discussions with peers on geoscience topics (Coming Soon - Under Development)</p>
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-gold dark:border-darkgold">
+            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Virtual Lab Simulations</h3>
+            <p class="text-gray-600 dark:text-gray-300 text-sm"><a href="https://phet.colorado.edu/en/simulations/category/earth-science" class="underline hover:text-gold">PhET simulations</a> offer interactive geoscience labs for modeling rock cycles, plate tectonics, and climate systems. NAEMSS students can use these tools to practice concepts before field or lab work.</p>
           </div>
-        </div>
-      </section>
-
-      <!-- Student Career -->
-      <section class="max-w-7xl mx-auto py-10 px-4">
-        <h2 class="text-2xl font-semibold mb-6 text-gold dark:text-gold">Student Career</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-gold dark:border-darkgold card-animate">
-            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">NAEMSS Job Board</h3>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Find geoscience jobs and internships (Coming Soon - Under Development)</p>
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-gold dark:border-darkgold">
+            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Geoscience Glossary</h3>
+            <p class="text-gray-600 dark:text-gray-300 text-sm"><a href="https://www.americangeosciences.org/glossary" class="underline hover:text-gold">AGI Glossary of Geology</a> provides definitions for key geoscience terms, from mineralogy to seismology. Essential for NAEMSS students studying for exams or writing research papers.</p>
           </div>
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-gold dark:border-darkgold card-animate">
-            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Resume Builder</h3>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Create geoscience-specific resumes (Coming Soon - Under Development)</p>
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-gold dark:border-darkgold">
+            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Geological Mapping Software</h3>
+            <p class="text-gray-600 dark:text-gray-300 text-sm"><a href="https://qgis.org/" class="underline hover:text-gold">QGIS</a> and <a href="https://www.google.com/earth/" class="underline hover:text-gold">Google Earth Pro</a> enable NAEMSS students to create and analyze geological maps. Import field data to visualize fault lines, rock formations, or mineral deposits.</p>
           </div>
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-gold dark:border-darkgold card-animate">
-            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Webinar and Certification Listings</h3>
-            <p class="text-gray-600 dark:text-gray-300 text-sm"><a href="https://www.coursera.org/" class="underline hover:text-gold">Explore Coursera</a> for geoscience certifications</p>
-          </div>
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-gold dark:border-darkgold card-animate">
-            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">NAEMSS Event Calendar</h3>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Stay updated on NAEMSS events and lectures (Coming Soon - Under Development)</p>
-          </div>
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-gold dark:border-darkgold card-animate">
-            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Student Blog/Vlog Section</h3>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Share your NAEMSS fieldwork and research (Coming Soon - Under Development)</p>
-          </div>
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-gold dark:border-darkgold card-animate">
-            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Resource Usage Dashboard</h3>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">View popular NAEMSS resources (Coming Soon - Under Development)</p>
-          </div>
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-gold dark:border-darkgold card-animate">
-            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Feedback Form</h3>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Suggest resources or report issues (Coming Soon - Under Development)</p>
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-gold dark:border-darkgold">
+            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Geophysical Data Analysis</h3>
+            <p class="text-gray-600 dark:text-gray-300 text-sm"><a href="https://obspy.org/" class="underline hover:text-gold">ObsPy</a> is a Python library for NAEMSS students to analyze seismic and geophysical data. Process earthquake data or model wave propagation for research or coursework.</p>
           </div>
         </div>
       </section>
@@ -432,43 +363,61 @@
       firebase.initializeApp(firebaseConfig);
       const auth = firebase.auth();
 
+      // DOM elements
+      const pictureModal = document.getElementById('pictureModal');
+      const editModal = document.getElementById('editModal');
+      const userPicture = document.getElementById('userPicture');
+      const pictureUrlInput = document.getElementById('pictureUrl');
+      const submitPictureBtn = document.getElementById('submitPictureBtn');
+      const cancelPictureBtn = document.getElementById('cancelPictureBtn');
+      const editProfileBtn = document.getElementById('editProfileBtn');
+      const editNameInput = document.getElementById('editName');
+      const editMatricInput = document.getElementById('editMatric');
+      const editEmailInput = document.getElementById('editEmail');
+      const submitEditBtn = document.getElementById('submitEditBtn');
+      const cancelEditBtn = document.getElementById('cancelEditBtn');
+      const pictureError = document.getElementById('pictureError');
+      const editError = document.getElementById('editError');
+
       // Mobile menu toggle
       const toggleMenu = document.getElementById('toggleMenu');
       const mobileMenu = document.getElementById('mobileMenu');
-
       toggleMenu.addEventListener('click', () => {
         mobileMenu.classList.toggle('hidden');
         toggleMenu.textContent = mobileMenu.classList.contains('hidden') ? '☰' : '✕';
       });
 
-      // Slideshow functionality
-      let currentSlide = 0;
-      const slides = document.querySelectorAll('#slideshow .slide');
-      const totalSlides = slides.length;
-
-      function showSlide(index) {
-        if (index >= totalSlides) currentSlide = 0;
-        else if (index < 0) currentSlide = totalSlides - 1;
-        else currentSlide = index;
-        document.getElementById('slideshow').style.transform = `translateX(-${currentSlide * 100}%)`;
+      // Modal toggle functions
+      function openModal(modal) {
+        modal.style.display = 'flex';
       }
 
-      function nextSlide() {
-        showSlide(currentSlide + 1);
+      function closeModal(modal) {
+        modal.style.display = 'none';
+        pictureError.classList.add('hidden');
+        editError.classList.add('hidden');
+        pictureUrlInput.value = '';
+        editNameInput.value = '';
+        editMatricInput.value = '';
+        editEmailInput.value = '';
       }
 
-      // Auto-rotate slideshow every 5 seconds
-      let slideInterval = setInterval(nextSlide, 5000);
-
-      // Pause slideshow on hover
-      const slideshowContainer = document.querySelector('.slideshow-container');
-      slideshowContainer.addEventListener('mouseenter', () => {
-        clearInterval(slideInterval);
+      // Open modals
+      userPicture.addEventListener('click', () => {
+        pictureUrlInput.value = userPicture.src;
+        openModal(pictureModal);
       });
 
-      slideshowContainer.addEventListener('mouseleave', () => {
-        slideInterval = setInterval(nextSlide, 5000);
+      editProfileBtn.addEventListener('click', () => {
+        editNameInput.value = document.getElementById('userName').textContent;
+        editMatricInput.value = document.getElementById('userMatric').textContent;
+        editEmailInput.value = document.getElementById('userEmail').textContent;
+        openModal(editModal);
       });
+
+      // Close modals
+      cancelPictureBtn.addEventListener('click', () => closeModal(pictureModal));
+      cancelEditBtn.addEventListener('click', () => closeModal(editModal));
 
       // User authentication state
       auth.onAuthStateChanged((user) => {
@@ -478,12 +427,74 @@
           const email = user.email || 'Unknown';
           // Matric number requires Firestore; using placeholder
           const matricNumber = user.matricNumber || 'Not set';
+          const photoURL = user.photoURL || 'https://via.placeholder.com/128';
           document.getElementById('userName').textContent = displayName;
           document.getElementById('userMatric').textContent = matricNumber;
           document.getElementById('userEmail').textContent = email;
+          document.getElementById('userPicture').src = photoURL;
         } else {
           // No user is signed in, redirect to login
           window.location.href = '/login.html';
+        }
+      });
+
+      // Update profile picture
+      submitPictureBtn.addEventListener('click', () => {
+        const url = pictureUrlInput.value.trim();
+        const urlPattern = /^https?:\/\/.*\.(?:jpg|jpeg|png|gif)$/i;
+        if (!url || !urlPattern.test(url)) {
+          pictureError.textContent = 'Please enter a valid image URL (e.g., https://example.com/image.jpg)';
+          pictureError.classList.remove('hidden');
+          return;
+        }
+
+        const user = auth.currentUser;
+        if (user) {
+          firebase.auth().currentUser.updateProfile({ photoURL: url })
+            .then(() => {
+              userPicture.src = url;
+              closeModal(pictureModal);
+              alert('Profile picture updated successfully!');
+            })
+            .catch((error) => {
+              pictureError.textContent = `Error: ${error.message}`;
+              pictureError.classList.remove('hidden');
+            });
+        }
+      });
+
+      // Update profile details
+      submitEditBtn.addEventListener('click', () => {
+        const name = editNameInput.value.trim();
+        const matric = editMatricInput.value.trim();
+        const email = editEmailInput.value.trim();
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!name || !email || !emailPattern.test(email)) {
+          editError.textContent = 'Please enter a valid name and email address.';
+          editError.classList.remove('hidden');
+          return;
+        }
+
+        const user = auth.currentUser;
+        if (user) {
+          Promise.all([
+            firebase.auth().currentUser.updateProfile({ displayName: name }),
+            firebase.auth().currentUser.updateEmail(email)
+          ])
+            .then(() => {
+              document.getElementById('userName').textContent = name;
+              document.getElementById('userEmail').textContent = email;
+              // Matric number update requires Firestore
+              document.getElementById('userMatric').textContent = matric || 'Not set';
+              console.log('Matric number update requires Firestore integration:', matric);
+              closeModal(editModal);
+              alert('Profile updated successfully!');
+            })
+            .catch((error) => {
+              editError.textContent = `Error: ${error.message}`;
+              editError.classList.remove('hidden');
+            });
         }
       });
 

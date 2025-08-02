@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Collaboration Platforms - NAEMSS eLibrary</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjV8FJ0V7irTLQ8U0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw==" crossorigin="anonymous" />
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+    <style>
+      body {
+        font-family: 'Poppins', sans-serif;
+      }
+
+      /* Slideshow styling */
+      .slideshow-container {
+        position: relative;
+        width: 100%;
+        height: 20rem;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .slideshow {
+        display: flex;
+        transition: transform 0.7s ease-in-out;
+      }
+
+      .slide {
+        width: 100%;
+        flex-shrink: 0;
+      }
+
+      .slide img {
+        width: 100%;
+        height: 20rem;
+        object-fit: cover;
+        filter: brightness(0.8);
+      }
+
+      /* Navbar styling */
+      .navbar {
+        background-color: #FFD700;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .dark .navbar {
+        background-color: #B8860B;
+      }
+
+      /* Card styling */
+      .card {
+        background: #FFFFFF;
+        border-top: 4px solid #FFD700;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .dark .card {
+        background: #1E293B;
+        border-top: 4px solid #B8860B;
+      }
+
+      .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Table styling */
+      .groups-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #FFFFFF;
+        border-top: 4px solid #FFD700;
+      }
+
+      .dark .groups-table {
+        background: #1E293B;
+        border-top: 4px solid #B8860B;
+      }
+
+      .groups-table th,
+      .groups-table td {
+        border: 1px solid #E5E7EB;
+        padding: 8px;
+        text-align: center;
+        font-size: 0.875rem;
+      }
+
+      .dark .groups-table th,
+      .dark .groups-table td {
+        border-color: #4B5563;
+      }
+
+      .groups-table th {
+        background: #F3F4F6;
+        font-weight: 600;
+        color: #1E293B;
+      }
+
+      .dark .groups-table th {
+        background: #2D3748;
+        color: #FFFFFF;
+      }
+
+      .groups-table td {
+        background: #FFFFFF;
+        color: #1E293B;
+      }
+
+      .dark .groups-table td {
+        background: #1E293B;
+        color: #FFFFFF;
+      }
+
+      .groups-table td:hover {
+        background: #F3F4F6;
+      }
+
+      .dark .groups-table td:hover {
+        background: #2D3748;
+      }
+
+      /* Chat styling */
+      .chat-container {
+        max-height: 300px;
+        overflow-y: auto;
+        border: 1px solid #E5E7EB;
+        border-radius: 0.375rem;
+        padding: 1rem;
+        background: #F9FAFB;
+      }
+
+      .dark .chat-container {
+        border-color: #4B5563;
+        background: #2D3748;
+      }
+
+      .chat-message {
+        margin-bottom: 0.5rem;
+        padding: 0.5rem;
+        border-radius: 0.375rem;
+        background: #E5E7EB;
+      }
+
+      .dark .chat-message {
+        background: #4B5563;
+      }
+
+      /* Responsive navbar title */
+      @media (max-width: 640px) {
+        .desktop-title {
+          display: none;
+        }
+        .mobile-title {
+          display: inline;
+        }
+      }
+      @media (min-width: 641px) {
+        .desktop-title {
+          display: inline;
+        }
+        .mobile-title {
+          display: none;
+        }
+      }
+
+      /* Responsive layout */
+      @media (max-width: 640px) {
+        .slideshow-container {
+          height: 12rem;
+        }
+        .slide img {
+          height: 12rem;
+        }
+        .card {
+          padding: 1rem;
+        }
+        .groups-table {
+          font-size: 0.75rem;
+        }
+        .groups-table th,
+        .groups-table td {
+          padding: 4px;
+        }
+      }
+      @media (min-width: 640px) and (max-width: 1024px) {
+        .slideshow-container {
+          height: 16rem;
+        }
+        .slide img {
+          height: 16rem;
+        }
+      }
+    </style>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              poppins: ['Poppins', 'sans-serif']
+            },
+            colors: {
+              gold: '#FFD700',
+              darkgold: '#B8860B',
+              softBlue: '#60A5FA',
+              lightBlue: '#93C5FD',
+              paleGreen: '#A7F3D0',
+              deepSlate: '#1E293B'
+            }
+          }
+        }
+      }
+    </script>
+  </head>
+  <body class="bg-gray-100 dark:bg-deepSlate text-gray-900 dark:text-white">
+    <!-- Navbar -->
+    <nav class="navbar p-4 shadow-md fixed w-full top-0 z-50">
+      <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <h1 class="text-xl font-bold text-deepSlate dark:text-white">
+          <span class="desktop-title">Collaboration Platforms - NAEMSS eLibrary</span>
+          <span class="mobile-title">Collaboration - NAEMSS</span>
+        </h1>
+        <div class="flex items-center gap-4">
+          <button id="toggleMenu" class="sm:hidden text-deepSlate dark:text-white focus:outline-none text-2xl">
+            ☰
+          </button>
+        </div>
+        <ul id="menu" class="hidden sm:flex gap-4">
+          <li><a href="index.html" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition">Home</a></li>
+          <li><a href="mcs.html" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition">Metrology & Climate Science</a></li>
+          <li><a href="agy.html" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition">Applied Geology</a></li>
+          <li><a href="about.html" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition">About Us</a></li>
+          <li><a href="contact.html" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition">Contact</a></li>
+          <li id="signupLink"><a href="signup.html" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition">Sign Up</a></li>
+          <li id="loginLink"><a href="login.html" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition">Log In</a></li>
+          <li id="dashboardLink" class="hidden"><a href="dashboard.html" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition">Dashboard</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Mobile menu -->
+    <div id="mobileMenu" class="sm:hidden hidden bg-gold dark:bg-darkgold px-4 py-2 space-y-2 mt-16">
+      <a href="index.html" class="block text-deepSlate dark:text-white py-2 hover:bg-lightBlue dark:hover:bg-softBlue rounded transition">Home</a>
+      <a href="mcs.html" class="block text-deepSlate dark:text-white py-2 hover:bg-lightBlue dark:hover:bg-softBlue rounded transition">Metrology & Climate Science</a>
+      <a href="agy.html" class="block text-deepSlate dark:text-white py-2 hover:bg-lightBlue dark:hover:bg-softBlue rounded transition">Applied Geology</a>
+      <a href="about.html" class="block text-deepSlate dark:text-white py-2 hover:bg-lightBlue dark:hover:bg-softBlue rounded transition">About Us</a>
+      <a href="contact.html" class="block text-deepSlate dark:text-white py-2 hover:bg-lightBlue dark:hover:bg-softBlue rounded transition">Contact</a>
+      <a id="signupMobileLink" href="signup.html" class="block text-deepSlate dark:text-white py-2 hover:bg-lightBlue dark:hover:bg-softBlue rounded transition">Sign Up</a>
+      <a id="loginMobileLink" href="login.html" class="block text-deepSlate dark:text-white py-2 hover:bg-lightBlue dark:hover:bg-softBlue rounded transition">Log In</a>
+      <a id="dashboardMobileLink" href="dashboard.html" class="block text-deepSlate dark:text-white py-2 hover:bg-lightBlue dark:hover:bg-softBlue rounded transition hidden">Dashboard</a>
+    </div>
+
+    <!-- Hero Section with Slideshow -->
+    <div class="slideshow-container mt-16">
+      <div id="slideshow" class="slideshow">
+        <div class="slide">
+          <img src="images (1).jpg" alt="Collaboration Platforms" />
+        </div>
+        <div class="slide">
+          <img src="images (2).jpg" alt="Group Projects" />
+        </div>
+        <div class="slide">
+          <img src="download (5).jpg" alt="Team Tools" />
+        </div>
+      </div>
+      <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center">
+        <h2 class="text-3xl sm:text-4xl font-bold text-white drop-shadow-lg">Collaboration Platforms</h2>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <section class="max-w-7xl mx-auto py-10 px-4">
+      <h2 class="text-3xl font-semibold mb-6 text-gold dark:text-darkgold">Collaborate with Peers</h2>
+      <p class="text-gray-600 dark:text-gray-300 text-sm mb-8">Create and join collaboration groups for group projects, inspired by tools like Notion and Slack, tailored for NAEMSS students.</p>
+
+      <!-- Group Creation Form -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-8 card">
+        <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4">Create New Group</h3>
+        <div id="authMessage" class="text-red-500 text-sm mb-4 hidden">Please log in to manage groups.</div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <input type="text" id="groupNameInput" placeholder="Group Name (e.g., Geology Project)" class="p-2 rounded-md text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gold dark:focus:ring-darkgold" />
+          <input type="text" id="descriptionInput" placeholder="Description (e.g., Group for final project)" class="p-2 rounded-md text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gold dark:focus:ring-darkgold" />
+          <select id="categoryInput" class="p-2 rounded-md text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gold dark:focus:ring-darkgold">
+            <option value="">Select Category</option>
+            <option value="Geology">Geology</option>
+            <option value="Metrology">Metrology</option>
+            <option value="Climate Science">Climate Science</option>
+            <option value="Other">Other</option>
+          </select>
+          <input type="text" id="customCategoryInput" placeholder="Enter custom category" class="p-2 rounded-md text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gold dark:focus:ring-darkgold hidden" />
+        </div>
+        <button id="createGroupBtn" class="mt-4 bg-deepSlate dark:bg-white dark:text-deepSlate text-white font-semibold py-2 px-4 rounded-md hover:bg-gray-700 dark:hover:bg-gray-200 transition w-full sm:w-auto">Create Group</button>
+      </div>
+
+      <!-- Groups Table -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-8 card">
+        <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4">Collaboration Groups</h3>
+        <div id="groupsTable" class="overflow-x-auto">
+          <table class="groups-table">
+            <thead>
+              <tr>
+                <th>Group Name</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Members</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="groupsTableBody">
+              <!-- Groups will be dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Group Chat -->
+      <div id="chatSection" class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 card hidden">
+        <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4">Group Chat: <span id="chatGroupName"></span></h3>
+        <div id="chatMessages" class="chat-container mb-4"></div>
+        <div id="chatAuthMessage" class="text-red-500 text-sm mb-4 hidden">Please join the group to chat.</div>
+        <div class="flex gap-2">
+          <input type="text" id="chatInput" placeholder="Type your message..." class="p-2 rounded-md text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gold dark:focus:ring-darkgold flex-grow" />
+          <button id="sendMessageBtn" class="bg-deepSlate dark:bg-white dark:text-deepSlate text-white font-semibold py-2 px-4 rounded-md hover:bg-gray-700 dark:hover:bg-gray-200 transition">Send</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gold dark:bg-darkgold text-deepSlate dark:text-white pt-10 px-4">
+      <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Subscribe to Our Newsletter</h3>
+          <div class="flex flex-col space-y-3">
+            <input
+              type="email"
+              id="newsletterEmail"
+              placeholder="Your email"
+              class="p-2 rounded-md text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-darkgold dark:focus:ring-gold w-full"
+              required
+            />
+            <button
+              id="subscribeBtn"
+              class="bg-deepSlate dark:bg-white dark:text-deepSlate text-white font-semibold py-2 px-4 rounded-md hover:bg-gray-700 dark:hover:bg-gray-200 transition"
+            >
+              Subscribe
+            </button>
+          </div>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+          <ul class="space-y-2">
+            <li><a href="/index.html" class="hover:text-softBlue dark:hover:text-lightBlue transition">Home</a></li>
+            <li><a href="/about.html" class="hover:text-softBlue dark:hover:text-lightBlue transition">About Us</a></li>
+            <li><a href="/terms.html" class="hover:text-softBlue dark:hover:text-lightBlue transition">Terms & Conditions</a></li>
+            <li><a href="/privacy.html" class="hover:text-softBlue dark:hover:text-lightBlue transition">Privacy Policy</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
+          <ul class="space-y-2">
+            <li>Email: <a href="mailto:info@naemsslibrary.com" class="hover:text-softBlue dark:hover:text-lightBlue transition">info@naemsslibrary.com</a></li>
+            <li>Phone: <a href="tel:+2341234567890" class="hover:text-softBlue dark:hover:text-lightBlue transition">+234 123 456 7890</a></li>
+            <li>Address: NAEMSS Secretariat, University Campus</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Follow Us</h3>
+          <div class="flex gap-4">
+            <a href="#" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="text-center py-6 mt-8 border-t border-deepSlate/20 dark:border-white/20">
+        <p>&copy; 2025 SEMS eLibrary. Proudly built by Gabriel for NAEMMSITES.</p>
+      </div>
+    </footer>
+
+    <script>
+      // Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyBAxpD6750L0WkCUIMTs5k7qqygCVzl4xQ",
+        authDomain: "naemss-elibary.firebaseapp.com",
+        projectId: "naemss-elibary",
+        storageBucket: "naemss-elibary.firebasestorage.app",
+        messagingSenderId: "978697395651",
+        appId: "1:978697395651:web:954a5c3b29f4fc7c37b176",
+        measurementId: "G-72WG3MPKPL"
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+      const db = firebase.firestore();
+
+      // DOM elements
+      const authMessage = document.getElementById('authMessage');
+      const groupNameInput = document.getElementById('groupNameInput');
+      const descriptionInput = document.getElementById('descriptionInput');
+      const categoryInput = document.getElementById('categoryInput');
+      const customCategoryInput = document.getElementById('customCategoryInput');
+      const createGroupBtn = document.getElementById('createGroupBtn');
+      const groupsTableBody = document.getElementById('groupsTableBody');
+      const chatSection = document.getElementById('chatSection');
+      const chatGroupName = document.getElementById('chatGroupName');
+      const chatMessages = document.getElementById('chatMessages');
+      const chatInput = document.getElementById('chatInput');
+      const sendMessageBtn = document.getElementById('sendMessageBtn');
+      const chatAuthMessage = document.getElementById('chatAuthMessage');
+      const toggleMenu = document.getElementById('toggleMenu');
+      const mobileMenu = document.getElementById('mobileMenu');
+
+      // Mobile menu toggle
+      toggleMenu.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+        toggleMenu.textContent = mobileMenu.classList.contains('hidden') ? '☰' : '✕';
+      });
+
+      // Slideshow functionality
+      let currentSlide = 0;
+      const slides = document.querySelectorAll('#slideshow .slide');
+      const totalSlides = slides.length;
+
+      function showSlide(index) {
+        if (index >= totalSlides) currentSlide = 0;
+        else if (index < 0) currentSlide = totalSlides - 1;
+        else currentSlide = index;
+        document.getElementById('slideshow').style.transform = `translateX(-${currentSlide * 100}%)`;
+      }
+
+      function nextSlide() {
+        showSlide(currentSlide + 1);
+      }
+
+      let slideInterval = setInterval(nextSlide, 5000);
+
+      const slideshowContainer = document.querySelector('.slideshow-container');
+      slideshowContainer.addEventListener('mouseenter', () => {
+        clearInterval(slideInterval);
+      });
+
+      slideshowContainer.addEventListener('mouseleave', () => {
+        slideInterval = setInterval(nextSlide, 5000);
+      });
+
+      // Show/hide custom category input
+      categoryInput.addEventListener('change', () => {
+        if (categoryInput.value === 'Other') {
+          customCategoryInput.classList.remove('hidden');
+        } else {
+          customCategoryInput.classList.add('hidden');
+          customCategoryInput.value = '';
+        }
+      });
+
+      // User authentication state
+      let currentUserId = null;
+      let currentGroupId = null;
+      let unsubscribeChat = null;
+
+      auth.onAuthStateChanged((user) => {
+        if (user) {
+          currentUserId = user.uid;
+          document.getElementById('signupLink').classList.add('hidden');
+          document.getElementById('loginLink').classList.add('hidden');
+          document.getElementById('dashboardLink').classList.remove('hidden');
+          document.getElementById('signupMobileLink').classList.add('hidden');
+          document.getElementById('loginMobileLink').classList.add('hidden');
+          document.getElementById('dashboardMobileLink').classList.remove('hidden');
+          authMessage.classList.add('hidden');
+          createGroupBtn.disabled = false;
+          loadGroups(user.uid);
+        } else {
+          currentUserId = null;
+          document.getElementById('signupLink').classList.remove('hidden');
+          document.getElementById('loginLink').classList.remove('hidden');
+          document.getElementById('dashboardLink').classList.add('hidden');
+          document.getElementById('signupMobileLink').classList.remove('hidden');
+          document.getElementById('loginMobileLink').classList.remove('hidden');
+          document.getElementById('dashboardMobileLink').classList.add('hidden');
+          authMessage.classList.remove('hidden');
+          createGroupBtn.disabled = true;
+          chatSection.classList.add('hidden');
+          groupsTableBody.innerHTML = '<tr><td colspan="5" class="text-gray-600 dark:text-gray-300 text-sm">Please log in to view collaboration groups.</td></tr>';
+          if (unsubscribeChat) {
+            unsubscribeChat();
+            unsubscribeChat = null;
+          }
+        }
+      });
+
+      // Create group
+      createGroupBtn.addEventListener('click', () => {
+        if (!currentUserId) {
+          authMessage.classList.remove('hidden');
+          return;
+        }
+        const groupName = groupNameInput.value.trim();
+        const description = descriptionInput.value.trim();
+        let category = categoryInput.value;
+        if (category === 'Other') {
+          category = customCategoryInput.value.trim();
+        }
+
+        if (!groupName || !description || !category) {
+          alert('Please fill in all fields.');
+          return;
+        }
+
+        db.collection('groups').add({
+          name: groupName,
+          description,
+          category,
+          creator: currentUserId,
+          members: [currentUserId],
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        }).then(() => {
+          groupNameInput.value = '';
+          descriptionInput.value = '';
+          categoryInput.value = '';
+          customCategoryInput.value = '';
+          customCategoryInput.classList.add('hidden');
+          loadGroups(currentUserId);
+        }).catch((error) => {
+          console.error('Error creating group:', error);
+          alert('Failed to create group. Please try again.');
+        });
+      });
+
+      // Load groups
+      function loadGroups(userId) {
+        groupsTableBody.innerHTML = '';
+        db.collection('groups')
+          .orderBy('createdAt', 'desc')
+          .get()
+          .then((querySnapshot) => {
+            if (querySnapshot.empty) {
+              groupsTableBody.innerHTML = '<tr><td colspan="5" class="text-gray-600 dark:text-gray-300 text-sm">No groups found. Create one above!</td></tr>';
+              return;
+            }
+            querySnapshot.forEach((doc) => {
+              const group = doc.data();
+              const isMember = group.members.includes(userId);
+              const row = document.createElement('tr');
+              row.innerHTML = `
+                <td><button class="view-chat-btn text-softBlue dark:text-lightBlue hover:underline" data-id="${doc.id}" data-name="${group.name}">${group.name}</button></td>
+                <td>${group.description}</td>
+                <td>${group.category}</td>
+                <td>${group.members.length}</td>
+                <td>
+                  <button class="${isMember ? 'leave-btn text-red-500' : 'join-btn text-softBlue dark:text-lightBlue'} hover:underline" data-id="${doc.id}">
+                    <i class="fas ${isMember ? 'fa-sign-out-alt' : 'fa-sign-in-alt'} mr-1"></i>
+                    ${isMember ? 'Leave' : 'Join'}
+                  </button>
+                </td>
+              `;
+              groupsTableBody.appendChild(row);
+            });
+
+            // Add event listeners for join/leave and chat buttons
+            document.querySelectorAll('.join-btn').forEach((btn) => {
+              btn.addEventListener('click', () => joinGroup(btn.dataset.id, userId));
+            });
+            document.querySelectorAll('.leave-btn').forEach((btn) => {
+              btn.addEventListener('click', () => leaveGroup(btn.dataset.id, userId));
+            });
+            document.querySelectorAll('.view-chat-btn').forEach((btn) => {
+              btn.addEventListener('click', () => viewGroupChat(btn.dataset.id, btn.dataset.name, userId));
+            });
+          }).catch((error) => {
+            console.error('Error loading groups:', error);
+            groupsTableBody.innerHTML = '<tr><td colspan="5" class="text-red-500 text-sm">Failed to load groups. Please try again.</td></tr>';
+          });
+      }
+
+      // Join group
+      function joinGroup(groupId, userId) {
+        db.collection('groups').doc(groupId)
+          .update({
+            members: firebase.firestore.FieldValue.arrayUnion(userId)
+          })
+          .then(() => {
+            loadGroups(userId);
+            if (currentGroupId === groupId) {
+              loadChat(groupId, userId);
+            }
+          }).catch((error) => {
+            console.error('Error joining group:', error);
+            alert('Failed to join group. Please try again.');
+          });
+      }
+
+      // Leave group
+      function leaveGroup(groupId, userId) {
+        if (confirm('Are you sure you want to leave this group?')) {
+          db.collection('groups').doc(groupId)
+            .update({
+              members: firebase.firestore.FieldValue.arrayRemove(userId)
+            })
+            .then(() => {
+              loadGroups(userId);
+              if (currentGroupId === groupId) {
+                chatSection.classList.add('hidden');
+                currentGroupId = null;
+                if (unsubscribeChat) {
+                  unsubscribeChat();
+                  unsubscribeChat = null;
+                }
+              }
+            }).catch((error) => {
+              console.error('Error leaving group:', error);
+              alert('Failed to leave group. Please try again.');
+            });
+        }
+      }
+
+      // View group chat
+      function viewGroupChat(groupId, groupName, userId) {
+        currentGroupId = groupId;
+        chatGroupName.textContent = groupName;
+        chatSection.classList.remove('hidden');
+        loadChat(groupId, userId);
+      }
+
+      // Load chat messages
+      function loadChat(groupId, userId) {
+        if (unsubscribeChat) {
+          unsubscribeChat();
+        }
+        chatMessages.innerHTML = '';
+        db.collection('groups').doc(groupId).get().then((doc) => {
+          if (doc.exists) {
+            const group = doc.data();
+            const isMember = group.members.includes(userId);
+            if (isMember) {
+              chatAuthMessage.classList.add('hidden');
+              chatInput.disabled = false;
+              sendMessageBtn.disabled = false;
+            } else {
+              chatAuthMessage.classList.remove('hidden');
+              chatInput.disabled = true;
+              sendMessageBtn.disabled = true;
+            }
+          }
+        });
+        unsubscribeChat = db.collection('groups').doc(groupId).collection('messages')
+          .orderBy('createdAt', 'asc')
+          .onSnapshot((snapshot) => {
+            chatMessages.innerHTML = '';
+            snapshot.forEach((doc) => {
+              const message = doc.data();
+              const messageElement = document.createElement('div');
+              messageElement.className = 'chat-message';
+              messageElement.innerHTML = `
+                <strong>${message.senderEmail || 'Anonymous'}:</strong> ${message.text}
+                <br><span class="text-xs text-gray-500 dark:text-gray-400">${new Date(message.createdAt.toDate()).toLocaleString()}</span>
+              `;
+              chatMessages.appendChild(messageElement);
+            });
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+          }, (error) => {
+            console.error('Error loading chat:', error);
+            chatMessages.innerHTML = '<div class="text-red-500 text-sm">Failed to load chat messages.</div>';
+          });
+      }
+
+      // Send message
+      sendMessageBtn.addEventListener('click', () => {
+        if (!currentUserId || !currentGroupId) {
+          alert('Please log in and select a group to chat.');
+          return;
+        }
+        const messageText = chatInput.value.trim();
+        if (!messageText) {
+          alert('Please enter a message.');
+          return;
+        }
+        db.collection('groups').doc(currentGroupId).collection('messages').add({
+          text: messageText,
+          senderId: currentUserId,
+          senderEmail: auth.currentUser.email || 'Anonymous',
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        }).then(() => {
+          chatInput.value = '';
+        }).catch((error) => {
+          console.error('Error sending message:', error);
+          alert('Failed to send message. Please try again.');
+        });
+      });
+
+      // Subscription form
+      document.getElementById('subscribeBtn').addEventListener('click', () => {
+        const emailInput = document.getElementById('newsletterEmail');
+        if (emailInput.value && /^\S+@\S+\.\S+$/.test(emailInput.value)) {
+          alert('Subscribed successfully!');
+          emailInput.value = '';
+        } else {
+          alert('Please enter a valid email address.');
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NAEMSS Grapher - Data Visualization</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjV8FJ0V7irTLQ8U0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw==" crossorigin="anonymous" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.0.0/math.min.js"></script>
+    <style>
+      body {
+        font-family: 'Poppins', sans-serif;
+      }
+
+      /* Navbar styling */
+      .navbar {
+        background-color: #FFD700;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .dark .navbar {
+        background-color: #B8860B;
+      }
+
+      /* Card styling */
+      .card {
+        background: #FFFFFF;
+        border-top: 4px solid #FFD700;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .dark .card {
+        background: #1E293B;
+        border-top: 4px solid #B8860B;
+      }
+
+      .card:hover {
+        transform: scale(1.02);
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      /* Table styling */
+      .data-table {
+        border: 1px solid #E5E7EB;
+        border-radius: 0.375rem;
+        background: #F9FAFB;
+      }
+
+      .dark .data-table {
+        border-color: #4B5563;
+        background: #2D3748;
+      }
+
+      .data-table input {
+        border: none;
+        background: transparent;
+        width: 100%;
+        padding: 0.5rem;
+        color: #1F2937;
+      }
+
+      .dark .data-table input {
+        color: #FFFFFF;
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 640px) {
+        .navbar {
+          padding: 0.5rem;
+        }
+        .desktop-title {
+          display: none;
+        }
+        .mobile-title {
+          display: inline;
+          font-size: 1rem;
+        }
+        .card {
+          padding: 0.75rem;
+        }
+        .data-table {
+          font-size: 0.75rem;
+        }
+        .data-table input {
+          font-size: 0.75rem;
+        }
+        h2 {
+          font-size: 1.5rem;
+        }
+        h3 {
+          font-size: 1rem;
+        }
+        p.text-sm {
+          font-size: 0.75rem;
+        }
+        #chartCanvas {
+          height: 16rem !important; /* 256px for mobile */
+        }
+      }
+      @media (min-width: 641px) {
+        .desktop-title {
+          display: inline;
+        }
+        .mobile-title {
+          display: none;
+        }
+        #chartCanvas {
+          height: 24rem !important; /* 384px for desktop */
+        }
+      }
+    </style>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              poppins: ['Poppins', 'sans-serif']
+            },
+            colors: {
+              gold: '#FFD700',
+              darkgold: '#B8860B',
+              softBlue: '#60A5FA',
+              lightBlue: '#93C5FD',
+              paleGreen: '#A7F3D0',
+              deepSlate: '#1E293B'
+            }
+          }
+        }
+      }
+    </script>
+  </head>
+  <body class="bg-gray-100 dark:bg-deepSlate text-gray-900 dark:text-white">
+    <!-- Navbar -->
+    <nav class="navbar p-4 shadow-md fixed w-full top-0 z-50">
+      <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <h1 class="text-xl font-bold text-deepSlate dark:text-white">
+          <span class="desktop-title">NAEMSS Grapher - Data Visualization</span>
+          <span class="mobile-title">NAEMSS Grapher</span>
+        </h1>
+        <div class="flex items-center gap-2 sm:gap-4">
+          <button id="toggleMenu" class="sm:hidden text-deepSlate dark:text-white focus:outline-none text-lg sm:text-xl">
+            ☰
+          </button>
+        </div>
+        <ul id="menu" class="hidden sm:flex gap-2 sm:gap-4 text-sm sm:text-base">
+          <li><a href="index.html" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition">Home</a></li>
+          <li><a href="mcs.html" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition">Metrology & Climate Science</a></li>
+          <li><a href="agy.html" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition">Applied Geology</a></li>
+          <li><a href="about.html" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition">About Us</a></li>
+          <li><a href="contact.html" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition">Contact</a></li>
+          <li><a href="discussion-forum.html" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition">Discussion Forum</a></li>
+          <li><a href="event-calendar.html" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition">Event Calendar</a></li>
+          <li><a href="student-blog.html" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition">Student Blog</a></li>
+          <li><a href="manage-blog.html" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition">Manage Blog</a></li>
+          <li><a href="feedback.html" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition">Feedback</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Mobile menu -->
+    <div id="mobileMenu" class="sm:hidden hidden bg-gold dark:bg-darkgold px-2 py-2 space-y-1 mt-14">
+      <a href="index.html" class="block text-deepSlate dark:text-white py-1 text-sm hover:bg-lightBlue dark:hover:bg-softBlue rounded transition">Home</a>
+      <a href="mcs.html" class="block text-deepSlate dark:text-white py-1 text-sm hover:bg-lightBlue dark:hover:bg-softBlue rounded transition">Metrology & Climate Science</a>
+      <a href="agy.html" class="block text-deepSlate dark:text-white py-1 text-sm hover:bg-lightBlue dark:hover:bg-softBlue rounded transition">Applied Geology</a>
+      <a href="about.html" class="block text-deepSlate dark:text-white py-1 text-sm hover:bg-lightBlue dark:hover:bg-softBlue rounded transition">About Us</a>
+      <a href="contact.html" class="block text-deepSlate dark:text-white py-1 text-sm hover:bg-lightBlue dark:hover:bg-softBlue rounded transition">Contact</a>
+      <a href="discussion-forum.html" class="block text-deepSlate dark:text-white py-1 text-sm hover:bg-lightBlue dark:hover:bg-softBlue rounded transition">Discussion Forum</a>
+      <a href="event-calendar.html" class="block text-deepSlate dark:text-white py-1 text-sm hover:bg-lightBlue dark:hover:bg-softBlue rounded transition">Event Calendar</a>
+      <a href="student-blog.html" class="block text-deepSlate dark:text-white py-1 text-sm hover:bg-lightBlue dark:hover:bg-softBlue rounded transition">Student Blog</a>
+      <a href="manage-blog.html" class="block text-deepSlate dark:text-white py-1 text-sm hover:bg-lightBlue dark:hover:bg-softBlue rounded transition">Manage Blog</a>
+      <a href="feedback.html" class="block text-deepSlate dark:text-white py-1 text-sm hover:bg-lightBlue dark:hover:bg-softBlue rounded transition">Feedback</a>
+    </div>
+
+    <!-- Main Content -->
+    <section class="max-w-7xl mx-auto py-6 sm:py-10 px-2 sm:px-4 mt-14 sm:mt-16">
+      <h2 class="text-2xl sm:text-3xl font-semibold mb-4 sm:mb-6 text-gold dark:text-darkgold">NAEMSS Grapher</h2>
+      <p class="text-gray-600 dark:text-gray-300 text-xs sm:text-sm mb-6 sm:mb-8">Create Line, Bar, Pie, Scatter, Area, or Histogram graphs by entering data or functions.</p>
+
+      <!-- Data Input Section -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6 mb-6 sm:mb-8 card">
+        <h3 class="text-base sm:text-lg font-bold text-gray-800 dark:text-white mb-3 sm:mb-4">Data Input</h3>
+        <div class="space-y-4">
+          <!-- Chart Type and Title -->
+          <div class="flex flex-col sm:flex-row gap-2 sm:gap-4">
+            <select id="chartType" class="p-2 rounded-md text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gold dark:focus:ring-darkgold text-sm sm:text-base">
+              <option value="line">Line</option>
+              <option value="bar">Bar</option>
+              <option value="pie">Pie</option>
+              <option value="scatter">Scatter</option>
+              <option value="area">Area</option>
+              <option value="histogram">Histogram</option>
+            </select>
+            <input type="text" id="chartTitle" placeholder="Graph Title" class="p-2 rounded-md text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gold dark:focus:ring-darkgold w-full sm:flex-1 text-sm sm:text-base" />
+          </div>
+          <!-- Function Input (for Line Graph) -->
+          <div id="functionInput" class="hidden">
+            <input type="text" id="functionExpression" placeholder="Enter function, e.g., x^2 or sin(x)" class="p-2 rounded-md text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gold dark:focus:ring-darkgold w-full text-sm sm:text-base" />
+            <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Use 'x' as the variable (e.g., x^2, 2*x + 1, sin(x)). Range: x from -10 to 10.</p>
+          </div>
+          <!-- Data Table -->
+          <div class="data-table">
+            <table id="dataTable" class="w-full">
+              <thead>
+                <tr class="border-b border-gray-200 dark:border-gray-600">
+                  <th class="p-2 text-left text-sm sm:text-base">X (Label/Value)</th>
+                  <th class="p-2 text-left text-sm sm:text-base">Y (Value)</th>
+                  <th class="p-2"></th>
+                </tr>
+              </thead>
+              <tbody id="dataTableBody">
+                <tr>
+                  <td><input type="text" placeholder="X value" class="text-sm sm:text-base" /></td>
+                  <td><input type="number" placeholder="Y value" class="text-sm sm:text-base" /></td>
+                  <td><button class="text-red-500 hover:text-red-700 text-sm sm:text-base"><i class="fas fa-trash"></i></button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- Controls -->
+          <div class="flex flex-col sm:flex-row gap-2 sm:gap-4">
+            <button id="addRowBtn" class="bg-deepSlate dark:bg-white dark:text-deepSlate text-white font-semibold py-2 px-4 rounded-md hover:bg-gray-700 dark:hover:bg-gray-200 transition text-sm sm:text-base"><i class="fas fa-plus mr-1"></i>Add Row</button>
+            <button id="uploadCsvBtn" class="bg-deepSlate dark:bg-white dark:text-deepSlate text-white font-semibold py-2 px-4 rounded-md hover:bg-gray-700 dark:hover:bg-gray-200 transition text-sm sm:text-base"><i class="fas fa-upload mr-1"></i>Upload CSV</button>
+            <input type="file" id="csvFileInput" accept=".csv" class="hidden" />
+            <button id="renderChartBtn" class="bg-deepSlate dark:bg-white dark:text-deepSlate text-white font-semibold py-2 px-4 rounded-md hover:bg-gray-700 dark:hover:bg-gray-200 transition text-sm sm:text-base"><i class="fas fa-chart-line mr-1"></i>Render Graph</button>
+            <button id="downloadChartBtn" class="bg-deepSlate dark:bg-white dark:text-deepSlate text-white font-semibold py-2 px-4 rounded-md hover:bg-gray-700 dark:hover:bg-gray-200 transition text-sm sm:text-base"><i class="fas fa-download mr-1"></i>Download PNG</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chart Display -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6 card">
+        <h3 class="text-base sm:text-lg font-bold text-gray-800 dark:text-white mb-3 sm:mb-4">Graph Preview</h3>
+        <canvas id="chartCanvas" class="w-full"></canvas>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gold dark:bg-darkgold text-deepSlate dark:text-white pt-6 sm:pt-10 px-2 sm:px-4">
+      <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
+        <div>
+          <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Subscribe to Our Newsletter</h3>
+          <form action="https://formsubmit.co/naemsselibrary@gmail.com" method="POST" class="flex flex-col space-y-2 sm:space-y-3">
+            <input type="hidden" name="_subject" value="New Newsletter Subscription - NAEMSS eLibrary" />
+            <input type="hidden" name="_template" value="table" />
+            <input type="hidden" name="_autoresponse" value="Thank you for subscribing to the NAEMSS eLibrary Newsletter! You'll receive updates soon." />
+            <input type="hidden" name="_cc" value="naemsselibrary@gmail.com" />
+            <input
+              type="email"
+              name="email"
+              placeholder="Your email"
+              class="p-2 rounded-md text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-darkgold dark:focus:ring-gold w-full text-sm sm:text-base"
+              required
+            />
+            <button
+              type="submit"
+              class="bg-deepSlate dark:bg-white dark:text-deepSlate text-white font-semibold py-2 px-4 rounded-md hover:bg-gray-700 dark:hover:bg-gray-200 transition text-sm sm:text-base"
+            >
+              Subscribe
+            </button>
+          </form>
+        </div>
+        <div>
+          <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Quick Links</h3>
+          <ul class="space-y-1 sm:space-y-2 text-xs sm:text-sm">
+            <li><a href="/index.html" class="hover:text-softBlue dark:hover:text-lightBlue transition">Home</a></li>
+            <li><a href="/about.html" class="hover:text-softBlue dark:hover:text-lightBlue transition">About Us</a></li>
+            <li><a href="/terms.html" class="hover:text-softBlue dark:hover:text-lightBlue transition">Terms & Conditions</a></li>
+            <li><a href="/privacy.html" class="hover:text-softBlue dark:hover:text-lightBlue transition">Privacy Policy</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Contact Us</h3>
+          <ul class="space-y-1 sm:space-y-2 text-xs sm:text-sm">
+            <li>Email: <a href="mailto:info@naemsslibrary.com" class="hover:text-softBlue dark:hover:text-lightBlue transition">info@naemsslibrary.com</a></li>
+            <li>Phone: <a href="tel:+2341234567890" class="hover:text-softBlue dark:hover:text-lightBlue transition">+234 123 456 7890</a></li>
+            <li>Address: NAEMSS Secretariat, University Campus</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Follow Us</h3>
+          <div class="flex gap-2 sm:gap-4 text-sm sm:text-base">
+            <a href="#" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="text-center py-4 sm:py-6 mt-4 sm:mt-8 border-t border-deepSlate/20 dark:border-white/20 text-xs sm:text-sm">
+        <p>&copy; 2025 SEMS eLibrary. Proudly built by Gabriel for NAEMMSITES.</p>
+      </div>
+    </footer>
+
+    <script>
+      // DOM elements
+      const chartTypeSelect = document.getElementById('chartType');
+      const chartTitleInput = document.getElementById('chartTitle');
+      const functionInput = document.getElementById('functionInput');
+      const functionExpression = document.getElementById('functionExpression');
+      const dataTableBody = document.getElementById('dataTableBody');
+      const addRowBtn = document.getElementById('addRowBtn');
+      const uploadCsvBtn = document.getElementById('uploadCsvBtn');
+      const csvFileInput = document.getElementById('csvFileInput');
+      const renderChartBtn = document.getElementById('renderChartBtn');
+      const downloadChartBtn = document.getElementById('downloadChartBtn');
+      const chartCanvas = document.getElementById('chartCanvas');
+      const toggleMenu = document.getElementById('toggleMenu');
+      const mobileMenu = document.getElementById('mobileMenu');
+
+      // Chart.js instance
+      let chartInstance = null;
+
+      // Mobile menu toggle
+      toggleMenu.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+        toggleMenu.textContent = mobileMenu.classList.contains('hidden') ? '☰' : '✕';
+      });
+
+      // Show/hide function input based on chart type
+      chartTypeSelect.addEventListener('change', () => {
+        functionInput.classList.toggle('hidden', chartTypeSelect.value !== 'line');
+      });
+
+      // Add table row
+      addRowBtn.addEventListener('click', () => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td><input type="text" placeholder="X value" class="text-sm sm:text-base" /></td>
+          <td><input type="number" placeholder="Y value" class="text-sm sm:text-base" /></td>
+          <td><button class="text-red-500 hover:text-red-700 text-sm sm:text-base"><i class="fas fa-trash"></i></button></td>
+        `;
+        dataTableBody.appendChild(row);
+        attachDeleteListeners();
+      });
+
+      // Attach delete button listeners
+      function attachDeleteListeners() {
+        document.querySelectorAll('.data-table button').forEach(btn => {
+          btn.removeEventListener('click', deleteRow); // Prevent duplicate listeners
+          btn.addEventListener('click', deleteRow);
+        });
+      }
+
+      // Delete table row
+      function deleteRow(e) {
+        if (dataTableBody.children.length > 1) {
+          e.target.closest('tr').remove();
+        } else {
+          alert('At least one row is required.');
+        }
+      }
+
+      // CSV upload
+      uploadCsvBtn.addEventListener('click', () => {
+        csvFileInput.click();
+      });
+
+      csvFileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const text = event.target.result;
+          const rows = text.split('\n').map(row => row.split(','));
+          if (rows.length < 1) {
+            alert('Invalid CSV format. Expected format: X,Y');
+            return;
+          }
+          dataTableBody.innerHTML = '';
+          rows.forEach((row, index) => {
+            if (row.length >= 2 && row[0].trim() && !isNaN(row[1].trim())) {
+              const tr = document.createElement('tr');
+              tr.innerHTML = `
+                <td><input type="text" value="${row[0].trim()}" class="text-sm sm:text-base" /></td>
+                <td><input type="number" value="${row[1].trim()}" class="text-sm sm:text-base" /></td>
+                <td><button class="text-red-500 hover:text-red-700 text-sm sm:text-base"><i class="fas fa-trash"></i></button></td>
+              `;
+              dataTableBody.appendChild(tr);
+            }
+          });
+          attachDeleteListeners();
+        };
+        reader.readAsText(file);
+      });
+
+      // Render chart
+      renderChartBtn.addEventListener('click', () => {
+        const chartType = chartTypeSelect.value;
+        const chartTitle = chartTitleInput.value.trim() || 'NAEMSS Graph';
+        const dataRows = Array.from(dataTableBody.children);
+        let labels = [];
+        let data = [];
+
+        if (chartType === 'line' && functionExpression.value.trim()) {
+          // Function-based line graph
+          try {
+            const parser = math.parser();
+            const expr = functionExpression.value.trim();
+            labels = Array.from({ length: 201 }, (_, i) => -10 + i * 0.1);
+            data = labels.map(x => {
+              parser.set('x', x);
+              const result = parser.evaluate(expr);
+              // Limit Y values to prevent extreme zoom
+              return (isFinite(result) && !isNaN(result) && Math.abs(result) <= 1000) ? result : null;
+            });
+            // Filter out null values and corresponding labels
+            const validPairs = labels.map((label, i) => ({ label, value: data[i] }))
+              .filter(pair => pair.value !== null);
+            labels = validPairs.map(pair => pair.label);
+            data = validPairs.map(pair => pair.value);
+            if (data.length === 0) {
+              throw new Error('No valid data points generated');
+            }
+            console.log('Function data:', { labels, data }); // Debug
+          } catch (error) {
+            alert('Invalid function. Please use valid math (e.g., x^2, sin(x)). Ensure the function produces finite values for x = -10 to 10.');
+            return;
+          }
+        } else {
+          // Table-based data
+          const validRows = dataRows.filter(row => {
+            const x = row.children[0].children[0].value.trim();
+            const y = parseFloat(row.children[1].children[0].value);
+            return x && !isNaN(y) && isFinite(y);
+          });
+          if (validRows.length === 0) {
+            alert('Please enter at least one valid X-Y pair with a numerical Y value.');
+            return;
+          }
+          // Sort by X if numeric for Line graphs
+          const pairs = validRows.map(row => ({
+            x: row.children[0].children[0].value.trim(),
+            y: parseFloat(row.children[1].children[0].value)
+          }));
+          if (chartType === 'line' && pairs.every(p => !isNaN(parseFloat(p.x)))) {
+            pairs.sort((a, b) => parseFloat(a.x) - parseFloat(b.x));
+          }
+          labels = pairs.map(p => p.x || `Point ${validRows.indexOf(p) + 1}`);
+          data = pairs.map(p => p.y);
+          console.log('Table data:', { labels, data }); // Debug
+        }
+
+        // Destroy previous chart
+        if (chartInstance) {
+          chartInstance.destroy();
+        }
+
+        // Set canvas dimensions for high-quality PNG
+        chartCanvas.width = 800;
+        chartCanvas.height = 600;
+
+        // Chart.js configuration
+        const config = {
+          type: chartType === 'area' ? 'line' : chartType === 'histogram' ? 'bar' : chartType,
+          data: {
+            labels,
+            datasets: [{
+              label: chartTitle,
+              data: chartType === 'pie' ? data : data.map((y, i) => ({ x: labels[i], y })),
+              backgroundColor: chartType === 'pie' ? [
+                '#FFD700', '#B8860B', '#60A5FA', '#93C5FD', '#A7F3D0', '#1E293B'
+              ] : chartType === 'histogram' ? '#B8860B' : '#FFD700',
+              borderColor: '#B8860B',
+              borderWidth: 2,
+              fill: chartType === 'area',
+              tension: (chartType === 'line' || chartType === 'area') ? 0 : 0, // Straight lines
+              spanGaps: false // Prevent connecting invalid points
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            devicePixelRatio: 2, // High-quality PNG
+            plugins: {
+              title: {
+                display: true,
+                text: chartTitle,
+                font: { size: 16, family: 'Poppins' },
+                color: document.documentElement.classList.contains('dark') ? '#FFFFFF' : '#1F2937'
+              },
+              legend: { display: chartType !== 'histogram' }
+            },
+            scales: chartType === 'pie' ? {} : {
+              x: {
+                display: chartType !== 'histogram',
+                title: { display: true, text: 'X', font: { family: 'Poppins' } },
+                type: chartType === 'line' && labels.every(l => !isNaN(parseFloat(l))) ? 'linear' : 'category',
+                min: chartType === 'line' && labels.every(l => !isNaN(parseFloat(l))) ? Math.min(...labels.map(l => parseFloat(l))) : undefined,
+                max: chartType === 'line' && labels.every(l => !isNaN(parseFloat(l))) ? Math.max(...labels.map(l => parseFloat(l))) : undefined
+              },
+              y: {
+                display: chartType !== 'histogram',
+                title: { display: true, text: 'Y', font: { family: 'Poppins' } },
+                min: Math.min(...data.filter(v => isFinite(v))) < 0 ? Math.min(...data.filter(v => isFinite(v))) * 1.1 : -1,
+                max: Math.max(...data.filter(v => isFinite(v))) > 0 ? Math.max(...data.filter(v => isFinite(v))) * 1.1 : 1
+              }
+            },
+            ...(chartType === 'histogram' ? {
+              scales: {
+                x: { title: { display: true, text: 'Bins', font: { family: 'Poppins' } } },
+                y: { title: { display: true, text: 'Count', font: { family: 'Poppins' } } }
+              },
+              plugins: { legend: { display: false } }
+            } : {})
+          }
+        };
+
+        // Histogram-specific data processing
+        if (chartType === 'histogram') {
+          const bins = 10;
+          const values = data.filter(v => isFinite(v));
+          if (values.length === 0) {
+            alert('No valid numerical Y values for histogram.');
+            return;
+          }
+          const min = Math.min(...values);
+          const max = Math.max(...values);
+          const binWidth = (max - min) / bins || 1; // Avoid division by zero
+          const binCounts = Array(bins).fill(0);
+          values.forEach(val => {
+            const binIndex = Math.min(Math.floor((val - min) / binWidth), bins - 1);
+            binCounts[binIndex]++;
+          });
+          config.data.labels = Array.from({ length: bins }, (_, i) => 
+            `${(min + i * binWidth).toFixed(2)} - ${(min + (i + 1) * binWidth).toFixed(2)}`
+          );
+          config.data.datasets[0].data = binCounts;
+        }
+
+        console.log('Chart config:', config); // Debug
+        chartInstance = new Chart(chartCanvas, config);
+      });
+
+      // Download chart
+      downloadChartBtn.addEventListener('click', () => {
+        if (!chartInstance) {
+          alert('Please render a graph first.');
+          return;
+        }
+        // Temporarily resize canvas for high-quality PNG
+        const originalWidth = chartCanvas.width;
+        const originalHeight = chartCanvas.height;
+        chartCanvas.width = 1200;
+        chartCanvas.height = 900;
+        chartInstance.resize();
+        const link = document.createElement('a');
+        link.href = chartCanvas.toDataURL('image/png', 1.0);
+        link.download = 'naemss-graph.png';
+        link.click();
+        // Restore original size
+        chartCanvas.width = originalWidth;
+        chartCanvas.height = originalHeight;
+        chartInstance.resize();
+      });
+
+      // Initial delete button listeners
+      attachDeleteListeners();
+    </script>
+  </body>
+</html>

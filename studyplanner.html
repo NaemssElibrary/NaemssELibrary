@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Study Planner - NAEMSS eLibrary</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjV8FJ0V7irTLQ8U0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw==" crossorigin="anonymous" />
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+    <style>
+      body {
+        font-family: 'Poppins', sans-serif;
+      }
+
+      /* Slideshow styling */
+      .slideshow-container {
+        position: relative;
+        width: 100%;
+        height: 20rem;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .slideshow {
+        display: flex;
+        transition: transform 0.7s ease-in-out;
+      }
+
+      .slide {
+        width: 100%;
+        flex-shrink: 0;
+      }
+
+      .slide img {
+        width: 100%;
+        height: 20rem;
+        object-fit: cover;
+        filter: brightness(0.8);
+      }
+
+      /* Navbar styling */
+      .navbar {
+        background-color: #FFD700;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .dark .navbar {
+        background-color: #B8860B;
+      }
+
+      /* Card styling */
+      .card {
+        background: #FFFFFF;
+        border-top: 4px solid #FFD700;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .dark .card {
+        background: #1E293B;
+        border-top: 4px solid #B8860B;
+      }
+
+      .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Table styling */
+      .timetable-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #FFFFFF;
+        border-top: 4px solid #FFD700;
+      }
+
+      .dark .timetable-table {
+        background: #1E293B;
+        border-top: 4px solid #B8860B;
+      }
+
+      .timetable-table th,
+      .timetable-table td {
+        border: 1px solid #E5E7EB;
+        padding: 8px;
+        text-align: center;
+        font-size: 0.875rem;
+      }
+
+      .dark .timetable-table th,
+      .dark .timetable-table td {
+        border-color: #4B5563;
+      }
+
+      .timetable-table th {
+        background: #F3F4F6;
+        font-weight: 600;
+        color: #1E293B;
+      }
+
+      .dark .timetable-table th {
+        background: #2D3748;
+        color: #FFFFFF;
+      }
+
+      .timetable-table td {
+        background: #FFFFFF;
+        color: #1E293B;
+      }
+
+      .dark .timetable-table td {
+        background: #1E293B;
+        color: #FFFFFF;
+      }
+
+      .timetable-table td:hover {
+        background: #F3F4F6;
+      }
+
+      .dark .timetable-table td:hover {
+        background: #2D3748;
+      }
+
+      /* Responsive navbar title */
+      @media (max-width: 640px) {
+        .desktop-title {
+          display: none;
+        }
+        .mobile-title {
+          display: inline;
+        }
+      }
+      @media (min-width: 641px) {
+        .desktop-title {
+          display: inline;
+        }
+        .mobile-title {
+          display: none;
+        }
+      }
+
+      /* Responsive layout */
+      @media (max-width: 640px) {
+        .slideshow-container {
+          height: 12rem;
+        }
+        .slide img {
+          height: 12rem;
+        }
+        .card {
+          padding: 1rem;
+        }
+        .timetable-table {
+          font-size: 0.75rem;
+        }
+        .timetable-table th,
+        .timetable-table td {
+          padding: 4px;
+        }
+      }
+      @media (min-width: 640px) and (max-width: 1024px) {
+        .slideshow-container {
+          height: 16rem;
+        }
+        .slide img {
+          height: 16rem;
+        }
+      }
+    </style>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              poppins: ['Poppins', 'sans-serif']
+            },
+            colors: {
+              gold: '#FFD700',
+              darkgold: '#B8860B',
+              softBlue: '#60A5FA',
+              lightBlue: '#93C5FD',
+              paleGreen: '#A7F3D0',
+              deepSlate: '#1E293B'
+            }
+          }
+        }
+      }
+    </script>
+  </head>
+  <body class="bg-gray-100 dark:bg-deepSlate text-gray-900 dark:text-white">
+    <!-- Navbar -->
+    <nav class="navbar p-4 shadow-md fixed w-full top-0 z-50">
+      <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <h1 class="text-xl font-bold text-deepSlate dark:text-white">
+          <span class="desktop-title">Study Planner - NAEMSS eLibrary</span>
+          <span class="mobile-title">Study Planner - NAEMSS</span>
+        </h1>
+        <div class="flex items-center gap-4">
+          <button id="toggleMenu" class="sm:hidden text-deepSlate dark:text-white focus:outline-none text-2xl">
+            ☰
+          </button>
+        </div>
+        <ul id="menu" class="hidden sm:flex gap-4">
+          <li><a href="index.html" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition">Home</a></li>
+          <li><a href="mcs.html" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition">Metrology & Climate Science</a></li>
+          <li><a href="agy.html" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition">Applied Geology</a></li>
+          <li><a href="about.html" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition">About Us</a></li>
+          <li><a href="contact.html" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition">Contact</a></li>
+          <li id="signupLink"><a href="signup.html" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition">Sign Up</a></li>
+          <li id="loginLink"><a href="login.html" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition">Log In</a></li>
+          <li id="dashboardLink" class="hidden"><a href="dashboard.html" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition">Dashboard</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Mobile menu -->
+    <div id="mobileMenu" class="sm:hidden hidden bg-gold dark:bg-darkgold px-4 py-2 space-y-2 mt-16">
+      <a href="index.html" class="block text-deepSlate dark:text-white py-2 hover:bg-lightBlue dark:hover:bg-softBlue rounded transition">Home</a>
+      <a href="mcs.html" class="block text-deepSlate dark:text-white py-2 hover:bg-lightBlue dark:hover:bg-softBlue rounded transition">Metrology & Climate Science</a>
+      <a href="agy.html" class="block text-deepSlate dark:text-white py-2 hover:bg-lightBlue dark:hover:bg-softBlue rounded transition">Applied Geology</a>
+      <a href="about.html" class="block text-deepSlate dark:text-white py-2 hover:bg-lightBlue dark:hover:bg-softBlue rounded transition">About Us</a>
+      <a href="contact.html" class="block text-deepSlate dark:text-white py-2 hover:bg-lightBlue dark:hover:bg-softBlue rounded transition">Contact</a>
+      <a id="signupMobileLink" href="signup.html" class="block text-deepSlate dark:text-white py-2 hover:bg-lightBlue dark:hover:bg-softBlue rounded transition">Sign Up</a>
+      <a id="loginMobileLink" href="login.html" class="block text-deepSlate dark:text-white py-2 hover:bg-lightBlue dark:hover:bg-softBlue rounded transition">Log In</a>
+      <a id="dashboardMobileLink" href="dashboard.html" class="block text-deepSlate dark:text-white py-2 hover:bg-lightBlue dark:hover:bg-softBlue rounded transition hidden">Dashboard</a>
+    </div>
+
+    <!-- Hero Section with Slideshow -->
+    <div class="slideshow-container mt-16">
+      <div id="slideshow" class="slideshow">
+        <div class="slide">
+          <img src="images (1).jpg" alt="Study Planning" />
+        </div>
+        <div class="slide">
+          <img src="images (2).jpg" alt="Timetable Management" />
+        </div>
+        <div class="slide">
+          <img src="download (5).jpg" alt="Academic Tools" />
+        </div>
+      </div>
+      <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center">
+        <h2 class="text-3xl sm:text-4xl font-bold text-white drop-shadow-lg">Study Planner</h2>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <section class="max-w-7xl mx-auto py-10 px-4">
+      <h2 class="text-3xl font-semibold mb-6 text-gold dark:text-darkgold">Plan Your Studies</h2>
+      <p class="text-gray-600 dark:text-gray-300 text-sm mb-8">Create and manage your study schedule and timetable with ease, tailored for NAEMSS students.</p>
+
+      <!-- Schedule Form -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-8 card">
+        <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4">Add New Schedule</h3>
+        <div id="authMessage" class="text-red-500 text-sm mb-4 hidden">Please log in to manage your schedule.</div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <input type="text" id="courseInput" placeholder="Course (e.g., Geology 101)" class="p-2 rounded-md text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gold dark:focus:ring-darkgold" />
+          <select id="dayInput" class="p-2 rounded-md text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gold dark:focus:ring-darkgold">
+            <option value="">Select Day</option>
+            <option value="Monday">Monday</option>
+            <option value="Tuesday">Tuesday</option>
+            <option value="Wednesday">Wednesday</option>
+            <option value="Thursday">Thursday</option>
+            <option value="Friday">Friday</option>
+            <option value="Saturday">Saturday</option>
+            <option value="Sunday">Sunday</option>
+          </select>
+          <input type="time" id="timeInput" class="p-2 rounded-md text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gold dark:focus:ring-darkgold" />
+          <input type="text" id="locationInput" placeholder="Location (e.g., Lecture Hall A)" class="p-2 rounded-md text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gold dark:focus:ring-darkgold" />
+        </div>
+        <button id="addScheduleBtn" class="mt-4 bg-deepSlate dark:bg-white dark:text-deepSlate text-white font-semibold py-2 px-4 rounded-md hover:bg-gray-700 dark:hover:bg-gray-200 transition w-full sm:w-auto">Add Schedule</button>
+      </div>
+
+      <!-- Timetable Display -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 card">
+        <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4">Your Timetable</h3>
+        <div id="timetable" class="overflow-x-auto">
+          <table class="timetable-table">
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Monday</th>
+                <th>Tuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
+                <th>Saturday</th>
+                <th>Sunday</th>
+              </tr>
+            </thead>
+            <tbody id="timetableBody">
+              <!-- Time slots will be dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gold dark:bg-darkgold text-deepSlate dark:text-white pt-10 px-4">
+      <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Subscribe to Our Newsletter</h3>
+          <div class="flex flex-col space-y-3">
+            <input
+              type="email"
+              id="newsletterEmail"
+              placeholder="Your email"
+              class="p-2 rounded-md text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-darkgold dark:focus:ring-gold w-full"
+              required
+            />
+            <button
+              id="subscribeBtn"
+              class="bg-deepSlate dark:bg-white dark:text-deepSlate text-white font-semibold py-2 px-4 rounded-md hover:bg-gray-700 dark:hover:bg-gray-200 transition"
+            >
+              Subscribe
+            </button>
+          </div>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+          <ul class="space-y-2">
+            <li><a href="/index.html" class="hover:text-softBlue dark:hover:text-lightBlue transition">Home</a></li>
+            <li><a href="/about.html" class="hover:text-softBlue dark:hover:text-lightBlue transition">About Us</a></li>
+            <li><a href="/terms.html" class="hover:text-softBlue dark:hover:text-lightBlue transition">Terms & Conditions</a></li>
+            <li><a href="/privacy.html" class="hover:text-softBlue dark:hover:text-lightBlue transition">Privacy Policy</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
+          <ul class="space-y-2">
+            <li>Email: <a href="mailto:info@naemsslibrary.com" class="hover:text-softBlue dark:hover:text-lightBlue transition">info@naemsslibrary.com</a></li>
+            <li>Phone: <a href="tel:+2341234567890" class="hover:text-softBlue dark:hover:text-lightBlue transition">+234 123 456 7890</a></li>
+            <li>Address: NAEMSS Secretariat, University Campus</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Follow Us</h3>
+          <div class="flex gap-4">
+            <a href="#" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="text-deepSlate dark:text-white hover:text-softBlue dark:hover:text-lightBlue transition"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="text-center py-6 mt-8 border-t border-deepSlate/20 dark:border-white/20">
+        <p>&copy; 2025 SEMS eLibrary. Proudly built by Gabriel for NAEMMSITES.</p>
+      </div>
+    </footer>
+
+    <script>
+      // Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyBAxpD6750L0WkCUIMTs5k7qqygCVzl4xQ",
+        authDomain: "naemss-elibary.firebaseapp.com",
+        projectId: "naemss-elibary",
+        storageBucket: "naemss-elibary.firebasestorage.app",
+        messagingSenderId: "978697395651",
+        appId: "1:978697395651:web:954a5c3b29f4fc7c37b176",
+        measurementId: "G-72WG3MPKPL"
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+      const db = firebase.firestore();
+
+      // DOM elements
+      const authMessage = document.getElementById('authMessage');
+      const courseInput = document.getElementById('courseInput');
+      const dayInput = document.getElementById('dayInput');
+      const timeInput = document.getElementById('timeInput');
+      const locationInput = document.getElementById('locationInput');
+      const addScheduleBtn = document.getElementById('addScheduleBtn');
+      const timetableBody = document.getElementById('timetableBody');
+      const toggleMenu = document.getElementById('toggleMenu');
+      const mobileMenu = document.getElementById('mobileMenu');
+
+      // Mobile menu toggle
+      toggleMenu.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+        toggleMenu.textContent = mobileMenu.classList.contains('hidden') ? '☰' : '✕';
+      });
+
+      // Slideshow functionality
+      let currentSlide = 0;
+      const slides = document.querySelectorAll('#slideshow .slide');
+      const totalSlides = slides.length;
+
+      function showSlide(index) {
+        if (index >= totalSlides) currentSlide = 0;
+        else if (index < 0) currentSlide = totalSlides - 1;
+        else currentSlide = index;
+        document.getElementById('slideshow').style.transform = `translateX(-${currentSlide * 100}%)`;
+      }
+
+      function nextSlide() {
+        showSlide(currentSlide + 1);
+      }
+
+      let slideInterval = setInterval(nextSlide, 5000);
+
+      const slideshowContainer = document.querySelector('.slideshow-container');
+      slideshowContainer.addEventListener('mouseenter', () => {
+        clearInterval(slideInterval);
+      });
+
+      slideshowContainer.addEventListener('mouseleave', () => {
+        slideInterval = setInterval(nextSlide, 5000);
+      });
+
+      // User authentication state
+      auth.onAuthStateChanged((user) => {
+        if (user) {
+          document.getElementById('signupLink').classList.add('hidden');
+          document.getElementById('loginLink').classList.add('hidden');
+          document.getElementById('dashboardLink').classList.remove('hidden');
+          document.getElementById('signupMobileLink').classList.add('hidden');
+          document.getElementById('loginMobileLink').classList.add('hidden');
+          document.getElementById('dashboardMobileLink').classList.remove('hidden');
+          authMessage.classList.add('hidden');
+          addScheduleBtn.disabled = false;
+          loadTimetable(user.uid);
+        } else {
+          document.getElementById('signupLink').classList.remove('hidden');
+          document.getElementById('loginLink').classList.remove('hidden');
+          document.getElementById('dashboardLink').classList.add('hidden');
+          document.getElementById('signupMobileLink').classList.remove('hidden');
+          document.getElementById('loginMobileLink').classList.remove('hidden');
+          document.getElementById('dashboardMobileLink').classList.add('hidden');
+          authMessage.classList.remove('hidden');
+          addScheduleBtn.disabled = true;
+          timetableBody.innerHTML = '<tr><td colspan="8" class="text-gray-600 dark:text-gray-300 text-sm">Please log in to view your timetable.</td></tr>';
+        }
+      });
+
+      // Time slots for the timetable (8 AM to 8 PM)
+      const timeSlots = [
+        '08:00', '09:00', '10:00', '11:00', '12:00', '13:00',
+        '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00'
+      ];
+
+      // Days of the week
+      const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+      // Add schedule
+      addScheduleBtn.addEventListener('click', () => {
+        const user = auth.currentUser;
+        if (!user) {
+          authMessage.classList.remove('hidden');
+          return;
+        }
+        const course = courseInput.value.trim();
+        const day = dayInput.value;
+        const time = timeInput.value;
+        const location = locationInput.value.trim();
+
+        if (!course || !day || !time || !location) {
+          alert('Please fill in all fields.');
+          return;
+        }
+
+        db.collection('schedules').doc(user.uid).collection('userSchedules').add({
+          course,
+          day,
+          time,
+          location,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        }).then(() => {
+          courseInput.value = '';
+          dayInput.value = '';
+          timeInput.value = '';
+          locationInput.value = '';
+          loadTimetable(user.uid);
+        }).catch((error) => {
+          console.error('Error adding schedule:', error);
+          alert('Failed to add schedule. Please try again.');
+        });
+      });
+
+      // Load timetable
+      function loadTimetable(userId) {
+        timetableBody.innerHTML = '';
+        // Initialize empty timetable
+        const timetableData = {};
+        timeSlots.forEach(time => {
+          timetableData[time] = {};
+          days.forEach(day => {
+            timetableData[time][day] = null;
+          });
+        });
+
+        // Fetch schedules from Firestore
+        db.collection('schedules').doc(userId).collection('userSchedules')
+          .get()
+          .then((querySnapshot) => {
+            if (querySnapshot.empty) {
+              renderTimetable(timetableData);
+              return;
+            }
+            querySnapshot.forEach((doc) => {
+              const schedule = doc.data();
+              schedule.id = doc.id;
+              // Round time to nearest hour for simplicity
+              const time = schedule.time.split(':')[0] + ':00';
+              if (timeSlots.includes(time)) {
+                timetableData[time][schedule.day] = schedule;
+              }
+            });
+            renderTimetable(timetableData);
+          }).catch((error) => {
+            console.error('Error loading schedules:', error);
+            timetableBody.innerHTML = '<tr><td colspan="8" class="text-red-500 text-sm">Failed to load timetable. Please try again.</td></tr>';
+          });
+      }
+
+      // Render timetable
+      function renderTimetable(timetableData) {
+        timetableBody.innerHTML = '';
+        timeSlots.forEach(time => {
+          const row = document.createElement('tr');
+          row.innerHTML = `<td>${time}</td>`;
+          days.forEach(day => {
+            const schedule = timetableData[time][day];
+            if (schedule) {
+              row.innerHTML += `
+                <td>
+                  <div class="text-sm">
+                    <strong>${schedule.course}</strong><br>
+                    ${schedule.location}<br>
+                    <div class="flex justify-center gap-2 mt-2">
+                      <button class="edit-btn text-softBlue dark:text-lightBlue hover:underline" data-id="${schedule.id}"><i class="fas fa-edit mr-1"></i>Edit</button>
+                      <button class="delete-btn text-red-500 hover:underline" data-id="${schedule.id}"><i class="fas fa-trash mr-1"></i>Delete</button>
+                    </div>
+                  </div>
+                </td>
+              `;
+            } else {
+              row.innerHTML += '<td>-</td>';
+            }
+          });
+          timetableBody.appendChild(row);
+        });
+
+        // Add event listeners for edit and delete buttons
+        document.querySelectorAll('.edit-btn').forEach((btn) => {
+          btn.addEventListener('click', () => editSchedule(btn.dataset.id));
+        });
+        document.querySelectorAll('.delete-btn').forEach((btn) => {
+          btn.addEventListener('click', () => deleteSchedule(btn.dataset.id));
+        });
+      }
+
+      // Edit schedule
+      function editSchedule(scheduleId) {
+        const user = auth.currentUser;
+        if (!user) return;
+
+        db.collection('schedules').doc(user.uid).collection('userSchedules').doc(scheduleId).get()
+          .then((doc) => {
+            if (doc.exists) {
+              const schedule = doc.data();
+              courseInput.value = schedule.course;
+              dayInput.value = schedule.day;
+              timeInput.value = schedule.time;
+              locationInput.value = schedule.location;
+
+              addScheduleBtn.textContent = 'Update Schedule';
+              addScheduleBtn.dataset.id = scheduleId;
+
+              addScheduleBtn.onclick = () => {
+                const updatedSchedule = {
+                  course: courseInput.value.trim(),
+                  day: dayInput.value,
+                  time: timeInput.value,
+                  location: locationInput.value.trim(),
+                  updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                };
+
+                if (!updatedSchedule.course || !updatedSchedule.day || !updatedSchedule.time || !updatedSchedule.location) {
+                  alert('Please fill in all fields.');
+                  return;
+                }
+
+                db.collection('schedules').doc(user.uid).collection('userSchedules').doc(scheduleId)
+                  .update(updatedSchedule)
+                  .then(() => {
+                    courseInput.value = '';
+                    dayInput.value = '';
+                    timeInput.value = '';
+                    locationInput.value = '';
+                    addScheduleBtn.textContent = 'Add Schedule';
+                    addScheduleBtn.removeAttribute('data-id');
+                    addScheduleBtn.onclick = () => addScheduleBtn.click();
+                    loadTimetable(user.uid);
+                  }).catch((error) => {
+                    console.error('Error updating schedule:', error);
+                    alert('Failed to update schedule. Please try again.');
+                  });
+              };
+            }
+          }).catch((error) => {
+            console.error('Error fetching schedule:', error);
+            alert('Failed to load schedule for editing.');
+          });
+      }
+
+      // Delete schedule
+      function deleteSchedule(scheduleId) {
+        const user = auth.currentUser;
+        if (!user) return;
+
+        if (confirm('Are you sure you want to delete this schedule?')) {
+          db.collection('schedules').doc(user.uid).collection('userSchedules').doc(scheduleId)
+            .delete()
+            .then(() => {
+              loadTimetable(user.uid);
+            }).catch((error) => {
+              console.error('Error deleting schedule:', error);
+              alert('Failed to delete schedule. Please try again.');
+            });
+        }
+      }
+
+      // Subscription form
+      document.getElementById('subscribeBtn').addEventListener('click', () => {
+        const emailInput = document.getElementById('newsletterEmail');
+        if (emailInput.value && /^\S+@\S+\.\S+$/.test(emailInput.value)) {
+          alert('Subscribed successfully!');
+          emailInput.value = '';
+        } else {
+          alert('Please enter a valid email address.');
+        }
+      });
+    </script>
+  </body>
+</html>
