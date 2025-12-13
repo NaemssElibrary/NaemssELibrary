@@ -1,1105 +1,1505 @@
 <!DOCTYPE html>
 <html lang="en" class="dark">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Applied Geology - NAEMSS eLibrary</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjV8FJ0V7irTLQ8Uo0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-      body {
-        font-family: 'Poppins', sans-serif;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Applied Geology - NAEMSS</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="shortcut icon" href="ChatGPT Image Jul 8, 2025, 07_14_09 PM.png" type="image/x-icon">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --color-primary: #3b82f6;
+      --color-gold: #f59e0b;
+      --color-geology-amber: #d97706;
+      --color-geology-orange: #ea580c;
+      --transition-speed: 0.3s;
+    }
 
-      /* Card slide-in animation */
-      .card-animate {
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* Navbar Enhancements */
+    .navbar {
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.95);
+      transition: all var(--transition-speed) ease;
+    }
+
+    .dark .navbar {
+      background: rgba(31, 41, 55, 0.95);
+    }
+
+    .navbar.scrolled {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-link {
+      position: relative;
+      transition: all var(--transition-speed) ease;
+      font-weight: 500;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--color-primary);
+      transition: width var(--transition-speed) ease;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .nav-link:hover {
+      color: var(--color-primary);
+      transform: translateY(-2px);
+    }
+
+    .logo-container {
+      transition: transform var(--transition-speed) ease;
+    }
+
+    .logo-container:hover {
+      transform: scale(1.05);
+    }
+
+    .mobile-menu {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease-in-out;
+    }
+
+    .mobile-menu.active {
+      max-height: 500px;
+    }
+
+    /* Slideshow Enhancements */
+    .slideshow-container {
+      position: relative;
+      width: 100%;
+      height: 400px;
+      overflow: hidden;
+      border-radius: 0 0 24px 24px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .slideshow {
+      display: flex;
+      transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      height: 100%;
+    }
+
+    .slide {
+      min-width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .slide::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(217, 119, 6, 0.6), rgba(234, 88, 12, 0.5));
+    }
+
+    .slideshow-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+      text-align: center;
+      width: 90%;
+    }
+
+    .slideshow-text h2 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      color: white;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      animation: fadeInUp 1s ease;
+    }
+
+    .slideshow-text p {
+      font-size: clamp(1rem, 2vw, 1.5rem);
+      color: white;
+      margin-top: 12px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    @keyframes fadeInUp {
+      from {
         opacity: 0;
-        transform: translateY(20px);
-        transition: all 0.8s ease-in-out;
+        transform: translateY(30px);
       }
-
-      .card-animate.visible {
+      to {
         opacity: 1;
         transform: translateY(0);
       }
+    }
 
-      /* Social icons */
-      .social-icons i {
+    /* Content Section Styles */
+    .content-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    @media (min-width: 768px) {
+      .content-section {
+        padding: 24px;
+      }
+    }
+
+    .dept-header {
+      background: linear-gradient(135deg, var(--color-geology-amber), var(--color-geology-orange));
+      color: white;
+      padding: 32px 24px;
+      border-radius: 16px;
+      margin-bottom: 32px;
+      box-shadow: 0 10px 30px rgba(217, 119, 6, 0.3);
+    }
+
+    @media (min-width: 768px) {
+      .dept-header {
+        padding: 48px 32px;
+      }
+    }
+
+    .dark .dept-header {
+      background: linear-gradient(135deg, #b45309, #92400e);
+    }
+
+    .info-card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    @media (min-width: 768px) {
+      .info-card {
+        padding: 24px;
+      }
+    }
+
+    .dark .info-card {
+      background: rgba(31, 41, 55, 0.8);
+    }
+
+    .info-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--color-geology-amber);
+      margin-bottom: 16px;
+      position: relative;
+      padding-bottom: 12px;
+    }
+
+    @media (min-width: 768px) {
+      .section-title {
         font-size: 2rem;
-        transition: transform 0.3s ease;
       }
+    }
 
-      .social-icons i:hover {
-        transform: scale(1.2);
+    .dark .section-title {
+      color: #fbbf24;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 60px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--color-geology-amber), var(--color-geology-orange));
+      border-radius: 2px;
+    }
+
+    .subsection-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--color-primary);
+      margin-top: 24px;
+      margin-bottom: 12px;
+    }
+
+    @media (min-width: 768px) {
+      .subsection-title {
+        font-size: 1.5rem;
       }
+    }
 
-      /* Back to Top Button */
-      #backToTop {
-        position: fixed;
-        bottom: 30px;
-        right: 20px;
-        background-color: #2E7D32; /* Forest Green */
-        color: #2E7D32; /* Forest Green for light mode */
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    .dark .subsection-title {
+      color: #60a5fa;
+    }
+
+    /* Tabs System */
+    .tabs-container {
+      margin: 32px 0;
+    }
+
+    .tabs-nav {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+      padding-bottom: 0;
+      margin-bottom: 24px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+    }
+
+    .tabs-nav::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    .tabs-nav::-webkit-scrollbar-thumb {
+      background: var(--color-geology-amber);
+      border-radius: 2px;
+    }
+
+    .dark .tabs-nav {
+      border-bottom-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .tab-btn {
+      padding: 10px 16px;
+      background: transparent;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      white-space: nowrap;
+      color: #6b7280;
+      font-size: 0.875rem;
+    }
+
+    @media (min-width: 768px) {
+      .tab-btn {
+        padding: 12px 24px;
+        font-size: 1rem;
+      }
+    }
+
+    .dark .tab-btn {
+      color: #9ca3af;
+    }
+
+    .tab-btn::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 3px;
+      background: var(--color-geology-amber);
+      transition: width 0.3s ease;
+    }
+
+    .tab-btn:hover {
+      color: var(--color-geology-amber);
+    }
+
+    .tab-btn.active {
+      color: var(--color-geology-amber);
+    }
+
+    .dark .tab-btn.active {
+      color: #fbbf24;
+    }
+
+    .tab-btn.active::after {
+      width: 100%;
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
         opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        z-index: 1000;
+        transform: translateY(10px);
       }
-
-      #backToTop:hover {
-        background-color: #4A7043; /* Olive Green */
-        transform: scale(1.1);
-      }
-
-      #backToTop.visible {
+      to {
         opacity: 1;
-        visibility: visible;
+        transform: translateY(0);
       }
+    }
 
-      .dark #backToTop {
-        color: #FFFFFF; /* White for dark mode */
-      }
+    /* Resource Cards */
+    .resource-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-top: 24px;
+    }
 
-      /* Responsive navbar title */
-      @media (max-width: 640px) {
-        .desktop-title {
-          display: none;
-        }
-        .mobile-title {
-          display: inline;
-        }
-        .book {
-          width: 40%;
-        }
-        .slide-nav-button {
-          padding: 0.75rem;
-        }
+    @media (min-width: 640px) {
+      .resource-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
-      @media (min-width: 641px) {
-        .desktop-title {
-          display: inline;
-        }
-        .mobile-title {
-          display: none;
-        }
-      }
+    }
 
-      /* Tab styling */
-      .tab {
-        background-color: #2E7D32; /* Forest Green */
-        color: white;
-        padding: 0.5rem 1rem;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
+    @media (min-width: 1024px) {
+      .resource-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
       }
+    }
 
-      .tab:hover {
-        background-color: #78909C; /* Stone Gray */
+    .resource-card {
+      background: linear-gradient(135deg, #fef3c7, #fde68a);
+      border: 2px solid #fcd34d;
+      border-radius: 12px;
+      padding: 16px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    @media (min-width: 768px) {
+      .resource-card {
+        padding: 20px;
       }
+    }
 
-      .tab.active {
-        background-color: #4A7043; /* Olive Green */
-        font-weight: bold;
+    .dark .resource-card {
+      background: linear-gradient(135deg, rgba(217, 119, 6, 0.1), rgba(234, 88, 12, 0.1));
+      border-color: rgba(217, 119, 6, 0.3);
+    }
+
+    .resource-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 28px rgba(217, 119, 6, 0.3);
+      border-color: var(--color-geology-amber);
+    }
+
+    .resource-icon {
+      font-size: 1.75rem;
+      color: var(--color-geology-amber);
+      margin-bottom: 12px;
+    }
+
+    @media (min-width: 768px) {
+      .resource-icon {
+        font-size: 2rem;
       }
+    }
 
-      .sub-tab {
-        background-color: #78909C; /* Stone Gray */
-        color: white;
-        padding: 0.5rem;
-        cursor: pointer;
-        transition: 0.3s ease;
+    .resource-title {
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 8px;
+      color: #92400e;
+    }
+
+    @media (min-width: 768px) {
+      .resource-title {
+        font-size: 1.1rem;
       }
+    }
 
-      .sub-tab:hover {
-        background-color: #2E7D32; /* Forest Green */
+    .dark .resource-title {
+      color: #fcd34d;
+    }
+
+    /* Research Areas */
+    .research-item {
+      background: linear-gradient(135deg, #fef3c7, #fffbeb);
+      border-left: 4px solid var(--color-geology-amber);
+      padding: 16px 20px;
+      margin-bottom: 16px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .dark .research-item {
+      background: linear-gradient(135deg, rgba(217, 119, 6, 0.1), rgba(234, 88, 12, 0.1));
+    }
+
+    .research-item:hover {
+      transform: translateX(8px);
+      box-shadow: 0 6px 16px rgba(217, 119, 6, 0.2);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin: 4px;
+    }
+
+    .badge-amber {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .dark .badge-amber {
+      background: rgba(217, 119, 6, 0.2);
+      color: #fbbf24;
+    }
+
+    .badge-yellow {
+      background: #fef08a;
+      color: #7c2d12;
+    }
+
+    .dark .badge-yellow {
+      background: rgba(234, 88, 12, 0.2);
+      color: #fde047;
+    }
+
+    .badge-orange {
+      background: #fed7aa;
+      color: #7c2d12;
+    }
+
+    .dark .badge-orange {
+      background: rgba(251, 146, 60, 0.2);
+      color: #fb923c;
+    }
+
+    /* Footer Enhancements */
+    .footer {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(249, 250, 251, 1) 100%);
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .dark .footer {
+      background: linear-gradient(180deg, rgba(17, 24, 39, 0.98) 0%, rgba(0, 0, 0, 0.95) 100%);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .footer-heading {
+      position: relative;
+      display: inline-block;
+      padding-bottom: 8px;
+      margin-bottom: 16px;
+    }
+
+    .footer-heading::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 40px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--color-primary), var(--color-gold));
+      border-radius: 2px;
+    }
+
+    .footer-link {
+      transition: all var(--transition-speed) ease;
+      display: inline-block;
+    }
+
+    .footer-link:hover {
+      color: var(--color-primary);
+      transform: translateX(5px);
+    }
+
+    .social-icon {
+      transition: all var(--transition-speed) ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(59, 130, 246, 0.1);
+    }
+
+    .social-icon:hover {
+      transform: translateY(-5px) scale(1.1);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .whatsapp-float {
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
       }
-
-      .sub-tab.active {
-        background-color: #4A7043; /* Olive Green */
-        color: #FFFFFF; /* White text */
-      }
-
-      /* Book slider */
-      .book {
-        transition: transform 0.3s ease;
-      }
-
-      .book:hover {
+      50% {
         transform: scale(1.05);
       }
+    }
 
-      .slider-container {
-        position: relative;
-        width: 100%;
-        overflow-x: auto;
-        scrollbar-width: none; /* Firefox */
-        -ms-overflow-style: none; /* IE and Edge */
-      }
+    .back-to-top {
+      position: fixed;
+      bottom: 24px;
+      left: 24px;
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, var(--color-geology-amber), var(--color-geology-orange));
+      color: white;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transition: all var(--transition-speed) ease;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+    }
 
-      .slider-container::-webkit-scrollbar {
-        display: none; /* Chrome, Safari, Opera */
-      }
+    .back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
 
-      .book-slider {
-        display: flex;
-        flex-wrap: nowrap;
-        transition: transform 0.5s ease-in-out;
-        width: max-content;
-      }
+    .back-to-top:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    }
 
-      .slide-nav-button {
-        transition: background-color: 0.3s ease, opacity: 0.3s ease;
-      }
+    .text-primary-custom {
+      color: var(--color-primary);
+    }
 
-      .slide-nav-button.disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
+    .dark .text-primary-custom {
+      color: #60a5fa;
+    }
+
+    .text-gold-custom {
+      color: var(--color-gold);
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    ul li {
+      padding: 8px 0;
+      padding-left: 24px;
+      position: relative;
+    }
+
+    ul li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--color-geology-amber);
+      font-weight: bold;
+    }
+
+    /* Mobile Responsive Grid */
+    @media (max-width: 767px) {
+      .grid.md\:grid-cols-2, 
+      .grid.md\:grid-cols-3,
+      .grid.lg\:grid-cols-3 {
+        grid-template-columns: 1fr !important;
       }
-    </style>
-    <script>
-      tailwind.config = {
-        darkMode: 'class',
-        theme: {
-          extend: {
-            fontFamily: {
-              poppins: ['Poppins', 'sans-serif']
-            },
-            colors: {
-              forestGreen: '#2E7D32',
-              oliveGreen: '#4A7043',
-              stoneGray: '#78909C',
-              charcoal: '#1A2521'
-            }
-          }
-        }
-      }
-    </script>
-  </head>
-  <body class="bg-gray-100 dark:bg-charcoal text-gray-900 dark:text-white transition duration-300">
-    <!-- Navbar -->
-    <nav class="bg-forestGreen dark:bg-oliveGreen p-4 shadow-md fixed w-full top-0 z-50">
-      <div class="max-w-7xl mx-auto flex justify-between items-center">
-        <h1 class="text-xl font-bold text-white">
-          NAEMSS eLibrary
+    }
+  </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white min-h-screen flex flex-col">
+
+  <!-- Enhanced Navbar -->
+  <header class="navbar sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex items-center justify-between p-4 lg:px-8">
+      <div class="logo-container flex items-center gap-3 cursor-pointer">
+        <img src="download-6.jpeg" alt="Logo" class="w-12 h-12 rounded-full shadow-lg border-2 border-blue-500" />
+        <h1 class="text-xl lg:text-2xl font-bold"> 
+          <span class="text-gold-custom">NAEMSS eLibrary</span>
         </h1>
-        <button id="toggleMenu" class="sm:hidden text-white focus:outline-none text-2xl">
-          ☰
-        </button>
-        <ul id="menu" class="hidden sm:flex gap-4">
-          <li><a href="index.html" class="text-white hover:underline">Home</a></li>
-          <li><a href="#" class="text-white hover:underline">About</a></li>
-          <li><a href="#" class="text-white hover:underline">Contact</a></li>
-        </ul>
+      </div>
+
+      <nav class="hidden lg:flex items-center space-x-8">
+        <a href="index.html" class="nav-link flex items-center gap-2">
+          <i class="fas fa-home"></i> Home
+        </a>
+        <a href="login.html" class="nav-link flex items-center gap-2 text-red-500 hover:text-red-600">
+          <i class="fas fa-sign-out-alt"></i> Login
+        </a>
+      </nav>
+
+      <button id="menuToggle" class="lg:hidden text-primary-custom text-3xl focus:outline-none transition-transform duration-300">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+
+    <!-- Enhanced Mobile Menu -->
+    <nav id="mobileMenu" class="mobile-menu lg:hidden bg-white dark:bg-gray-800 shadow-lg mx-4">
+      <div class="p-6 space-y-4">
+        <a href="index.html" class="footer-link block text-lg">
+          <i class="fas fa-home mr-3 text-primary-custom"></i> Home
+        </a>
+        <a href="logout.html" class="footer-link block text-lg text-red-500">
+          <i class="fas fa-sign-out-alt mr-3"></i> Login
+        </a>
       </div>
     </nav>
+  </header>
 
-    <!-- Mobile menu -->
-    <div id="mobileMenu" class="sm:hidden hidden bg-forestGreen dark:bg-oliveGreen px-4 py-2 space-y-2 mt-16">
-      <a href="index.html" class="block text-white py-2 hover:bg-oliveGreen rounded">Home</a>
-      <a href="#" class="block text-white py-2 hover:bg-oliveGreen rounded">About</a>
-      <a href="#" class="block text-white py-2 hover:bg-oliveGreen rounded">Contact</a>
-    </div>
-
-    <!-- Slideshow -->
-    <div class="relative w-full overflow-hidden h-64 sm:h-80 md:h-96 mt-16">
-      <div id="slideshow" class="flex transition-transform duration-700 ease-in-out">
-        <div class="w-full flex-shrink-0">
-          <img src="https://via.placeholder.com/1200x400?text=Rock+Formations" alt="Rock Formations" class="w-full h-64 sm:h-80 md:h-96 object-cover" />
-        </div>
-        <div class="w-full flex-shrink-0">
-          <img src="https://via.placeholder.com/1200x400?text=Mining+Sites" alt="Mining Sites" class="w-full h-64 sm:h-80 md:h-96 object-cover" />
-        </div>
-        <div class="w-full flex-shrink-0">
-          <img src="https://via.placeholder.com/1200x400?text=Geological+Surveys" alt="Geological Surveys" class="w-full h-64 sm:h-80 md:h-96 object-cover" />
-        </div>
+  <!-- Enhanced Hero Section with Department-Specific Slideshow -->
+  <div class="slideshow-container mt-4">
+    <div id="slideshow" class="slideshow">
+      <div class="slide">
+        <img src="https://plus.unsplash.com/premium_photo-1723568520875-7fd96568bb2d?w=1200&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Z2VvbG9neXxlbnwwfHwwfHx8MA%3D%3D" alt="Geological Formations" />
+      </div>
+      <div class="slide">
+        <img src="https://images.unsplash.com/photo-1453614512568-c4024d13c247?w=1280&h=400&fit=crop" alt="Rock Formations" />
+      </div>
+      <div class="slide">
+        <img src="https://images.unsplash.com/photo-1477573829233-74cd1c17fa65?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Z2VvbG9neXxlbnwwfHwwfHx8MA%3D%3D" alt="Mining Operations" />
+      </div>
+      <div class="slide">
+        <img src="https://plus.unsplash.com/premium_photo-1661955551241-7f91b0a13594?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8Z2VvbG9neXxlbnwwfHwwfHx8MA%3D%3D" alt="Geological Research" />
       </div>
     </div>
+    <div class="slideshow-text">
+      <h2>Applied Geology</h2>
+      <p>Understanding Earth for Sustainable Resource Development</p>
+    </div>
+  </div>
 
-    <!-- Header Section -->
-    <section class="max-w-7xl mx-auto py-10 px-4">
-      <h2 class="text-3xl font-semibold mb-6 text-forestGreen dark:text-stoneGray">Department of Applied Geology</h2>
-      <p class="text-gray-600 dark:text-gray-300 text-sm mb-6">Access resources, course materials, and tools for Applied Geology students at all levels.</p>
-    </section>
+  <!-- Main Content -->
+  <main class="flex-grow content-section py-8">
 
-    <!-- Tabs for Levels -->
-    <section class="max-w-7xl mx-auto py-10 px-4">
-      <h3 class="text-2xl font-semibold mb-4 text-forestGreen dark:text-forestGreen">Course Materials by Level</h3>
-      <div class="flex flex-wrap gap-2 mb-4">
-        <button class="tab active" onclick="showLevel('level-100')">100 Level</button>
-        <button class="tab" onclick="showLevel('level-200')">200 Level</button>
-        <button class="tab" onclick="showLevel('level-300')">300 Level</button>
-        <button class="tab" onclick="showLevel('level-400')">400 Level</button>
-        <button class="tab" onclick="showLevel('level-500')">500 Level</button>
-      </div>
-
-      <!-- Level Content -->
-      <div id="level-100" class="level-content">
-        <div class="flex gap-2 mb-4">
-          <button class="sub-tab active" onclick="showSemester('level-100-sem1')">1st Semester</button>
-          <button class="sub-tab" onclick="showSemester('level-100-sem2')">2nd Semester</button>
-        </div>
-        <div id="level-100-sem1" class="semester-content">
-          <div class="slider-container">
-            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-forestGreen dark:bg-oliveGreen text-white p-2 rounded-full hover:bg-oliveGreen dark:hover:bg-forestGreen z-10">
-              <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-forestGreen dark:bg-oliveGreen text-white p-2 rounded-full hover:bg-oliveGreen dark:hover:bg-forestGreen z-10">
-              <i class="fas fa-chevron-right"></i>
-            </button>
-            <div class="book-slider">
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-forestGreen dark:bg-stoneGray rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Mineralogy" alt="Mineralogy Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Mineralogy</h4>
-                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-100-sem1-mineralogy')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-stoneGray dark:bg-forestGreen rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Petrology" alt="Petrology Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Petrology</h4>
-                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-100-sem1-petrology')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-oliveGreen dark:bg-stoneGray rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Geochemistry" alt="Geochemistry Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Geochemistry</h4>
-                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-100-sem1-geochemistry')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="level-100-sem1-mineralogy" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Introduction to Mineralogy</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Course notes and slides</p>
-          </div>
-          <div id="level-100-sem1-petrology" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Igneous and Metamorphic Petrology</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Textbook chapters</p>
-          </div>
-          <div id="level-100-sem1-geochemistry" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Geochemistry Basics</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Lab manuals</p>
-          </div>
-        </div>
-        <div id="level-100-sem2" class="semester-content hidden">
-          <div class="slider-container">
-            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-forestGreen dark:bg-oliveGreen text-white p-2 rounded-full hover:bg-oliveGreen dark:hover:bg-forestGreen z-10">
-              <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-forestGreen dark:bg-oliveGreen text-white p-2 rounded-full hover:bg-oliveGreen dark:hover:bg-forestGreen z-10">
-              <i class="fas fa-chevron-right"></i>
-            </button>
-            <div class="book-slider">
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-forestGreen dark:bg-stoneGray rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Structural" alt="Structural Geology Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Structural Geology</h4>
-                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-100-sem2-structural')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-stoneGray dark:bg-forestGreen rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Physics" alt="Physics Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Physics for Geology</h4>
-                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-100-sem2-physics')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-oliveGreen dark:bg-stoneGray rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Math" alt="Math Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Mathematics</h4>
-                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-100-sem2-math')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="level-100-sem2-structural" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Structural Geology</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Study guides</p>
-          </div>
-          <div id="level-100-sem2-physics" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Physics for Geologists</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Problem sets</p>
-          </div>
-          <div id="level-100-sem2-math" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Mathematics for Scientists</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Tutorials</p>
-          </div>
-        </div>
-      </div>
-      <div id="level-200" class="level-content hidden">
-        <div class="flex gap-2 mb-4">
-          <button class="sub-tab active" onclick="showSemester('level-200-sem1')">1st Semester</button>
-          <button class="sub-tab" onclick="showSemester('level-200-sem2')">2nd Semester</button>
-        </div>
-        <div id="level-200-sem1" class="semester-content">
-          <div class="slider-container">
-            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-forestGreen dark:bg-oliveGreen text-white p-2 rounded-full hover:bg-oliveGreen dark:hover:bg-forestGreen z-10">
-              <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-forestGreen dark:bg-oliveGreen text-white p-2 rounded-full hover:bg-oliveGreen dark:hover:bg-forestGreen z-10">
-              <i class="fas fa-chevron-right"></i>
-            </button>
-            <div class="book-slider">
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-forestGreen dark:bg-stoneGray rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Sedimentology" alt="Sedimentology Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Sedimentology</h4>
-                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-200-sem1-sedimentology')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-stoneGray dark:bg-forestGreen rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Stratigraphy" alt="Stratigraphy Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Stratigraphy</h4>
-                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-200-sem1-stratigraphy')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-oliveGreen dark:bg-stoneGray rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Geophysics" alt="Geophysics Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Geophysics</h4>
-                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-200-sem1-geophysics')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="level-200-sem1-sedimentology" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Sedimentology</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Lecture notes</p>
-          </div>
-          <div id="level-200-sem1-stratigraphy" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Stratigraphy</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Research papers</p>
-          </div>
-          <div id="level-200-sem1-geophysics" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Introduction to Geophysics</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Tutorials</p>
-          </div>
-        </div>
-        <div id="level-200-sem2" class="semester-content hidden">
-          <div class="slider-container">
-            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-forestGreen dark:bg-oliveGreen text-white p-2 rounded-full hover:bg-oliveGreen dark:hover:bg-forestGreen z-10">
-              <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-forestGreen dark:bg-oliveGreen text-white p-2 rounded-full hover:bg-oliveGreen dark:hover:bg-forestGreen z-10">
-              <i class="fas fa-chevron-right"></i>
-            </button>
-            <div class="book-slider">
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-forestGreen dark:bg-stoneGray rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Paleontology" alt="Paleontology Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Paleontology</h4>
-                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-200-sem2-paleontology')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-stoneGray dark:bg-forestGreen rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Field" alt="Field Geology Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Field Geology</h4>
-                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-200-sem2-field')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-oliveGreen dark:bg-stoneGray rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Stats" alt="Stats Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Geostatistics</h4>
-                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-200-sem2-stats')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="level-200-sem2-paleontology" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Paleontology</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Fossil guides</p>
-          </div>
-          <div id="level-200-sem2-field" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Field Geology Techniques</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Field manuals</p>
-          </div>
-          <div id="level-200-sem2-stats" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Geostatistics</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Software guides</p>
-          </div>
-        </div>
-      </div>
-      <div id="level-300" class="level-content hidden">
-        <div class="flex gap-2 mb-4">
-          <button class="sub-tab active" onclick="showSemester('level-300-sem1')">1st Semester</button>
-          <button class="sub-tab" onclick="showSemester('level-300-sem2')">2nd Semester</button>
-        </div>
-        <div id="level-300-sem1" class="semester-content">
-          <div class="slider-container">
-            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-forestGreen dark:bg-oliveGreen text-white p-2 rounded-full hover:bg-oliveGreen dark:hover:bg-forestGreen z-10">
-              <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-forestGreen dark:bg-oliveGreen text-white p-2 rounded-full hover:bg-oliveGreen dark:hover:bg-forestGreen z-10">
-              <i class="fas fa-chevron-right"></i>
-            </button>
-            <div class="book-slider">
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-forestGreen dark:bg-stoneGray rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Petroleum" alt="Petroleum Geology Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Petroleum Geology</h4>
-                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-300-sem1-petroleum')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-stoneGray dark:bg-forestGreen rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Hydrogeology" alt="Hydrogeology Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Hydrogeology</h4>
-                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-300-sem1-hydrogeology')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-oliveGreen dark:bg-stoneGray rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Geomorphology" alt="Geomorphology Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Geomorphology</h4>
-                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-300-sem1-geomorphology')">Open Book</button>
-                  <div>
-                  <div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="level-300-sem1-petroleum" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt- <p class="text-gray-600 dark:text-gray-300 text-sm">Reservoir analysis</p>
-          </div>
-          <div id="level-300-sem1-hydrogeology" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Hydrogeology</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Groundwater studies</p>
-          </div>
-          <div id="level-300-sem1-geomorphology" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Geomorphology</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Landform analysis</p>
-          </div>
-        </div>
-        <div id="level-300-sem2" class="semester-content hidden">
-          <div class="slider-container">
-            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-forestGreen dark:bg-oliveGreen text-white p-2 rounded-full hover:bg-oliveGreen dark:hover:bg-forestGreen z-10">
-              <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-forestGreen dark:bg-oliveGreen text-white p-2 rounded-full hover:bg-oliveGreen dark:hover:bg-forestGreen z-10">
-              <i class="fas fa-chevron-right"></i>
-            </button>
-            <div class="book-slider">
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-forestGreen dark:bg-stoneGray rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Geohazards" alt="Geohazards Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Geohazards</h4>
-                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-300-sem2-geohazards')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-stoneGray dark:bg-forestGreen rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Exploration" alt="Exploration Geology Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Exploration Geology</h4>
-                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-300-sem2-exploration')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-oliveGreen dark:bg-stoneGray rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=GIS" alt="GIS Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Geological GIS</h4>
-                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-300-sem2-gis')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="level-300-sem2-geohazards" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Geohazards</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Risk assessment guides</p>
-          </div>
-          <div id="level-300-sem2-exploration" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Exploration Geology</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Drilling techniques</p>
-          </div>
-          <div id="level-300-sem2-gis" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Geological GIS</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Software tutorials</p>
-          </div>
-        </div>
-      </div>
-      <div id="level-400" class="level-content hidden">
-        <div class="flex gap-2 mb-4">
-          <button class="sub-tab active" onclick="showSemester('level-400-sem1')">1st Semester</button>
-          <button class="sub-tab" onclick="showSemester('level-400-sem2')">2nd Semester</button>
-        </div>
-        <div id="level-400-sem1" class="semester-content">
-          <div class="slider-container">
-            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-forestGreen dark:bg-oliveGreen text-white p-2 rounded-full hover:bg-oliveGreen dark:hover:bg-forestGreen z-10">
-              <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-forestGreen dark:bg-oliveGreen text-white p-2 rounded-full hover:bg-oliveGreen dark:hover:bg-forestGreen z-10">
-              <i class="fas fa-chevron-right"></i>
-            </button>
-            <div class="book-slider">
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-forestGreen dark:bg-stoneGray rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Env.+Geology" alt="Environmental Geology Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Environmental Geology</h4>
-                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-400-sem1-envgeology')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-stoneGray dark:bg-forestGreen rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Mining" alt="Mining Geology Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Mining Geology</h4>
-                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-400-sem1-mining')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-oliveGreen dark:bg-stoneGray rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Research" alt="Research Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Research Methods</h4>
-                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-400-sem1-research')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="level-400-sem1-envgeology" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Environmental Geology</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Impact assessments</p>
-          </div>
-          <div id="level-400-sem1-mining" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Mining Geology</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Ore deposit studies</p>
-          </div>
-          <div id="level-400-sem1-research" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Research Methods</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Proposal templates</p>
-          </div>
-        </div>
-        <div id="level-400-sem2" class="semester-content hidden">
-          <div class="slider-container">
-            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-forestGreen dark:bg-oliveGreen text-white p-2 rounded-full hover:bg-oliveGreen dark:hover:bg-forestGreen z-10">
-              <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-forestGreen dark:bg-oliveGreen text-white p-2 rounded-full hover:bg-oliveGreen dark:hover:bg-forestGreen z-10">
-              <i class="fas fa-chevron-right"></i>
-            </button>
-            <div class="book-slider">
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-forestGreen dark:bg-stoneGray rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Geotechnics" alt="Geotechnics Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Geotechnics</h4>
-                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-400-sem2-geotechnics')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-stoneGray dark:bg-forestGreen rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Economic" alt="Economic Geology Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Economic Geology</h4>
-                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-400-sem2-economic')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-oliveGreen dark:bg-stoneGray rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Project" alt="Project Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Project Work</h4>
-                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-400-sem2-project')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="level-400-sem2-geotechnics" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Geotechnics</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Soil mechanics</p>
-          </div>
-          <div id="level-400-sem2-economic" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Economic Geology</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Mineral economics</p>
-          </div>
-          <div id="level-400-sem2-project" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Project Work</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Guidelines</p>
-          </div>
-        </div>
-      </div>
-      <div id="level-500" class="level-content hidden">
-        <div class="flex gap-2 mb-4">
-          <button class="sub-tab active" onclick="showSemester('level-500-sem1')">1st Semester</button>
-          <button class="sub-tab" onclick="showSemester('level-500-sem2')">2nd Semester</button>
-        </div>
-        <div id="level-500-sem1" class="semester-content">
-          <div class="slider-container">
-            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-forestGreen dark:bg-oliveGreen text-white p-2 rounded-full hover:bg-oliveGreen dark:hover:bg-forestGreen z-10">
-              <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-forestGreen dark:bg-oliveGreen text-white p-2 rounded-full hover:bg-oliveGreen dark:hover:bg-forestGreen z-10">
-              <i class="fas fa-chevron-right"></i>
-            </button>
-            <div class="book-slider">
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-forestGreen dark:bg-stoneGray rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Adv.+Geology" alt="Advanced Geology Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Adv. Geology</h4>
-                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-500-sem1-geology')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-stoneGray dark:bg-forestGreen rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Geochronology" alt="Geochronology Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Geochronology</h4>
-                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-500-sem1-geochronology')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-oliveGreen dark:bg-stoneGray rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Thesis" alt="Thesis Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Thesis Prep</h4>
-                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-500-sem1-thesis')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="level-500-sem1-geology" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Advanced Geology</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Research papers</p>
-          </div>
-          <div id="level-500-sem1-geochronology" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-md font-bold text-forestGreen dark:text-stoneGray mb-2">Geochronology</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Dating techniques</p>
-          </div>
-          <div id="level-Saxton-500-sem1-thesis" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Thesis Preparation</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Templates</p>
-          </div>
-        </div>
-        <div id="level-500-sem2" class="semester-content hidden">
-          <div class="slider-container">
-            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-forestGreen dark:bg-oliveGreen text-white p-2 rounded-full hover:bg-oliveGreen dark:hover:bg-forestGreen z-10">
-              <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-forestGreen dark:bg-oliveGreen text-white p-2 rounded-full hover:bg-oliveGreen dark:hover:bg-forestGreen z-10">
-              <i class="fas fa-chevron-right"></i>
-            </button>
-            <div class="book-slider">
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg="forestGreen dark:bg-stoneGray rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x150x200?text=Adv.+Mining" alt="Advanced Mining Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Adv. Mining</h4>
-                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-500-sem2-mining')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-stoneGray dark:bg-forestGreen rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Seminar" alt="Seminar Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Seminar</h4>
-                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-500-sem2-seminar')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-oliveGreen dark:bg-stoneGray rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Project" alt="Project Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Final Project</h4>
-                  <button class="open-book bg-forestGreen dark:bg-oliveGreen text-white py-1 px-3 rounded hover:bg-oliveGreen dark:hover:bg-forestGreen text-sm" onclick="openBook('level-500-sem2-project')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-forestGreen hover:text-oliveGreen" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="level-500-sem2-mining" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Advanced Mining Geology</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Case studies</p>
-          </div>
-          <div id="level-500-sem2-seminar" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-forestGreen dark:text-stoneGray mb-2">Seminar in Geology</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Presentation guides</p>
-          </div>
-          <div id="level-500-sem2-project" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-forestGreen dark:text-white mb-2">Final Year Project</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Submission guidelines</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Career Pathways -->
-    <section class="max-w-7xl mx-auto py-10 px-4">
-      <h2 class="text-2xl font-semibold mb-6 text-forestGreen dark:text-forestGreen">Career Pathways</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-forestGreen dark:border-oliveGreen card-animate">
-          <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Geologist</h3>
-          <p class="text-gray-600 dark:text-gray-300 text-sm"><a href="https://www.geosociety.org/" class="underline hover:text-forestGreen">Geological Society of America</a> career resources</p>
-        </div>
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-forestGreen dark:border-oliveGreen card-animate">
-          <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Mining Engineer</h3>
-          <p class="text-gray-600 dark:text-gray-300 text-sm">Coming Soon - Resources for mining engineering careers</p>
-        </div>
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-forestGreen dark:border-oliveGreen card-animate">
-          <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Environmental Geologist</h3>
-          <p class="text-gray-600 dark:text-gray-300 text-sm"><a href="https://www.agiweb.org/" class="underline hover:text-forestGreen">American Geosciences Institute</a> environmental resources</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-forestGreen dark:bg-oliveGreen text-white pt-10 px-4">
-      <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+    <!-- Department Header -->
+    <div class="dept-header">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-4">
+        <i class="fas fa-mountain text-4xl sm:text-6xl"></i>
         <div>
-          <h3 class="text-lg font-semibold mb-4">Subscribe to Our Newsletter</h3>
-          <div class="flex flex-col space-y-3">
-            <input
-              type="email"
-              name="email"
-              placeholder="Your email"
-              class="p-2 rounded-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-white w-full"
-              required
-            />
-            <button
-              type="button"
-              class="bg-white text-forestGreen font-semibold dark:bg-oliveGreen dark:text-white py-2 px-4 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 transition"
-            >
-              Subscribe
-            </button>
-          </div>
+          <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2">Department of Applied Geology</h1>
+          <p class="text-base sm:text-lg lg:text-xl opacity-90">School of Earth and Mineral Sciences (SEMS) • Federal University of Technology, Akure</p>
         </div>
+      </div>
+      <div class="flex flex-wrap gap-2 sm:gap-3 mt-6">
+        <span class="badge badge-amber bg-white text-amber-900 font-semibold text-xs sm:text-sm">Mineral Exploration</span>
+        <span class="badge badge-amber bg-white text-amber-900 font-semibold text-xs sm:text-sm">Environmental Geology</span>
+        <span class="badge badge-yellow bg-white text-yellow-900 font-semibold text-xs sm:text-sm">Mining Geology</span>
+        <span class="badge badge-yellow bg-white text-yellow-900 font-semibold text-xs sm:text-sm">Hydrogeology</span>
+        <span class="badge badge-orange bg-white text-orange-900 font-semibold text-xs sm:text-sm">Geotechnics</span>
+        <span class="badge badge-orange bg-white text-orange-900 font-semibold text-xs sm:text-sm">Petroleum Geology</span>
+      </div>
+    </div>
+
+    <!-- About Department -->
+    <div class="info-card">
+      <h2 class="section-title"><i class="fas fa-info-circle mr-3"></i>About the Department</h2>
+      <p class="text-base sm:text-lg leading-relaxed mb-4">
+        The Department of Applied Geology at the Federal University of Technology, Akure (FUTA), within the School of Earth and Mineral Sciences, is dedicated to developing competent geologists capable of exploring, exploiting, and managing Earth's mineral and energy resources sustainably. Our department trains graduates with expertise in mineral exploration, mining geology, environmental assessment, and hydrogeological investigations.
+      </p>
+      <p class="text-base sm:text-lg leading-relaxed mb-4">
+        Applied Geology is the practical application of geological science to solve real-world problems related to mineral and energy resources, environmental protection, and engineering projects. Our comprehensive curriculum integrates mineralogy and petrology, structural geology and tectonics, stratigraphy and sedimentation, geochemistry and isotope geology, economic geology and ore deposits, hydrogeology and groundwater, environmental geology and hazard assessment, and geotechnical engineering. Students develop expertise in fieldwork, core logging, geological mapping, mineral identification, resource evaluation, and environmental impact assessment.
+      </p>
+      <p class="text-base sm:text-lg leading-relaxed mb-4">
+        The department features modern geological laboratories equipped with thin-section microscopes, X-ray diffraction (XRD) equipment, scanning electron microscopes (SEM), atomic absorption spectroscopy (AAS), and geochemical analysis instruments. Our curriculum is aligned with international geology standards and professional requirements. We maintain active collaborations with mining companies, oil and gas corporations, environmental agencies, and exploration companies, providing students with field opportunities and exposure to industry-standard practices.
+      </p>
+      <p class="text-base sm:text-lg leading-relaxed">
+        Graduates of Applied Geology are highly sought-after professionals in mining, oil and gas, environmental consulting, construction, and government agencies. They work as exploration geologists, mining engineers, hydrogeologists, environmental consultants, and geotechnical specialists. Our alumni successfully discover and develop mineral deposits, manage groundwater resources, conduct environmental impact assessments, and ensure sustainable resource management both nationally and internationally.
+      </p>
+    </div>
+
+    <!-- What We Offer -->
+    <div class="info-card">
+      <h2 class="section-title"><i class="fas fa-graduation-cap mr-3"></i>What We Offer</h2>
+
+      <div class="grid md:grid-cols-2 gap-6">
         <div>
-          <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+          <h3 class="subsection-title"><i class="fas fa-book-open mr-2"></i>Academic Programs</h3>
           <ul class="space-y-2">
-            <li><a href="index.html" class="hover:underline">Home</a></li>
-            <li><a href="/about.html" class="hover:underline">About Us</a></li>
-            <li><a href="/terms.html" class="hover:underline">Terms & Conditions</a></li>
-            <li><a href="/contact.html" class="hover:underline">Contact</a></li>
-            <li><a href="/privacy.html" class="hover:underline">Privacy Policy</a></li>
+            <li><strong>B.Sc in Applied Geology</strong> - 5-year undergraduate program</li>
+            <li><strong>M.Sc in Applied Geology</strong> - Postgraduate degree</li>
+            <li><strong>Ph.D in Applied Geology</strong> - Advanced research degree</li>
           </ul>
         </div>
+
         <div>
-          <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
+          <h3 class="subsection-title"><i class="fas fa-gem mr-2"></i>Core Focus Areas</h3>
           <ul class="space-y-2">
-            <li><i class="fas fa-map-marker-alt mr-2"></i>123 Science Avenue, Lagos, Nigeria</li>
-            <li><i class="fas fa-phone-alt mr-2"></i><a href="tel:+2341234567890" class="hover:underline">+234 123 456 7890</a></li>
-            <li><i class="fas fa-envelope mr-2"></i><a href="mailto:info@naemss.org" class="hover:underline">info@naemss.org</a></li>
+            <li>Mineralogy & Petrology</li>
+            <li>Structural Geology & Tectonics</li>
+            <li>Stratigraphy & Sedimentation</li>
+            <li>Geochemistry & Isotope Geology</li>
+            <li>Economic Geology & Ore Deposits</li>
+            <li>Hydrogeology & Groundwater</li>
+            <li>Environmental Geology & Hazards</li>
+            <li>Geotechnical Engineering</li>
           </ul>
         </div>
-        <div>
-          <h3 class="text-lg font-semibold mb-4">Follow Us</h3>
-          <div class="social-icons flex gap-4">
-            <a href="https://facebook.com" class="text-white hover:text-stoneGray" title="Facebook"><i class="fab fa-facebook"></i></a>
-            <a href="https://twitter.com" class="text-white hover:text-stoneGray" title="Twitter"><i class="fab fa-twitter"></i></a>
-            <a href="https://instagram.com" class="text-white hover:text-stoneGray" title="Instagram"><i class="fab fa-instagram"></i></a>
-            <a href="https://linkedin.com" class="text-white hover:text-stoneGray" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+      </div>
+
+      <div class="mt-6">
+        <h3 class="subsection-title"><i class="fas fa-laptop mr-2"></i>Facilities & Resources</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+          <div class="research-item">
+            <i class="fas fa-microscope text-2xl sm:text-3xl text-amber-600 mb-3"></i>
+            <h4 class="font-semibold text-base sm:text-lg mb-2">Mineralogy Laboratory</h4>
+            <p class="text-sm">Thin-section and ore microscopy equipment</p>
+          </div>
+          <div class="research-item">
+            <i class="fas fa-flask text-2xl sm:text-3xl text-amber-600 mb-3"></i>
+            <h4 class="font-semibold text-base sm:text-lg mb-2">Geochemistry Lab</h4>
+            <p class="text-sm">XRD, SEM, AAS, elemental analysis systems</p>
+          </div>
+          <div class="research-item">
+            <i class="fas fa-compass text-2xl sm:text-3xl text-amber-600 mb-3"></i>
+            <h4 class="font-semibold text-base sm:text-lg mb-2">Field Equipment</h4>
+            <p class="text-sm">GPS, mapping tools, sampling equipment</p>
           </div>
         </div>
       </div>
-      <div class="text-center py-6 mt-8 border-t border-stoneGray">
-        <p>&copy; 2025 NAEMSS eLibrary. All rights reserved.</p>
+    </div>
+
+    <!-- Research & Specialization Areas -->
+    <div class="info-card">
+      <h2 class="section-title"><i class="fas fa-search mr-3"></i>Research Focus Areas</h2>
+      <p class="text-base sm:text-lg mb-6">Our department conducts research across critical applied geology disciplines:</p>
+
+      <div class="space-y-4">
+        <div class="research-item">
+          <h3 class="font-bold text-base sm:text-lg mb-2"><i class="fas fa-gem mr-2"></i>Mineralogy & Petrology</h3>
+          <p class="text-sm sm:text-base">Mineral identification, crystal chemistry, rock classification, phase diagrams, metamorphic and igneous processes.</p>
+        </div>
+
+        <div class="research-item">
+          <h3 class="font-bold text-base sm:text-lg mb-2"><i class="fas fa-mountain mr-2"></i>Structural Geology & Tectonics</h3>
+          <p class="text-sm sm:text-base">Fold and fault analysis, stress and strain, plate tectonics, seismic interpretation, geodynamics.</p>
+        </div>
+
+        <div class="research-item">
+          <h3 class="font-bold text-base sm:text-lg mb-2"><i class="fas fa-layer-group mr-2"></i>Stratigraphy & Sedimentation</h3>
+          <p class="text-sm sm:text-base">Sedimentary sequences, chronostratigraphy, depositional environments, sequence stratigraphy, basin analysis.</p>
+        </div>
+
+        <div class="research-item">
+          <h3 class="font-bold text-base sm:text-lg mb-2"><i class="fas fa-flask-vial mr-2"></i>Geochemistry & Isotope Geology</h3>
+          <p class="text-sm sm:text-base">Elemental geochemistry, isotope dating, trace element analysis, stable isotopes, geothermometry.</p>
+        </div>
+
+        <div class="research-item">
+          <h3 class="font-bold text-base sm:text-lg mb-2"><i class="fas fa-coins mr-2"></i>Economic Geology & Ore Deposits</h3>
+          <p class="text-sm sm:text-base">Ore deposit types, genesis and classification, exploration techniques, resource evaluation, mining geology.</p>
+        </div>
+
+        <div class="research-item">
+          <h3 class="font-bold text-base sm:text-lg mb-2"><i class="fas fa-water mr-2"></i>Hydrogeology & Groundwater</h3>
+          <p class="text-sm sm:text-base">Aquifer characterization, groundwater flow, water chemistry, contamination assessment, remediation.</p>
+        </div>
+
+        <div class="research-item">
+          <h3 class="font-bold text-base sm:text-lg mb-2"><i class="fas fa-leaf mr-2"></i>Environmental Geology & Hazards</h3>
+          <p class="text-sm sm:text-base">Geohazard assessment, land subsidence, coastal erosion, environmental impact assessment, waste management.</p>
+        </div>
+
+        <div class="research-item">
+          <h3 class="font-bold text-base sm:text-lg mb-2"><i class="fas fa-building mr-2"></i>Geotechnical Engineering</h3>
+          <p class="text-sm sm:text-base">Soil mechanics, foundation design, slope stability, rock mechanics, site characterization.</p>
+        </div>
       </div>
-    </footer>
-    <!-- Back to Top Button -->
-    <button id="backToTop" class="hidden">
-      <i class="fas fa-arrow-up"></i>
-    </button>
+    </div>
 
-    <script>
-      // Mobile menu toggle
-      const toggleMenu = document.getElementById('toggleMenu');
-      const mobileMenu = document.getElementById('mobileMenu');
+    <!-- Career Opportunities -->
+    <div class="info-card">
+      <h2 class="section-title"><i class="fas fa-briefcase mr-3"></i>Career Opportunities</h2>
+      <p class="text-base sm:text-lg mb-6">Applied Geology graduates pursue diverse careers in resource industries and environmental sectors:</p>
 
-      toggleMenu.addEventListener('click', () => {
-        mobileMenu.classList.toggle('hidden');
-        toggleMenu.textContent = mobileMenu.classList.contains('hidden') ? '☰' : '✕';
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="resource-card">
+          <i class="fas fa-search resource-icon"></i>
+          <h4 class="resource-title">Exploration Geologist</h4>
+          <p class="text-sm">Find mineral and oil deposits</p>
+        </div>
+
+        <div class="resource-card">
+          <i class="fas fa-pickaxe resource-icon"></i>
+          <h4 class="resource-title">Mining Geologist</h4>
+          <p class="text-sm">Manage mining operations</p>
+        </div>
+
+        <div class="resource-card">
+          <i class="fas fa-water resource-icon"></i>
+          <h4 class="resource-title">Hydrogeologist</h4>
+          <p class="text-sm">Manage groundwater resources</p>
+        </div>
+
+        <div class="resource-card">
+          <i class="fas fa-leaf resource-icon"></i>
+          <h4 class="resource-title">Environmental Consultant</h4>
+          <p class="text-sm">Environmental impact assessment</p>
+        </div>
+
+        <div class="resource-card">
+          <i class="fas fa-building resource-icon"></i>
+          <h4 class="resource-title">Geotechnical Engineer</h4>
+          <p class="text-sm">Ground investigation and design</p>
+        </div>
+
+        <div class="resource-card">
+          <i class="fas fa-gas-pump resource-icon"></i>
+          <h4 class="resource-title">Petroleum Geologist</h4>
+          <p class="text-sm">Oil and gas exploration</p>
+        </div>
+
+        <div class="resource-card">
+          <i class="fas fa-chart-bar resource-icon"></i>
+          <h4 class="resource-title">Geoscience Consultant</h4>
+          <p class="text-sm">Provide technical advice</p>
+        </div>
+
+        <div class="resource-card">
+          <i class="fas fa-university resource-icon"></i>
+          <h4 class="resource-title">Research Scientist</h4>
+          <p class="text-sm">Conduct geological research</p>
+        </div>
+
+        <div class="resource-card">
+          <i class="fas fa-graduation-cap resource-icon"></i>
+          <h4 class="resource-title">Educator</h4>
+          <p class="text-sm">Teach geology and earth sciences</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Geology Course Resources by Level -->
+<div class="info-card">
+  <h2 class="section-title"><i class="fas fa-globe-africa mr-3"></i>Geology Course Materials & Resources</h2>
+  <p class="text-base sm:text-lg mb-6">Access comprehensive geology materials, field guides, lecture notes, past questions, practicals, and research resources organized by academic level.</p>
+
+  <!-- Tabs Navigation -->
+  <div class="tabs-container">
+    <div class="tabs-nav">
+      <button class="tab-btn active" data-tab="100level">
+        <i class="fas fa-layer-group mr-2"></i>100 Level
+      </button>
+      <button class="tab-btn" data-tab="200level">
+        <i class="fas fa-layer-group mr-2"></i>200 Level
+      </button>
+      <button class="tab-btn" data-tab="300level">
+        <i class="fas fa-layer-group mr-2"></i>300 Level
+      </button>
+      <button class="tab-btn" data-tab="400level">
+        <i class="fas fa-layer-group mr-2"></i>400 Level
+      </button>
+      <button class="tab-btn" data-tab="500level">
+        <i class="fas fa-layer-group mr-2"></i>500 Level
+      </button>
+    </div>
+
+    <!-- ==================== 100 LEVEL ==================== -->
+    <div id="100level" class="tab-content active">
+      <h3 class="subsection-title">100 Level Resources - Foundation Geology</h3>
+      <p class="mb-4 text-gray-600 dark:text-gray-400 text-sm sm:text-base">Introduction to Earth systems, basic geology, rock identification, and geological processes.</p>
+
+      <!-- Semester Highlights -->
+      <div class="grid md:grid-cols-2 gap-6 mb-8">
+        <div>
+          <h4 class="font-semibold text-base sm:text-lg mb-3 text-amber-600 dark:text-amber-400">
+            <i class="fas fa-calendar-alt mr-2"></i>First Semester
+          </h4>
+          <div class="bg-gradient-to-r from-amber-50 to-amber-100 dark:from-amber-900/20 dark:to-amber-800/20 p-4 sm:p-6 rounded-lg border-l-4 border-amber-500">
+            <div class="flex flex-col sm:flex-row items-start gap-4">
+              <i class="fas fa-folder-open text-3xl sm:text-4xl text-amber-600 dark:text-amber-400"></i>
+              <div>
+                <h5 class="font-bold text-base sm:text-lg mb-2">General Foundation Courses</h5>
+                <p class="text-xs sm:text-sm mb-4">All 100 Level First Semester materials are available in our offline study packs.</p>
+                <a href="Offlinestudypacks.html" class="inline-flex items-center gap-2 bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-lg font-semibold text-sm transition-all">
+                  <i class="fas fa-download"></i> Access Offline Study Packs
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="font-semibold text-base sm:text-lg mb-3 text-orange-600 dark:text-orange-400">
+            <i class="fas fa-calendar-alt mr-2"></i>Second Semester
+          </h4>
+          <div class="bg-gradient-to-r from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/20 p-4 sm:p-6 rounded-lg border-l-4 border-orange-500">
+            <div class="flex flex-col sm:flex-row items-start gap-4">
+              <i class="fas fa-globe-africa text-3xl sm:text-4xl text-orange-600 dark:text-orange-400"></i>
+              <div>
+                <h5 class="font-bold text-base sm:text-lg mb-2">AGY 100 - Introduction to Geology</h5>
+                <p class="text-xs sm:text-sm mb-4">Earth history, landforms, rocks, minerals, and geological processes.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 100 Level Resources Grid -->
+      <div class="resource-grid">
+        <a href="https://mega.nz/file/qsRXhQrb#i3BbN9yie4nOZSRKBHTJzPgCX94CCDG5JZVVV7XkuCo" class="resource-card text-center">
+          <i class="fas fa-book-open resource-icon"></i>
+          <h4 class="resource-title">AGY 100 All Note</h4>
+          <p class="text-sm">Complete study of Earth history and geological processes</p>
+          <span class="inline-block mt-3 bg-orange-600 hover:bg-orange-700 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all">
+            <i class="fas fa-download mr-2"></i>Download
+          </span>
+        </a>
+
+        <a href="https://mega.nz/file/GhQ0TYJB#_000f-8YgvIsGP2j3k8CH7xM4EA17OSVEEyDsiOdJCEZAI" class="resource-card text-center">
+          <i class="fas fa-mountain resource-icon"></i>
+          <h4 class="resource-title">AGY 100 Landforms</h4>
+          <p class="text-sm">Geomorphology, landscape evolution, and landform classification</p>
+          <span class="inline-block mt-3 bg-orange-600 hover:bg-orange-700 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all">
+            <i class="fas fa-download mr-2"></i>Download
+          </span>
+        </a>
+
+        <a href="https://mega.nz/file/PggkTQYZ#Ha9WkLXYs4FCHlX12PBibQahfPCK0ZIYqRrWbNAYBRM" class="resource-card text-center">
+          <i class="fas fa-chalkboard-teacher resource-icon"></i>
+          <h4 class="resource-title">AGY 100 Lecture Materials</h4>
+          <p class="text-sm">Full semester lecture notes with diagrams and illustrations</p>
+          <span class="inline-block mt-3 bg-orange-600 hover:bg-orange-700 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all">
+            <i class="fas fa-download mr-2"></i>Download
+          </span>
+        </a>
+
+        <a href="https://mega.nz/file/20YwAD5L#M5XHEgnwl-vDssVnYyKEQL-_SjweeH64bASRtymrY9g" class="resource-card text-center">
+          <i class="fas fa-clipboard-check resource-icon"></i>
+          <h4 class="resource-title">AGY 100 Test Material</h4>
+          <p class="text-sm">Approved CBT and test preparation materials</p>
+          <span class="inline-block mt-3 bg-orange-600 hover:bg-orange-700 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all">
+            <i class="fas fa-download mr-2"></i>Download
+          </span>
+        </a>
+
+        <a href="https://mega.nz/file/PlhhkBbA#S_PV2waaUHmW2sqtNWoXoeh207lxF9ixcpBqVqygiO8" class="resource-card text-center">
+          <i class="fas fa-globe resource-icon"></i>
+          <h4 class="resource-title">AGY 100 Earth Formation and Differentiation</h4>
+          <p class="text-sm">Origin of Earth, planetary differentiation, and internal structure</p>
+          <span class="inline-block mt-3 bg-orange-600 hover:bg-orange-700 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all">
+            <i class="fas fa-download mr-2"></i>Download
+          </span>
+        </a>
+
+        <a href="https://mega.nz/file/XxBmCbJa#yzOEL8DCMUT5PSgtDRu614mKufRK7ntlZt1gib0o8bM" class="resource-card text-center">
+          <i class="fas fa-gem resource-icon"></i>
+          <h4 class="resource-title">AGY 100 Rocks and Rocks Formations</h4>
+          <p class="text-sm">Igneous, sedimentary, and metamorphic rock formation processes</p>
+          <span class="inline-block mt-3 bg-orange-600 hover:bg-orange-700 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all">
+            <i class="fas fa-download mr-2"></i>Download
+          </span>
+        </a>
+
+        <a href="https://mega.nz/file/SsBQ0bpD#9titExiTtHKlvraGGQbRVm2uUZmHN-jIdGHmnj4HxE8" class="resource-card text-center">
+          <i class="fas fa-image resource-icon"></i>
+          <h4 class="resource-title">AGY 100 Slides</h4>
+          <p class="text-sm">Visual lecture slides with high-quality geological diagrams</p>
+          <span class="inline-block mt-3 bg-orange-600 hover:bg-orange-700 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all">
+            <i class="fas fa-download mr-2"></i>Download
+          </span>
+        </a>
+
+        <a href="https://mega.nz/file/fpAhmKAK#d4wfOxLB6T4v_UmdndCKwgk6vqMcvhOxtIhdMmhM6Bo" class="resource-card text-center">
+          <i class="fas fa-tools resource-icon"></i>
+          <h4 class="resource-title">AGY 100 Practical</h4>
+          <p class="text-sm">Laboratory and field practical exercises</p>
+          <span class="inline-block mt-3 bg-orange-600 hover:bg-orange-700 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all">
+            <i class="fas fa-download mr-2"></i>Download
+          </span>
+        </a>
+
+        <a href="https://mega.nz/file/PkA0AQSA#U4p6ur-e2rKELPWBs3szaVTQiUBOC1Tx48tjytRjIwM" class="resource-card text-center">
+          <i class="fas fa-search-plus resource-icon"></i>
+          <h4 class="resource-title">AGY 100 Rocks Identification</h4>
+          <p class="text-sm">Handbook for identifying rocks and minerals in the field</p>
+          <span class="inline-block mt-3 bg-orange-600 hover:bg-orange-700 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all">
+            <i class="fas fa-download mr-2"></i>Download
+          </span>
+        </a>
+      </div>
+    </div>
+
+    <!-- ==================== 200 LEVEL ==================== -->
+    <div id="200level" class="tab-content">
+      <h3 class="subsection-title">200 Level Resources - Core Geology</h3>
+      <p class="mb-4 text-gray-600 dark:text-gray-400 text-sm sm:text-base">Physical geology, crystallography, structural geology, rock deformation, and igneous processes.</p>
+
+      <div class="resource-grid">
+        <a href="https://mega.nz/file/SlRmlYYR#lEKqIW-fRdMg3L0mj9RyU-s3ag5iBk5YJDcxPsR3W74" class="resource-card text-center">
+          <i class="fas fa-tools resource-icon"></i>
+          <h4 class="resource-title">AGY 201 Practical Guide</h4>
+          <p class="text-sm">Field and laboratory practical manual</p>
+          <span class="inline-block mt-3 bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all">Download</span>
+        </a>
+
+        <a href="https://mega.nz/file/HxpGjahT#DL7c2i5TrvX4soZj_BRVFHjySJub90KtWQao-Bs7zKU" class="resource-card text-center">
+          <i class="fas fa-gem resource-icon"></i>
+          <h4 class="resource-title">AGY 203 (Crystallography)</h4>
+          <p class="text-sm">Crystal systems, symmetry, and mineral structures</p>
+          <span class="inline-block mt-3 bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all">Download</span>
+        </a>
+
+        <a href="https://mega.nz/file/HxpGjahT#DL7c2i5TrvX4soZj_BRVFHjySJub90KtWQao-Bs7zKU" class="resource-card text-center">
+          <i class="fas fa-mountain resource-icon"></i>
+          <h4 class="resource-title">AGY 201 Physical Geology</h4>
+          <p class="text-sm">Earth surface processes and geological features</p>
+          <span class="inline-block mt-3 bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all">Download</span>
+        </a>
+
+        <a href="https://mega.nz/file/yhJn1S7a#-7-LIlWKdO2lWeeF4QdvfNmN5q4PoEM0gGDaHKFQVwM" class="resource-card text-center">
+          <i class="fas fa-compress-arrows-alt resource-icon"></i>
+          <h4 class="resource-title">AGY 201 Deformation and Structures</h4>
+          <p class="text-sm">Folds, faults, joints, and tectonic structures</p>
+          <span class="inline-block mt-3 bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all">Download</span>
+        </a>
+
+        <a href="https://mega.nz/file/H5xznTYL#5-QfNs9AjIaz3aJ4gup9Wj49WXQiCSKIUad-ulUgj4A" class="resource-card text-center">
+          <i class="fas fa-fire resource-icon"></i>
+          <h4 class="resource-title">AGY 201 Identification of Igneous Rocks</h4>
+          <p class="text-sm">Classification and identification of igneous rocks</p>
+          <span class="inline-block mt-3 bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all">Download</span>
+        </a>
+
+        <a href="https://mega.nz/file/n4w1lASZ#uTCn2qO4MJwhU1z2a7juF4GUtbB-9dXfRV61BZnxQtw" class="resource-card text-center">
+          <i class="fas fa-globe resource-icon"></i>
+          <h4 class="resource-title">AGY 201 Introduction and Origin of the Earth</h4>
+          <p class="text-sm">Earth's origin, evolution, and internal structure</p>
+          <span class="inline-block mt-3 bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all">Download</span>
+        </a>
+
+        <a href="https://mega.nz/file/SsQSGIRQ#ZNjWwHWAsZA0aO2yjrd-ONO6IN5N-GrnS9KaF3d9OHM" class="resource-card text-center">
+          <i class="fas fa-volcano resource-icon"></i>
+          <h4 class="resource-title">AGY 201 Igneous Intrusive Rocks</h4>
+          <p class="text-sm">Plutonic rocks and intrusive formations</p>
+          <span class="inline-block mt-3 bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all">Download</span>
+        </a>
+
+        <a href="https://mega.nz/file/DhxUTIAb#t82JT9Bw18lF5mVO3Yk5glxmmWM5mycVZI9VA8Zz-U8" class="resource-card text-center">
+          <i class="fas fa-mountain resource-icon"></i>
+          <h4 class="resource-title">AGY 201 Physical Geology</h4>
+          <p class="text-sm">Comprehensive physical geology notes</p>
+          <span class="inline-block mt-3 bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all">Download</span>
+        </a>
+
+        <a href="https://mega.nz/file/zxYwzTCb#lqSHIiELBdaQS8_d8G8R7ZJDK5FZOHfiVGKzX0JZdIM" class="resource-card text-center">
+          <i class="fas fa-recycle resource-icon"></i>
+          <h4 class="resource-title">AGY 201 Metamorphic Rocks and Processes</h4>
+          <p class="text-sm">Metamorphism types and metamorphic rock identification</p>
+          <span class="inline-block mt-3 bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all">Download</span>
+        </a>
+
+        <a href="https://mega.nz/file/bgQkRRZK#9Va5AvzuXKpzc3FRBPZ7wRSH7TDO1srb3Z9rdL0GqTY" class="resource-card text-center">
+          <i class="fas fa-seedling resource-icon"></i>
+          <h4 class="resource-title">AGY 201 Soils and Weathering</h4>
+          <p class="text-sm">Soil formation, weathering processes, and regolith</p>
+          <span class="inline-block mt-3 bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all">Download</span>
+        </a>
+
+        <a href="https://mega.nz/file/C8hgBAqI#lg0AIPcux_9PjcrsEvQrcCI0wD3qNMe6EcVew_hx-Ew" class="resource-card text-center">
+          <i class="fas fa-gem resource-icon"></i>
+          <h4 class="resource-title">AGY 203 Crystallography</h4>
+          <p class="text-sm">Crystal symmetry, forms, and mineral classification</p>
+          <span class="inline-block mt-3 bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all">Download</span>
+        </a>
+
+        <a href="https://mega.nz/file/C5oFCRzL#Ru50GD38qWi_YB92jYuCU0lbvEU6GpzhyDQQYRweA5Y" class="resource-card text-center">
+          <i class="fas fa-gem resource-icon"></i>
+          <h4 class="resource-title">AGY 203 Crystallography Contd'</h4>
+          <p class="text-sm">Advanced crystallography and X-ray diffraction</p>
+          <span class="inline-block mt-3 bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all">Download</span>
+        </a>
+
+        <a href="https://mega.nz/file/O5wxHBgA#UpYSfKhHF1B9Eo4RHuUi7BunS5VY46giTEJ31Cod_ME" class="resource-card text-center">
+          <i class="fas fa-cloud-sun resource-icon"></i>
+          <h4 class="resource-title">Ancient Climate Slides</h4>
+          <p class="text-sm">Paleoclimatology, climate proxies, and geological records</p>
+          <span class="inline-block mt-3 bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all">Download</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- ==================== 300 LEVEL ==================== -->
+    <div id="300level" class="tab-content">
+      <h3 class="subsection-title">300 Level Resources - Advanced Applied Geology</h3>
+      <p class="mb-4 text-gray-600 dark:text-gray-400 text-sm sm:text-base">Sedimentology, micropaleontology, structural geology, paleomagnetism, and plate tectonics.</p>
+
+      <div class="resource-grid">
+        <a href="https://mega.nz/file/jtY2CZwJ#ltJoggOgRIYN1_AlrYzUMT-YAqeT5ZSUhtTxzlQzg1U" class="resource-card text-center">
+          <i class="fas fa-layer-group resource-icon"></i>
+          <h4 class="resource-title">AGY 301 (2007-2008) Sedimentology</h4>
+          <p class="text-sm">Classic sedimentology course materials</p>
+          <span class="inline-block mt-3 bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all">Download</span>
+        </a>
+
+        <a href="https://mega.nz/file/fkw0SLKA#c_DWSyt11okD04-Qkz3sbOpj-0ZpNsRI3y8ss13Tq-g" class="resource-card text-center">
+          <i class="fas fa-layer-group resource-icon"></i>
+          <h4 class="resource-title">AGY 301 (2012-2013)</h4>
+          <p class="text-sm">Sedimentology notes and diagrams</p>
+          <span class="inline-block mt-3 bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all">Download</span>
+        </a>
+
+        <a href="https://mega.nz/file/DlAwyTAQ#JaM8J-Sz-z-x0j6atWq0Kx_uuQnstYpsGLLxjJwywrY" class="resource-card text-center">
+          <i class="fas fa-layer-group resource-icon"></i>
+          <h4 class="resource-title">AGY 301 (2013-2014) Sedimentology</h4>
+          <p class="text-sm">Comprehensive sedimentology course</p>
+          <span class="inline-block mt-3 bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all">Download</span>
+        </a>
+
+        <a href="https://mega.nz/file/71BGEB6b#yj1DID8QLXLWxM5EK8oeExmgmiHLUAO04EeKtLNe9d0" class="resource-card text-center">
+          <i class="fas fa-vial resource-icon"></i>
+          <h4 class="resource-title">AGY 301 (2015-2016) Sedimentology (Practical)</h4>
+          <p class="text-sm">Sedimentology lab and field practicals</p>
+          <span class="inline-block mt-3 bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all">Download</span>
+        </a>
+
+        <a href="https://mega.nz/file/mwgykKBQ#aTsmD4a7OKwnnW-8re3UA-IR6nFKAcg7-EeX8DtbCdk" class="resource-card text-center">
+          <i class="fas fa-layer-group resource-icon"></i>
+          <h4 class="resource-title">AGY 301 (2017-2018) Sedimentology</h4>
+          <p class="text-sm">Updated sedimentology course materials</p>
+          <span class="inline-block mt-3 bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all">Download</span>
+        </a>
+
+        <a href="https://mega.nz/file/C1gwyKgB#ZP8Tf5ta_fh4KktLd-MA4t3dN7cS-DN5HOCkW0_z72k" class="resource-card text-center">
+          <i class="fas fa-microscope resource-icon"></i>
+          <h4 class="resource-title">AGY 311 (2013-2014) Micropaleontology</h4>
+          <p class="text-sm">Foraminifera, ostracods, and microfossils</p>
+          <span class="inline-block mt-3 bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all">Download</span>
+        </a>
+
+        <a href="https://mega.nz/file/v4IlhCpS#rxYGkZXD8opL1_PKdiwy3dHG7T6RzsrBSp5HVEwsE3Q" class="resource-card text-center">
+          <i class="fas fa-microscope resource-icon"></i>
+          <h4 class="resource-title">AGY 311 (2014-2015) Micropaleontology</h4>
+          <p class="text-sm">Advanced micropaleontology studies</p>
+          <span class="inline-block mt-3 bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all">Download</span>
+        </a>
+
+        <a href="https://mega.nz/file/D9YQhSyD#oYvrEaHAhQcU3Jq8QWZzr9wCmbrL_z_RI7WlCl6dG6U" class="resource-card text-center">
+          <i class="fas fa-microscope resource-icon"></i>
+          <h4 class="resource-title">AGY 311 (2015-2016) Micropaleontology</h4>
+          <p class="text-sm">Latest micropaleontology course pack</p>
+          <span class="inline-block mt-3 bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all">Download</span>
+        </a>
+
+        <a href="https://mega.nz/file/r8Bk2Lga#Ta1VAkdyEXL9VjtTiRXdgXi7uHA2Xd5nFSRURgEbtY0" class="resource-card text-center">
+          <i class="fas fa-magnet resource-icon"></i>
+          <h4 class="resource-title">AGY Paleomagnetism Lecture 1</h4>
+          <p class="text-sm">Introduction to paleomagnetism and rock magnetism</p>
+          <span class="inline-block mt-3 bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all">Download</span>
+        </a>
+
+        <a href="https://mega.nz/file/CpAnGYbR#PVseUJx_FPtzeEaJRUcUM5krlSJpkr3n3HjqyFTwEwc" class="resource-card text-center">
+          <i class="fas fa-magnet resource-icon"></i>
+          <h4 class="resource-title">AGY Paleomagnetism Lecture 1-2</h4>
+          <p class="text-sm">Paleomagnetism and geomagnetic reversals</p>
+          <span class="inline-block mt-3 bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all">Download</span>
+        </a>
+
+        <a href="https://mega.nz/file/DtJQGArT#n5UQbBDLME0kmfjzYrxZOUJh2Jq1N7W50gyPdHX6ZlQ" class="resource-card text-center">
+          <i class="fas fa-globe-americas resource-icon"></i>
+          <h4 class="resource-title">AGY Plate Tectonics and Major Earth Structure</h4>
+          <p class="text-sm">Plate boundaries, seafloor spreading, and continental drift</p>
+          <span class="inline-block mt-3 bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all">Download</span>
+        </a>
+
+        <a href="https://mega.nz/file/rtRFzZIJ#60V22ZDRq68Y-ZeLS1G-kCNjy-VmyZ4hUEuBCVTJbOs" class="resource-card text-center">
+          <i class="fas fa-compress resource-icon"></i>
+          <h4 class="resource-title">AGY 312 Structural Geo (2016-2017)</h4>
+          <p class="text-sm">Advanced structural geology and tectonics</p>
+          <span class="inline-block mt-3 bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all">Download</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- ==================== 400 LEVEL ==================== -->
+    <div id="400level" class="tab-content">
+      <h3 class="subsection-title">400 Level Resources - Specialization & Professional Practice</h3>
+      <p class="mb-4 text-gray-600 dark:text-gray-400 text-sm sm:text-base">Biology integration, geophysics, and advanced geological applications.</p>
+
+      <div class="resource-grid">
+        <a href="#" class="resource-card text-center">
+          <i class="fas fa-dna resource-icon"></i>
+          <h4 class="resource-title">Coming Soon</h4>
+          <p class="text-sm">Coming soon</p>
+          <span class="inline-block mt-3 bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all">Download</span>
+        </a>
+
+        <a href="#" class="resource-card text-center">
+          <i class="fas fa-dna resource-icon"></i>
+          <h4 class="resource-title">Coming Soon</h4>
+          <p class="text-sm">Coming soon</p>
+          <span class="inline-block mt-3 bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all">Download</span>
+        </a>
+
+        <a href="#" class="resource-card text-center opacity-75">
+          <i class="fas fa-wave-square resource-icon"></i>
+          <h4 class="resource-title">Geophysics Textbook</h4>
+          <p class="text-sm">Coming soon</p>
+          <span class="inline-block mt-3 bg-gray-500 text-white py-2 px-4 rounded-lg font-semibold text-sm cursor-not-allowed">Soon</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- ==================== 500 LEVEL ==================== -->
+    <div id="500level" class="tab-content">
+      <h3 class="subsection-title">500 Level Resources - Graduate & Research</h3>
+      <p class="mb-4 text-gray-600 dark:text-gray-400 text-sm sm:text-base">Environmental geology, energy resources, and advanced geological research.</p>
+
+      <div class="resource-grid">
+        <a href="https://mega.nz/file/OtRCjCBJ#0cL3yF_tENun_51s56iCDcX0At25jR5ZB-1gOTCWBrA" class="resource-card text-center">
+          <i class="fas fa-leaf resource-icon"></i>
+          <h4 class="resource-title">AGY 511 Environmental Geology (2016-2017)</h4>
+          <p class="text-sm">Environmental impact assessment and geological hazards</p>
+          <span class="inline-block mt-3 bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all">Download</span>
+        </a>
+
+        <a href="https://1024terabox.com/s/1DS9oKp2L1eoKEf_fl2fk6A" class="resource-card text-center">
+          <i class="fas fa-leaf resource-icon"></i>
+          <h4 class="resource-title">AGY 511 Environmental Geology (2017-2018)</h4>
+          <p class="text-sm">Advanced environmental geology studies</p>
+          <span class="inline-block mt-3 bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all">Download</span>
+        </a>
+
+        <a href="https://mega.nz/file/b4YBCJJJ#0SpEU25zLBz2MSEEkgZcXq75CqAD24OIfZSvdV0iSpE" class="resource-card text-center">
+          <i class="fas fa-bolt resource-icon"></i>
+          <h4 class="resource-title">AGY 504 Energy Resources (2018-2019)</h4>
+          <p class="text-sm">Fossil fuels, renewables, and geological energy systems</p>
+          <span class="inline-block mt-3 bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all">Download</span>
+        </a>
+
+        <a href="https://mega.nz/file/6thyGRTB#qeaRXls4hT18wnH6IGZ5bVhA8U0usqJqqAVvCEj59E8E" class="resource-card text-center">
+          <i class="fas fa-bolt resource-icon"></i>
+          <h4 class="resource-title">AGY 504 Energy Resources (2014-2015)</h4>
+          <p class="text-sm">Historical energy resources course</p>
+          <span class="inline-block mt-3 bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all">Download</span>
+        </a>
+
+        <a href="https://mega.nz/file/HsJxlAZS#fz7XwLIvFgzFbI4TUs-PySS7_VYrAW8DTVJc9mGu2XE" class="resource-card text-center">
+          <i class="fas fa-bolt resource-icon"></i>
+          <h4 class="resource-title">AGY 504 Energy Resources (2015-2016)</h4>
+          <p class="text-sm">Energy geology and resource exploration</p>
+          <span class="inline-block mt-3 bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all">Download</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <!-- Admission Requirements -->
+    <div class="info-card">
+      <h2 class="section-title"><i class="fas fa-clipboard-check mr-3"></i>Admission Requirements</h2>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="research-item">
+          <h3 class="font-bold text-base sm:text-lg mb-3"><i class="fas fa-file-alt mr-2"></i>UTME Requirements</h3>
+          <ul class="space-y-2 text-sm sm:text-base">
+            <li>Minimum UTME score as set by JAMB and FUTA</li>
+            <li>Subject combination: English Language, Mathematics, and Physics/Chemistry</li>
+            <li>Five O'Level credit passes in no more than two sittings</li>
+            <li>O'Level credits must include: English, Mathematics, Physics, Chemistry, and one other subject</li>
+          </ul>
+        </div>
+
+        <div class="research-item">
+          <h3 class="font-bold text-base sm:text-lg mb-3"><i class="fas fa-graduation-cap mr-2"></i>Direct Entry Requirements (200 Level)</h3>
+          <ul class="space-y-2 text-sm sm:text-base">
+            <li>A'Level passes in Physics and Chemistry (minimum grade C)</li>
+            <li>A'Level pass in Geology or Geography (minimum grade C)</li>
+            <li>ND Upper Credit in Geology or related Earth Sciences discipline</li>
+            <li>Plus O'Level requirements as stated above</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+<!-- Contact Information -->
+    <div class="info-card">
+      <h2 class="section-title"><i class="fas fa-envelope mr-3"></i>Contact the Department</h2>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div>
+          <h3 class="subsection-title">Department Office</h3>
+          <div class="space-y-3 text-sm sm:text-base">
+            <p class="flex items-start gap-3">
+              <i class="fas fa-map-marker-alt text-orange-500 mt-1"></i>
+              <span>Department of Applied Geology<br>School of Earth and Mineral Sciences (SEMS)<br>Federal University of Technology, Akure<br>PMB 704, Akure, Ondo State, Nigeria</span>
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="subsection-title">Office Hours</h3>
+          <div class="space-y-2 text-sm sm:text-base">
+            <p class="flex justify-between py-2 border-b border-gray-200 dark:border-gray-700">
+              <span class="font-semibold">Monday - Friday:</span>
+              <span>8:00 AM - 5:00 PM</span>
+            </p>
+            <p class="flex justify-between py-2 border-b border-gray-200 dark:border-gray-700">
+              <span class="font-semibold">Saturday:</span>
+              <span>By Appointment</span>
+            </p>
+            <p class="flex justify-between py-2">
+              <span class="font-semibold">Sunday:</span>
+              <span>Closed</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Enhanced Footer -->
+  <footer class="footer py-12 px-4 lg:px-8 mt-auto">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div>
+        <h4 class="footer-heading text-lg font-bold mb-4">NAEMSS eLibrary</h4>
+        <p class="text-gray-600 dark:text-gray-400 text-sm">
+          Empowering SEMS students with comprehensive educational resources for academic excellence.
+        </p>
+        <div class="flex gap-4 mt-4">
+          <a href="#" class="social-icon text-blue-600 hover:bg-blue-600 hover:text-white">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="#" class="social-icon text-blue-400 hover:bg-blue-400 hover:text-white">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="#" class="social-icon text-pink-600 hover:bg-pink-600 hover:text-white">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="#" class="social-icon text-blue-700 hover:bg-blue-700 hover:text-white">
+            <i class="fab fa-linkedin-in"></i>
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="footer-heading text-lg font-bold mb-4">Quick Links</h4>
+        <ul class="space-y-2 text-gray-600 dark:text-gray-400">
+          <li><a href="index.html" class="footer-link">Home</a></li>
+          <li><a href="dashboard.html" class="footer-link">Dashboard</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="footer-heading text-lg font-bold mb-4">SEMS Departments</h4>
+        <ul class="space-y-2 text-gray-600 dark:text-gray-400">
+          <li><a href="agp.html" class="footer-link">Applied Geophysics</a></li>
+          <li><a href="mst.html" class="footer-link">Marine Science and Technology</a></li>
+          <li><a href="rsg.html" class="footer-link">Remote Sensing and Geoinformatics Systems</a></li>
+          <li><a href="mcs.html" class="footer-link">Metrology and Climate Science</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="footer-heading text-lg font-bold mb-4">Contact Us</h4>
+        <ul class="space-y-3 text-gray-600 dark:text-gray-400 text-sm">
+          <li class="flex items-start gap-3">
+            <i class="fas fa-map-marker-alt mt-1 text-amber-500"></i>
+            <span>Federal University of Technology, Akure, Ondo State, Nigeria</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto mt-8 pt-8 border-t border-gray-200 dark:border-gray-700 text-center text-gray-600 dark:text-gray-400 text-sm">
+      <p>&copy; 2025 NAEMSS eLibrary. All rights reserved. Built for NAEMSSITES by Gabriel</p>
+    </div>
+  </footer>
+
+  <!-- Back to Top Button -->
+  <button id="backToTop" class="back-to-top">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <script>
+    // Mobile Menu Toggle
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    menuToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('active');
+      const icon = menuToggle.querySelector('i');
+      icon.classList.toggle('fa-bars');
+      icon.classList.toggle('fa-times');
+    });
+
+    // Slideshow
+    const slideshow = document.getElementById('slideshow');
+    const slides = slideshow.querySelectorAll('.slide');
+    let currentSlide = 0;
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % slides.length;
+      slideshow.style.transform = `translateX(-${currentSlide * 100}%)`;
+    }
+
+    setInterval(nextSlide, 5000);
+
+    // Tabs
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tabId = btn.getAttribute('data-tab');
+
+        tabBtns.forEach(b => b.classList.remove('active'));
+        tabContents.forEach(c => c.classList.remove('active'));
+
+        btn.classList.add('active');
+        document.getElementById(tabId).classList.add('active');
       });
+    });
 
-      // Slideshow functionality
-      let currentSlide = 0;
-      const slides = document.querySelectorAll('#slideshow > div');
-      const totalSlides = slides.length;
-
-      function showSlide(index) {
-        if (index >= totalSlides) currentSlide = 0;
-        else if (index < 0) currentSlide = totalSlides - 1;
-        else currentSlide = index;
-        document.getElementById('slideshow').style.transform = `translateX(-${currentSlide * 100}%)`;
+    // Navbar Scroll Effect
+    const navbar = document.querySelector('.navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
       }
+    });
 
-      function nextSlide() {
-        showSlide(currentSlide + 1);
+    // Back to Top Button
+    const backToTop = document.getElementById('backToTop');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        backToTop.classList.add('visible');
+      } else {
+        backToTop.classList.remove('visible');
       }
+    });
 
-      function prevSlide() {
-        showSlide(currentSlide - 1);
-      }
-
-      // Auto-rotate slideshow every 5 seconds
-      let slideInterval = setInterval(nextSlide, 5000);
-
-      // Pause slideshow on hover
-      document.getElementById('slideshow').addEventListener('mouseenter', () => {
-        clearInterval(slideInterval);
-      });
-
-      document.getElementById('slideshow').addEventListener('mouseleave', () => {
-        slideInterval = setInterval(nextSlide, 5000);
-      });
-
-      // Card animation on scroll
-      const cards = document.querySelectorAll('.card-animate');
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('visible');
-            }
-          });
-        },
-        { threshold: 0.1 }
-      );
-
-      cards.forEach((card) => observer.observe(card));
-
-      // Back to Top Button functionality
-      const backToTopButton = document.getElementById('backToTop');
-
-      window.addEventListener('scroll', () => {
-        if (window.scrollY > 300) {
-          backToTopButton.classList.add('visible');
-          backToTopButton.classList.remove('hidden');
-        } else {
-          backToTopButton.classList.remove('visible');
-          backToTopButton.classList.add('hidden');
-        }
-      });
-
-      backToTopButton.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      });
-
-      // Level tabs
-      function showLevel(levelId) {
-        document.querySelectorAll('.level-content').forEach((content) => {
-          content.classList.add('hidden');
-        });
-        document.getElementById(levelId).classList.remove('hidden');
-
-        document.querySelectorAll('.tab').forEach((tab) => {
-          tab.classList.remove('active');
-        });
-        document.querySelector(`button[onclick="showLevel('${levelId}')"]`).classList.add('active');
-
-        // Show first semester by default
-        const firstSemester = document.querySelector(`#${levelId} .semester-content`);
-        const firstSubTab = document.querySelector(`#${levelId} .sub-tab`);
-        showSemester(firstSemester.id);
-        document.querySelectorAll(`#${levelId} .sub-tab`).forEach((tab) => {
-          tab.classList.remove('active');
-        });
-        firstSubTab.classList.add('active');
-      }
-
-      // Semester tabs
-      function showSemester(semesterId) {
-        document.querySelectorAll('.semester-content').forEach((content) => {
-          content.classList.add('hidden');
-        });
-        document.getElementById(semesterId).classList.remove('hidden');
-
-        document.querySelectorAll('.sub-tab').forEach((tab) => {
-          tab.classList.remove('active');
-        });
-        document.querySelector(`button[onclick="showSemester('${semesterId}')"]`).classList.add('active');
-
-        // Reset book slider for this semester
-        initializeSlider(semesterId);
-      }
-
-      // Book content toggle
-      function openBook(bookId) {
-        document.querySelectorAll('.book-content').forEach((content) => {
-          content.classList.add('hidden');
-        });
-        document.getElementById(bookId).classList.remove('hidden');
-      }
-
-      // Book slider functionality
-      function initializeSlider(semesterId) {
-        const sliderContainer = document.querySelector(`#${semesterId} .slider-container`);
-        const bookSlider = document.querySelector(`#${semesterId} .book-slider`);
-        const books = document.querySelectorAll(`#${semesterId} .book`);
-        const prevButton = document.querySelector(`#${semesterId} .prev-slide`);
-        const nextButton = document.querySelector(`#${semesterId} .next-slide`);
-
-        let currentPosition = 0;
-        const bookWidth = books[0].offsetWidth + 16; // Including margin
-        const maxPosition = -(books.length - 1) * bookWidth;
-
-        function updateButtons() {
-          prevButton.classList.toggle('disabled', currentPosition >= 0);
-          nextButton.classList.toggle('disabled', currentPosition <= maxPosition);
-        }
-
-        prevButton.addEventListener('click', () => {
-          if (currentPosition < 0) {
-            currentPosition += bookWidth;
-            bookSlider.style.transform = `translateX(${currentPosition}px)`;
-            updateButtons();
-          }
-        });
-
-        nextButton.addEventListener('click', () => {
-          if (currentPosition > maxPosition) {
-            currentPosition -= bookWidth;
-            bookSlider.style.transform = `translateX(${currentPosition}px)`;
-            updateButtons();
-          }
-        });
-
-        // Touch support for slider
-        let startX, currentX;
-        sliderContainer.addEventListener('touchstart', (e) => {
-          startX = e.touches[0].clientX;
-        });
-
-        sliderContainer.addEventListener('touchmove', (e) => {
-          currentX = e.touches[0].clientX;
-        });
-
-        sliderContainer.addEventListener('touchend', () => {
-          const deltaX = currentX - startX;
-          if (deltaX > 50 && currentPosition < 0) {
-            currentPosition += bookWidth;
-            bookSlider.style.transform = `translateX(${currentPosition}px)`;
-          } else if (deltaX < -50 && currentPosition > maxPosition) {
-            currentPosition -= bookWidth;
-            bookSlider.style.transform = `translateX(${currentPosition}px)`;
-          }
-          updateButtons();
-        });
-
-        updateButtons();
-      }
-
-      // Initialize sliders for all semesters
-      document.querySelectorAll('.semester-content').forEach((semester) => {
-        if (!semester.classList.contains('hidden')) {
-          initializeSlider(semester.id);
-        }
-      });
-    </script>
-  </body>
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</body>
 </html>
