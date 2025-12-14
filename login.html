@@ -6,7 +6,7 @@
     <title>Log In - NAEMSS eLibrary</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjV8FJ0V7irTLQ8Uo0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
     <style>
@@ -14,7 +14,6 @@
         font-family: 'Poppins', sans-serif;
       }
 
-      /* Slideshow styling */
       .slideshow-container {
         position: fixed;
         top: 0;
@@ -41,34 +40,31 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-        opacity: 0.5; /* Subtle opacity for form readability */
+        opacity: 0.5;
       }
 
-      /* Login card styling */
       .login-card {
-        background: rgba(255, 255, 255, 0.9); /* Semi-transparent white for light mode */
-        border-top: 4px solid #FFD700; /* Gold */
+        background: rgba(255, 255, 255, 0.9);
+        border-top: 4px solid #FFD700;
         transition: transform 0.3s ease;
       }
 
       .dark .login-card {
-        background: rgba(0, 0, 0, 0.5); /* Subtle opacity for dark mode */
-        border-top: 4px solid #B8860B; /* Dark gold */
+        background: rgba(0, 0, 0, 0.5);
+        border-top: 4px solid #B8860B;
       }
 
       .login-card:hover {
         transform: scale(1.05);
       }
 
-      /* Input focus and error styling */
       input:focus {
         outline: none;
-        border-color: #FFD700; /* Gold for focus */
-        ring: 2px solid #FFD700;
+        border-color: #FFD700;
       }
 
       .error {
-        border: 2px solid #EF4444; /* Red for errors */
+        border: 2px solid #EF4444 !important;
       }
 
       .error-message {
@@ -77,7 +73,6 @@
         margin-top: 0.25rem;
       }
 
-      /* Responsive layout */
       @media (max-width: 640px) {
         .container {
           padding: 1rem;
@@ -113,13 +108,13 @@
     <div class="slideshow-container">
       <div id="slideshow" class="slideshow">
         <div class="slide">
-          <img src="images (1).jpg" alt="Atmospheric Monitoring" />
+          <img src="https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?w=800" alt="Atmospheric Monitoring" />
         </div>
         <div class="slide">
-          <img src="images (2).jpg" alt="Climate Modeling" />
+          <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800" alt="Climate Modeling" />
         </div>
         <div class="slide">
-          <img src="images (4).jpg" alt="Weather Observation" />
+          <img src="https://images.unsplash.com/photo-1446776877081-d282a0f896e2?w=800" alt="Weather Observation" />
         </div>
       </div>
     </div>
@@ -138,7 +133,7 @@
             class="mt-1 p-2 w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-gold"
             required
           />
-          <p id="identifierError" class="error-message hidden">Please enter a valid email or matric number (AGY, AGP, MST, MCS, or RSG).</p>
+          <p id="identifierError" class="error-message hidden"></p>
         </div>
         <div>
           <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
@@ -149,7 +144,7 @@
             class="mt-1 p-2 w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-gold"
             required
           />
-          <p id="passwordError" class="error-message hidden">Password is required.</p>
+          <p id="passwordError" class="error-message hidden"></p>
         </div>
         <button
           type="submit"
@@ -159,9 +154,9 @@
         </button>
       </form>
       <p class="text-center text-sm text-gray-600 dark:text-gray-300 mt-4">
-        Don't have an account? <a href="/signup.html" class="text-gold dark:text-darkgold hover:underline">Sign Up</a>
+        Don't have an account? <a href="#" class="text-gold dark:text-darkgold hover:underline">Sign Up</a>
       </p>
-      <p id="formError" class="error-message text-center hidden">An error occurred during login. Please try again.</p>
+      <p id="formError" class="error-message text-center hidden"></p>
     </div>
 
     <script>
@@ -231,9 +226,8 @@
         } else if (emailRegex.test(identifier.toLowerCase())) {
           email = identifier.toLowerCase();
         } else if (matricRegex.test(identifier)) {
-          // Placeholder for matric number to email mapping
-          // In production, fetch email from Firestore using matric number
-          email = `${identifier.toLowerCase().replace(/\//g, '.')}@naemss.edu`; // Example mapping: MST/12/1234 -> mst.12.1234@naemss.edu
+          // Convert matric number to email
+          email = `${identifier.toLowerCase().replace(/\//g, '.')}@naemss.edu`;
         } else {
           showError('identifier', 'Please enter a valid email or matric number (AGY, AGP, MST, MCS, or RSG).');
           isValid = false;
@@ -251,19 +245,27 @@
           .then((userCredential) => {
             alert('Login successful! Welcome to NAEMSS eLibrary.');
             document.getElementById('loginForm').reset();
-            // Redirect to home page or dashboard
             window.location.href = '/index.html';
           })
           .catch((error) => {
-            showError('form', `Error: ${error.message}`);
+            showFormError(`Error: ${error.message}`);
           });
       });
 
-      // Show error message and highlight input
+      // Show error message for input fields
       function showError(fieldId, message) {
         const input = document.getElementById(fieldId);
-        const errorElement = document.getElementById(`${fieldId}Error`);
-        input.classList.add('error');
+        if (input) {
+          const errorElement = document.getElementById(`${fieldId}Error`);
+          input.classList.add('error');
+          errorElement.textContent = message;
+          errorElement.classList.remove('hidden');
+        }
+      }
+
+      // Show error message for form
+      function showFormError(message) {
+        const errorElement = document.getElementById('formError');
         errorElement.textContent = message;
         errorElement.classList.remove('hidden');
       }

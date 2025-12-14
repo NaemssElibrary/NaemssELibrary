@@ -1,879 +1,1299 @@
 <!DOCTYPE html>
 <html lang="en" class="dark">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Metrology and Climate Science - NAEMSS eLibrary</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjV8FJ0V7irTLQ8Uo0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-      body {
-        font-family: 'Poppins', sans-serif;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meteorology & Climate Science - LEGACY by Gabriel</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="shortcut icon" href="ChatGPT Image Jul 8, 2025, 07_14_09 PM.png" type="image/x-icon">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --color-primary: #3b82f6;
+      --color-gold: #f59e0b;
+      --color-sky-blue: #0284c7;
+      --color-sky-light: #38bdf8;
+      --transition-speed: 0.3s;
+    }
 
-      /* Card slide-in animation */
-      .card-animate {
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* Navbar Enhancements */
+    .navbar {
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.95);
+      transition: all var(--transition-speed) ease;
+    }
+
+    .dark .navbar {
+      background: rgba(31, 41, 55, 0.95);
+    }
+
+    .navbar.scrolled {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-link {
+      position: relative;
+      transition: all var(--transition-speed) ease;
+      font-weight: 500;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--color-primary);
+      transition: width var(--transition-speed) ease;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .nav-link:hover {
+      color: var(--color-primary);
+      transform: translateY(-2px);
+    }
+
+    .logo-container {
+      transition: transform var(--transition-speed) ease;
+    }
+
+    .logo-container:hover {
+      transform: scale(1.05);
+    }
+
+    .mobile-menu {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease-in-out;
+    }
+
+    .mobile-menu.active {
+      max-height: 500px;
+    }
+
+    /* Slideshow Enhancements */
+    .slideshow-container {
+      position: relative;
+      width: 100%;
+      height: 400px;
+      overflow: hidden;
+      border-radius: 0 0 24px 24px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .slideshow {
+      display: flex;
+      transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      height: 100%;
+    }
+
+    .slide {
+      min-width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .slide::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(2, 132, 199, 0.6), rgba(56, 189, 248, 0.5));
+    }
+
+    .slideshow-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+      text-align: center;
+      width: 90%;
+    }
+
+    .slideshow-text h2 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      color: white;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      animation: fadeInUp 1s ease;
+    }
+
+    .slideshow-text p {
+      font-size: clamp(1rem, 2vw, 1.5rem);
+      color: white;
+      margin-top: 12px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    @keyframes fadeInUp {
+      from {
         opacity: 0;
-        transform: translateY(20px);
-        transition: all 0.8s ease-in-out;
+        transform: translateY(30px);
       }
-
-      .card-animate.visible {
+      to {
         opacity: 1;
         transform: translateY(0);
       }
+    }
 
-      /* Social icons */
-      .social-icons i {
+    /* Content Section Styles */
+    .content-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    @media (min-width: 768px) {
+      .content-section {
+        padding: 24px;
+      }
+    }
+
+    .dept-header {
+      background: linear-gradient(135deg, var(--color-sky-blue), var(--color-sky-light));
+      color: white;
+      padding: 32px 24px;
+      border-radius: 16px;
+      margin-bottom: 32px;
+      box-shadow: 0 10px 30px rgba(2, 132, 199, 0.3);
+    }
+
+    @media (min-width: 768px) {
+      .dept-header {
+        padding: 48px 32px;
+      }
+    }
+
+    .dark .dept-header {
+      background: linear-gradient(135deg, #075985, #0369a1);
+    }
+
+    .info-card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    @media (min-width: 768px) {
+      .info-card {
+        padding: 24px;
+      }
+    }
+
+    .dark .info-card {
+      background: rgba(31, 41, 55, 0.8);
+    }
+
+    .info-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--color-sky-blue);
+      margin-bottom: 16px;
+      position: relative;
+      padding-bottom: 12px;
+    }
+
+    @media (min-width: 768px) {
+      .section-title {
         font-size: 2rem;
-        transition: transform 0.3s ease;
       }
+    }
 
-      .social-icons i:hover {
-        transform: scale(1.2);
+    .dark .section-title {
+      color: #7dd3fc;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 60px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--color-sky-blue), var(--color-sky-light));
+      border-radius: 2px;
+    }
+
+    .subsection-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--color-primary);
+      margin-top: 24px;
+      margin-bottom: 12px;
+    }
+
+    @media (min-width: 768px) {
+      .subsection-title {
+        font-size: 1.5rem;
       }
+    }
 
-      /* Back to Top Button */
-      #backToTop {
-        position: fixed;
-        bottom: 30px;
-        right: 20px;
-        background-color: #60A5FA; /* Soft Blue */
-        color: #60A5FA; /* Soft Blue for light mode */
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    .dark .subsection-title {
+      color: #60a5fa;
+    }
+
+    /* Tabs System */
+    .tabs-container {
+      margin: 32px 0;
+    }
+
+    .tabs-nav {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+      padding-bottom: 0;
+      margin-bottom: 24px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+    }
+
+    .tabs-nav::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    .tabs-nav::-webkit-scrollbar-thumb {
+      background: var(--color-sky-blue);
+      border-radius: 2px;
+    }
+
+    .dark .tabs-nav {
+      border-bottom-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .tab-btn {
+      padding: 10px 16px;
+      background: transparent;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      white-space: nowrap;
+      color: #6b7280;
+      font-size: 0.875rem;
+    }
+
+    @media (min-width: 768px) {
+      .tab-btn {
+        padding: 12px 24px;
+        font-size: 1rem;
+      }
+    }
+
+    .dark .tab-btn {
+      color: #9ca3af;
+    }
+
+    .tab-btn::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 3px;
+      background: var(--color-sky-blue);
+      transition: width 0.3s ease;
+    }
+
+    .tab-btn:hover {
+      color: var(--color-sky-blue);
+    }
+
+    .tab-btn.active {
+      color: var(--color-sky-blue);
+    }
+
+    .dark .tab-btn.active {
+      color: #7dd3fc;
+    }
+
+    .tab-btn.active::after {
+      width: 100%;
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
         opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        z-index: 1000;
+        transform: translateY(10px);
       }
-
-      #backToTop:hover {
-        background-color: #93C5FD; /* Light Blue */
-        transform: scale(1.1);
-      }
-
-      #backToTop.visible {
+      to {
         opacity: 1;
-        visibility: visible;
+        transform: translateY(0);
       }
+    }
 
-      .dark #backToTop {
-        color: #FFFFFF; /* White for dark mode */
-      }
+    /* Resource Cards */
+    .resource-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-top: 24px;
+    }
 
-      /* Responsive navbar title */
-      @media (max-width: 640px) {
-        .desktop-title {
-          display: none;
-        }
-        .mobile-title {
-          display: inline;
-        }
-        .book {
-          width: 40%;
-        }
-        .slide-nav-button {
-          padding: 0.75rem;
-        }
+    @media (min-width: 640px) {
+      .resource-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
-      @media (min-width: 641px) {
-        .desktop-title {
-          display: inline;
-        }
-        .mobile-title {
-          display: none;
-        }
-      }
+    }
 
-      /* Tab styling */
-      .tab {
-        background-color: #60A5FA; /* Soft Blue */
-        color: white;
-        padding: 0.5rem 1rem;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
+    @media (min-width: 1024px) {
+      .resource-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
       }
+    }
 
-      .tab:hover {
-        background-color: #A7F3D0; /* Pale Green */
+    .resource-card {
+      background: linear-gradient(135deg, #e0f2fe, #cffafe);
+      border: 2px solid #bae6fd;
+      border-radius: 12px;
+      padding: 16px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    @media (min-width: 768px) {
+      .resource-card {
+        padding: 20px;
       }
+    }
 
-      .tab.active {
-        background-color: #93C5FD; /* Light Blue */
-        font-weight: bold;
+    .dark .resource-card {
+      background: linear-gradient(135deg, rgba(2, 132, 199, 0.1), rgba(56, 189, 248, 0.1));
+      border-color: rgba(2, 132, 199, 0.3);
+    }
+
+    .resource-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 28px rgba(2, 132, 199, 0.3);
+      border-color: var(--color-sky-blue);
+    }
+
+    .resource-icon {
+      font-size: 1.75rem;
+      color: var(--color-sky-blue);
+      margin-bottom: 12px;
+    }
+
+    @media (min-width: 768px) {
+      .resource-icon {
+        font-size: 2rem;
       }
+    }
 
-      .sub-tab {
-        background-color: #A7F3D0; /* Pale Green */
-        color: white;
-        padding: 0.5rem;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
+    .resource-title {
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 8px;
+      color: #075985;
+    }
+
+    @media (min-width: 768px) {
+      .resource-title {
+        font-size: 1.1rem;
       }
+    }
 
-      .sub-tab:hover {
-        background-color: #60A5FA; /* Soft Blue */
+    .dark .resource-title {
+      color: #bae6fd;
+    }
+
+    /* Research Areas */
+    .research-item {
+      background: linear-gradient(135deg, #e0f2fe, #f0f9ff);
+      border-left: 4px solid var(--color-sky-blue);
+      padding: 16px 20px;
+      margin-bottom: 16px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .dark .research-item {
+      background: linear-gradient(135deg, rgba(2, 132, 199, 0.1), rgba(56, 189, 248, 0.1));
+    }
+
+    .research-item:hover {
+      transform: translateX(8px);
+      box-shadow: 0 6px 16px rgba(2, 132, 199, 0.2);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin: 4px;
+    }
+
+    .badge-sky {
+      background: #e0f2fe;
+      color: #075985;
+    }
+
+    .dark .badge-sky {
+      background: rgba(2, 132, 199, 0.2);
+      color: #7dd3fc;
+    }
+
+    .badge-cyan {
+      background: #cffafe;
+      color: #0e7490;
+    }
+
+    .dark .badge-cyan {
+      background: rgba(56, 189, 248, 0.2);
+      color: #a5f3fc;
+    }
+
+    .badge-blue {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .dark .badge-blue {
+      background: rgba(59, 130, 246, 0.2);
+      color: #93c5fd;
+    }
+
+    /* Footer Enhancements */
+    .footer {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(249, 250, 251, 1) 100%);
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .dark .footer {
+      background: linear-gradient(180deg, rgba(17, 24, 39, 0.98) 0%, rgba(0, 0, 0, 0.95) 100%);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .footer-heading {
+      position: relative;
+      display: inline-block;
+      padding-bottom: 8px;
+      margin-bottom: 16px;
+    }
+
+    .footer-heading::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 40px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--color-primary), var(--color-gold));
+      border-radius: 2px;
+    }
+
+    .footer-link {
+      transition: all var(--transition-speed) ease;
+      display: inline-block;
+    }
+
+    .footer-link:hover {
+      color: var(--color-primary);
+      transform: translateX(5px);
+    }
+
+    .social-icon {
+      transition: all var(--transition-speed) ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(59, 130, 246, 0.1);
+    }
+
+    .social-icon:hover {
+      transform: translateY(-5px) scale(1.1);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .whatsapp-float {
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
       }
-
-      .sub-tab.active {
-        background-color: #93C5FD; /* Light Blue */
-        color: #FFFFFF; /* White text */
-      }
-
-      /* Book slider */
-      .book {
-        transition: transform 0.3s ease;
-      }
-
-      .book:hover {
+      50% {
         transform: scale(1.05);
       }
+    }
 
-      .slider-container {
-        position: relative;
-        width: 100%;
-        overflow-x: auto;
-        scrollbar-width: none; /* Firefox */
-        -ms-overflow-style: none; /* IE and Edge */
-      }
+    .back-to-top {
+      position: fixed;
+      bottom: 24px;
+      left: 24px;
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, var(--color-sky-blue), var(--color-sky-light));
+      color: white;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transition: all var(--transition-speed) ease;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+    }
 
-      .slider-container::-webkit-scrollbar {
-        display: none; /* Chrome, Safari, Opera */
-      }
+    .back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
 
-      .book-slider {
-        display: flex;
-        flex-wrap: nowrap;
-        transition: transform 0.5s ease-in-out;
-        width: max-content;
-      }
+    .back-to-top:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    }
 
-      .slide-nav-button {
-        transition: background-color 0.3s ease, opacity 0.3s ease;
-      }
+    .text-primary-custom {
+      color: var(--color-primary);
+    }
 
-      .slide-nav-button.disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
+    .dark .text-primary-custom {
+      color: #60a5fa;
+    }
+
+    .text-gold-custom {
+      color: var(--color-gold);
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    ul li {
+      padding: 8px 0;
+      padding-left: 24px;
+      position: relative;
+    }
+
+    ul li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--color-sky-blue);
+      font-weight: bold;
+    }
+
+    /* Mobile Responsive Grid */
+    @media (max-width: 767px) {
+      .grid.md\:grid-cols-2, 
+      .grid.md\:grid-cols-3,
+      .grid.lg\:grid-cols-3 {
+        grid-template-columns: 1fr !important;
       }
-    </style>
-    <script>
-      tailwind.config = {
-        darkMode: 'class',
-        theme: {
-          extend: {
-            fontFamily: {
-              poppins: ['Poppins', 'sans-serif']
-            },
-            colors: {
-              softBlue: '#60A5FA',
-              lightBlue: '#93C5FD',
-              paleGreen: '#A7F3D0',
-              deepSlate: '#1E293B'
-            }
-          }
-        }
-      }
-    </script>
-  </head>
-  <body class="bg-gray-100 dark:bg-deepSlate text-gray-900 dark:text-white transition duration-300">
-    <!-- Navbar -->
-    <nav class="bg-softBlue dark:bg-lightBlue p-4 shadow-md fixed w-full top-0 z-50">
-      <div class="max-w-7xl mx-auto flex justify-between items-center">
-        <h1 class="text-xl font-bold text-white">
-          <span class="desktop-title">Metrology & Climate Science - NAEMSS eLibrary</span>
-          <span class="mobile-title">Metrology & Climate - NAEMSS</span>
+    }
+  </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white min-h-screen flex flex-col">
+
+  <!-- Enhanced Navbar -->
+  <header class="navbar sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex items-center justify-between p-4 lg:px-8">
+      <div class="logo-container flex items-center gap-3 cursor-pointer">
+        <img src="download-6.jpeg" alt="Logo" class="w-12 h-12 rounded-full shadow-lg border-2 border-blue-500" />
+        <h1 class="text-xl lg:text-2xl font-bold">
+          <span class="text-gold-custom">NAEMSS eLibrary</span>
         </h1>
-        <button id="toggleMenu" class="sm:hidden text-white focus:outline-none text-2xl">
-          ☰
-        </button>
-        <ul id="menu" class="hidden sm:flex gap-4">
-          <li><a href="index.html" class="text-white hover:underline">Home</a></li>
-          <li><a href="#" class="text-white hover:underline">About</a></li>
-          <li><a href="#" class="text-white hover:underline">Contact</a></li>
-        </ul>
+      </div>
+
+      <nav class="hidden lg:flex items-center space-x-8">
+        <a href="index.html" class="nav-link flex items-center gap-2">
+          <i class="fas fa-home"></i> Home
+        </a>
+        <a href="dashboard.html" class="nav-link flex items-center gap-2">
+          <i class="fas fa-tools"></i> Dashboard
+        </a>
+        <a href="login.html" class="nav-link flex items-center gap-2 text-red-500 hover:text-red-600">
+          <i class="fas fa-sign-out-alt"></i> Login
+        </a>
+      </nav>
+
+      <button id="menuToggle" class="lg:hidden text-primary-custom text-3xl focus:outline-none transition-transform duration-300">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+
+    <!-- Enhanced Mobile Menu -->
+    <nav id="mobileMenu" class="mobile-menu lg:hidden bg-white dark:bg-gray-800 shadow-lg mx-4">
+      <div class="p-6 space-y-4">
+        <a href="index.html" class="footer-link block text-lg">
+          <i class="fas fa-home mr-3 text-primary-custom"></i> Home
+        </a>
+        <a href="dashboard.html" class="footer-link block text-lg">
+          <i class="fas fa-tools mr-3 text-primary-custom"></i> Dashboard
+        </a>
+        <a href="login.html" class="footer-link block text-lg text-red-500">
+          <i class="fas fa-sign-out-alt mr-3"></i> Login
+        </a>
       </div>
     </nav>
+  </header>
 
-    <!-- Mobile menu -->
-    <div id="mobileMenu" class="sm:hidden hidden bg-softBlue dark:bg-lightBlue px-4 py-2 space-y-2 mt-16">
-      <a href="index.html" class="block text-white py-2 hover:bg-lightBlue dark:hover:bg-softBlue rounded">Home</a>
-      <a href="#" class="block text-white py-2 hover:bg-lightBlue dark:hover:bg-softBlue rounded">About</a>
-      <a href="#" class="block text-white py-2 hover:bg-lightBlue dark:hover:bg-softBlue rounded">Contact</a>
-    </div>
-
-    <!-- Slideshow -->
-    <div class="relative w-full overflow-hidden h-64 sm:h-80 md:h-96 mt-16">
-      <div id="slideshow" class="flex transition-transform duration-700 ease-in-out">
-        <div class="w-full flex-shrink-0">
-          <img src="https://via.placeholder.com/1200x400?text=Atmospheric+Monitoring" alt="Atmospheric Monitoring" class="w-full h-64 sm:h-80 md:h-96 object-cover" />
-        </div>
-        <div class="w-full flex-shrink-0">
-          <img src="https://via.placeholder.com/1200x400?text=Climate+Modeling" alt="Climate Modeling" class="w-full h-64 sm:h-80 md:h-96 object-cover" />
-        </div>
-        <div class="w-full flex-shrink-0">
-          <img src="https://via.placeholder.com/1200x400?text=Weather+Observation" alt="Weather Observation" class="w-full h-64 sm:h-80 md:h-96 object-cover" />
-        </div>
+  <!-- Enhanced Hero Section with Department-Specific Slideshow -->
+  <div class="slideshow-container mt-4">
+    <div id="slideshow" class="slideshow">
+      <div class="slide">
+        <img src="https://images.unsplash.com/photo-1534088568595-a066f410bcda?w=1280&h=400&fit=crop" alt="Weather Systems" />
+      </div>
+      <div class="slide">
+        <img src="https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?w=1280&h=400&fit=crop" alt="Climate Research" />
+      </div>
+      <div class="slide">
+        <img src="https://images.unsplash.com/photo-1561484930-974554019ade?w=1280&h=400&fit=crop" alt="Storm Tracking" />
+      </div>
+      <div class="slide">
+        <img src="https://images.unsplash.com/photo-1530908295418-a12e326966ba?w=1280&h=400&fit=crop" alt="Atmospheric Science" />
       </div>
     </div>
+    <div class="slideshow-text">
+      <h2>Meteorology & Climate Science</h2>
+      <p>Understanding Weather Patterns and Climate Dynamics</p>
+    </div>
+  </div>
 
-    <!-- Header Section -->
-    <section class="max-w-7xl mx-auto py-10 px-4">
-      <h2 class="text-3xl font-semibold mb-6 text-softBlue dark:text-paleGreen">Department of Metrology and Climate Science</h2>
-      <p class="text-gray-600 dark:text-gray-300 text-sm mb-6">Explore resources, course materials, and tools for Metrology and Climate Science students at all levels.</p>
-    </section>
+  <!-- Main Content -->
+  <main class="flex-grow content-section py-8">
 
-    <!-- Tabs for Levels -->
-    <section class="max-w-7xl mx-auto py-10 px-4">
-      <h3 class="text-2xl font-semibold mb-4 text-softBlue dark:text-paleGreen">Course Materials by Level</h3>
-      <div class="flex flex-wrap gap-2 mb-4">
-        <button class="tab active" onclick="showLevel('level-100')">100 Level</button>
-        <button class="tab" onclick="showLevel('level-200')">200 Level</button>
-        <button class="tab" onclick="showLevel('level-300')">300 Level</button>
-      </div>
-
-      <!-- Level Content -->
-      <div id="level-100" class="level-content">
-        <div class="flex gap-2 mb-4">
-          <button class="sub-tab active" onclick="showSemester('level-100-sem1')">1st Semester</button>
-          <button class="sub-tab" onclick="showSemester('level-100-sem2')">2nd Semester</button>
-        </div>
-        <div id="level-100-sem1" class="semester-content">
-          <div class="slider-container">
-            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-softBlue dark:bg-lightBlue text-white p-2 rounded-full hover:bg-lightBlue dark:hover:bg-softBlue z-10">
-              <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-softBlue dark:bg-lightBlue text-white p-2 rounded-full hover:bg-lightBlue dark:hover:bg-softBlue z-10">
-              <i class="fas fa-chevron-right"></i>
-            </button>
-            <div class="book-slider">
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-softBlue dark:bg-paleGreen rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Intro+Metrology" alt="Intro Metrology Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Intro to Metrology</h4>
-                  <button class="open-book bg-softBlue dark:bg-lightBlue text-white py-1 px-3 rounded hover:bg-lightBlue dark:hover:bg-softBlue text-sm" onclick="openBook('level-100-sem1-metrology')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-paleGreen dark:bg-softBlue rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Atm.+Physics" alt="Atmospheric Physics Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Atmospheric Physics</h4>
-                  <button class="open-book bg-softBlue dark:bg-lightBlue text-white py-1 px-3 rounded hover:bg-lightBlue dark:hover:bg-softBlue text-sm" onclick="openBook('level-100-sem1-physics')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-lightBlue dark:bg-paleGreen rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Climate+Fund." alt="Climate Fundamentals Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Climate Fundamentals</h4>
-                  <button class="open-book bg-softBlue dark:bg-lightBlue text-white py-1 px-3 rounded hover:bg-lightBlue dark:hover:bg-softBlue text-sm" onclick="openBook('level-100-sem1-climate')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="level-100-sem1-metrology" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-softBlue dark:text-paleGreen mb-2">Introduction to Metrology</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Course notes and slides</p>
-          </div>
-          <div id="level-100-sem1-physics" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-softBlue dark:text-paleGreen mb-2">Atmospheric Physics</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Problem sets</p>
-          </div>
-          <div id="level-100-sem1-climate" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-softBlue dark:text-paleGreen mb-2">Climate Fundamentals</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Tutorials</p>
-          </div>
-        </div>
-        <div id="level-100-sem2" class="semester-content hidden">
-          <div class="slider-container">
-            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-softBlue dark:bg-lightBlue text-white p-2 rounded-full hover:bg-lightBlue dark:hover:bg-softBlue z-10">
-              <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-softBlue dark:bg-lightBlue text-white p-2 rounded-full hover:bg-lightBlue dark:hover:bg-softBlue z-10">
-              <i class="fas fa-chevron-right"></i>
-            </button>
-            <div class="book-slider">
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-softBlue dark:bg-paleGreen rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Weather+Obs." alt="Weather Observation Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Weather Observation</h4>
-                  <button class="open-book bg-softBlue dark:bg-lightBlue text-white py-1 px-3 rounded hover:bg-lightBlue dark:hover:bg-softBlue text-sm" onclick="openBook('level-100-sem2-weather')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-paleGreen dark:bg-softBlue rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Data+Analysis" alt="Data Analysis Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Data Analysis</h4>
-                  <button class="open-book bg-softBlue dark:bg-lightBlue text-white py-1 px-3 rounded hover:bg-lightBlue dark:hover:bg-softBlue text-sm" onclick="openBook('level-100-sem2-data')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-lightBlue dark:bg-paleGreen rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Env.+Science" alt="Environmental Science Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Environmental Science</h4>
-                  <button class="open-book bg-softBlue dark:bg-lightBlue text-white py-1 px-3 rounded hover:bg-lightBlue dark:hover:bg-softBlue text-sm" onclick="openBook('level-100-sem2-environmental')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="level-100-sem2-weather" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-softBlue dark:text-paleGreen mb-2">Weather Observation</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Observation techniques</p>
-          </div>
-          <div id="level-100-sem2-data" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-softBlue dark:text-paleGreen mb-2">Data Analysis</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Statistical tutorials</p>
-          </div>
-          <div id="level-100-sem2-environmental" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-softBlue dark:text-paleGreen mb-2">Environmental Science</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Study guides</p>
-          </div>
+    <!-- Department Header -->
+    <div class="dept-header">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-4">
+        <i class="fas fa-cloud-sun text-4xl sm:text-6xl"></i>
+        <div>
+          <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2">Department of Meteorology and Climate Science</h1>
+          <p class="text-base sm:text-lg lg:text-xl opacity-90">School of Earth and Mineral Sciences (SEMS) • College of Natural Sciences • Federal University of Technology, Akure</p>
         </div>
       </div>
-      <div id="level-200" class="level-content hidden">
-        <div class="flex gap-2 mb-4">
-          <button class="sub-tab active" onclick="showSemester('level-200-sem1')">1st Semester</button>
-          <button class="sub-tab" onclick="showSemester('level-200-sem2')">2nd Semester</button>
-        </div>
-        <div id="level-200-sem1" class="semester-content">
-          <div class="slider-container">
-            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-softBlue dark:bg-lightBlue text-white p-2 rounded-full hover:bg-lightBlue dark:hover:bg-softBlue z-10">
-              <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-softBlue dark:bg-lightBlue text-white p-2 rounded-full hover:bg-lightBlue dark:hover:bg-softBlue z-10">
-              <i class="fas fa-chevron-right"></i>
-            </button>
-            <div class="book-slider">
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-softBlue dark:bg-paleGreen rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Climate+Model" alt="Climate Modeling Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Climate Modeling</h4>
-                  <button class="open-book bg-softBlue dark:bg-lightBlue text-white py-1 px-3 rounded hover:bg-lightBlue dark:hover:bg-softBlue text-sm" onclick="openBook('level-200-sem1-modeling')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-paleGreen dark:bg-softBlue rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Remote+Sensing" alt="Remote Sensing Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Remote Sensing</h4>
-                  <button class="open-book bg-softBlue dark:bg-lightBlue text-white py-1 px-3 rounded hover:bg-lightBlue dark:hover:bg-softBlue text-sm" onclick="openBook('level-200-sem1-remote')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-lightBlue dark:bg-paleGreen rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=GHG+Measure" alt="GHG Measurements Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">GHG Measurements</h4>
-                  <button class="open-book bg-softBlue dark:bg-lightBlue text-white py-1 px-3 rounded hover:bg-lightBlue dark:hover:bg-softBlue text-sm" onclick="openBook('level-200-sem1-ghg')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="level-200-sem1-modeling" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-softBlue dark:text-paleGreen mb-2">Climate Modeling</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Simulation tutorials</p>
-          </div>
-          <div id="level-200-sem1-remote" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-softBlue dark:text-paleGreen mb-2">Remote Sensing</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Data analysis guides</p>
-          </div>
-          <div id="level-200-sem1-ghg" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-softBlue dark:text-paleGreen mb-2">GHG Measurements</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Measurement protocols</p>
-          </div>
-        </div>
-        <div id="level-200-sem2" class="semester-content hidden">
-          <div class="slider-container">
-            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-softBlue dark:bg-lightBlue text-white p-2 rounded-full hover:bg-lightBlue dark:hover:bg-softBlue z-10">
-              <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-softBlue dark:bg-lightBlue text-white p-2 rounded-full hover:bg-lightBlue dark:hover:bg-softBlue z-10">
-              <i class="fas fa-chevron-right"></i>
-            </button>
-            <div class="book-slider">
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-softBlue dark:bg-paleGreen rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Oceanography" alt="Oceanography Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Oceanography</h4>
-                  <button class="open-book bg-softBlue dark:bg-lightBlue text-white py-1 px-3 rounded hover:bg-lightBlue dark:hover:bg-softBlue text-sm" onclick="openBook('level-200-sem2-ocean')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-paleGreen dark:bg-softBlue rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Air+Quality" alt="Air Quality Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Air Quality</h4>
-                  <button class="open-book bg-softBlue dark:bg-lightBlue text-white py-1 px-3 rounded hover:bg-lightBlue dark:hover:bg-softBlue text-sm" onclick="openBook('level-200-sem2-air')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-lightBlue dark:bg-paleGreen rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Stats+Methods" alt="Statistical Methods Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Statistical Methods</h4>
-                  <button class="open-book bg-softBlue dark:bg-lightBlue text-white py-1 px-3 rounded hover:bg-lightBlue dark:hover:bg-softBlue text-sm" onclick="openBook('level-200-sem2-stats')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="level-200-sem2-ocean" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-softBlue dark:text-paleGreen mb-2">Oceanography</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Ocean data analysis</p>
-          </div>
-          <div id="level-200-sem2-air" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-softBlue dark:text-paleGreen mb-2">Air Quality</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Monitoring techniques</p>
-          </div>
-          <div id="level-200-sem2-stats" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-softBlue dark:text-paleGreen mb-2">Statistical Methods</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Software guides</p>
-          </div>
-        </div>
+      <div class="flex flex-wrap gap-2 sm:gap-3 mt-6">
+        <span class="badge badge-sky bg-white text-sky-900 font-semibold text-xs sm:text-sm">Weather Forecasting</span>
+        <span class="badge badge-sky bg-white text-sky-900 font-semibold text-xs sm:text-sm">Climate Modeling</span>
+        <span class="badge badge-cyan bg-white text-cyan-900 font-semibold text-xs sm:text-sm">Atmospheric Physics</span>
+        <span class="badge badge-cyan bg-white text-cyan-900 font-semibold text-xs sm:text-sm">Tropical Meteorology</span>
+        <span class="badge badge-blue bg-white text-blue-900 font-semibold text-xs sm:text-sm">Climate Change Research</span>
+        <span class="badge badge-blue bg-white text-blue-900 font-semibold text-xs sm:text-sm">Remote Sensing & GIS</span>
       </div>
-      <div id="level-300" class="level-content hidden">
-        <div class="flex gap-2 mb-4">
-          <button class="sub-tab active" onclick="showSemester('level-300-sem1')">1st Semester</button>
-          <button class="sub-tab" onclick="showSemester('level-300-sem2')">2nd Semester</button>
+    </div>
+
+    <!-- About Department -->
+    <div class="info-card">
+      <h2 class="section-title"><i class="fas fa-info-circle mr-3"></i>About the Department</h2>
+      <p class="text-base sm:text-lg leading-relaxed mb-4">
+        The Department of Meteorology and Climate Science at the Federal University of Technology, Akure (FUTA), within the School of Earth and Mineral Sciences, is dedicated to advancing understanding of atmospheric processes, weather systems, and climate dynamics. Our department trains highly skilled meteorologists and climate scientists capable of predicting weather patterns, analyzing climate trends, and addressing critical environmental challenges through rigorous scientific research and practical applications.
+      </p>
+      <p class="text-base sm:text-lg leading-relaxed mb-4">
+        Meteorology and Climate Science is the comprehensive study of the atmosphere, weather phenomena, and long-term climate patterns affecting our planet. Our curriculum integrates atmospheric physics, thermodynamics, synoptic meteorology, numerical weather prediction, climatology, and environmental monitoring. Students develop expertise in weather forecasting, climate modeling, satellite data analysis, atmospheric instrumentation, tropical weather systems, and climate change research using state-of-the-art computational tools and observational techniques.
+      </p>
+      <p class="text-base sm:text-lg leading-relaxed mb-4">
+        The department features advanced meteorological facilities including weather stations, atmospheric monitoring equipment, satellite data receiving systems, climate modeling workstations, and remote sensing laboratories. We maintain strong partnerships with the Nigerian Meteorological Agency (NiMet), international weather services, environmental agencies, and research institutions, providing students with internship opportunities, field experience, and exposure to operational meteorology.
+      </p>
+      <p class="text-base sm:text-lg leading-relaxed">
+        Graduates of Meteorology and Climate Science are highly sought professionals in weather services, aviation meteorology, agricultural weather consulting, environmental monitoring agencies, climate research institutions, and broadcast media. They excel as weather forecasters, climate analysts, atmospheric researchers, environmental consultants, and policy advisors. Our alumni contribute significantly to weather prediction, disaster risk management, climate adaptation strategies, renewable energy siting, and environmental protection efforts.
+      </p>
+    </div>
+
+    <!-- What We Offer -->
+    <div class="info-card">
+      <h2 class="section-title"><i class="fas fa-graduation-cap mr-3"></i>What We Offer</h2>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <div>
+          <h3 class="subsection-title"><i class="fas fa-book-open mr-2"></i>Academic Programs</h3>
+          <ul class="space-y-2">
+            <li><strong>B.Sc/B.Tech in Meteorology & Climate Science</strong> - 4-5 year undergraduate program</li>
+            <li><strong>M.Sc in Meteorology</strong> - Postgraduate specialization program</li>
+            <li><strong>M.Sc in Climate Science</strong> - Climate research specialization</li>
+            <li><strong>Ph.D in Atmospheric Sciences</strong> - Advanced research degree</li>
+          </ul>
         </div>
-        <div id="level-300-sem1" class="semester-content">
-          <div class="slider-container">
-            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-softBlue dark:bg-lightBlue text-white p-2 rounded-full hover:bg-lightBlue dark:hover:bg-softBlue z-10">
-              <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-softBlue dark:bg-lightBlue text-white p-2 rounded-full hover:bg-lightBlue dark:hover:bg-softBlue z-10">
-              <i class="fas fa-chevron-right"></i>
-            </button>
-            <div class="book-slider">
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-softBlue dark:bg-paleGreen rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Adv.+Metrology" alt="Advanced Metrology Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Advanced Metrology</h4>
-                  <button class="open-book bg-softBlue dark:bg-lightBlue text-white py-1 px-3 rounded hover:bg-lightBlue dark:hover:bg-softBlue text-sm" onclick="openBook('level-300-sem1-metrology')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-paleGreen dark:bg-softBlue rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Climate+Policy" alt="Climate Policy Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Climate Policy</h4>
-                  <button class="open-book bg-softBlue dark:bg-lightBlue text-white py-1 px-3 rounded hover:bg-lightBlue dark:hover:bg-softBlue text-sm" onclick="openBook('level-300-sem1-policy')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-lightBlue dark:bg-paleGreen rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Sat.+Calib." alt="Satellite Calibration Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Satellite Calibration</h4>
-                  <button class="open-book bg-softBlue dark:bg-lightBlue text-white py-1 px-3 rounded hover:bg-lightBlue dark:hover:bg-softBlue text-sm" onclick="openBook('level-300-sem1-calibration')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="level-300-sem1-metrology" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-softBlue dark:text-paleGreen mb-2">Advanced Metrology</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Measurement standards</p>
-          </div>
-          <div id="level-300-sem1-policy" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-softBlue dark:text-paleGreen mb-2">Climate Policy</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Policy frameworks</p>
-          </div>
-          <div id="level-300-sem1-calibration" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-softBlue dark:text-paleGreen mb-2">Satellite Calibration</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Calibration techniques</p>
-          </div>
-        </div>
-        <div id="level-300-sem2" class="semester-content hidden">
-          <div class="slider-container">
-            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-softBlue dark:bg-lightBlue text-white p-2 rounded-full hover:bg-lightBlue dark:hover:bg-softBlue z-10">
-              <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-softBlue dark:bg-lightBlue text-white p-2 rounded-full hover:bg-lightBlue dark:hover:bg-softBlue z-10">
-              <i class="fas fa-chevron-right"></i>
-            </button>
-            <div class="book-slider">
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-softBlue dark:bg-paleGreen rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Climate+Risk" alt="Climate Risk Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Climate Risk</h4>
-                  <button class="open-book bg-softBlue dark:bg-lightBlue text-white py-1 px-3 rounded hover:bg-lightBlue dark:hover:bg-softBlue text-sm" onclick="openBook('level-300-sem2-risk')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-paleGreen dark:bg-softBlue rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Big+Data" alt="Big Data in Climate Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Big Data in Climate</h4>
-                  <button class="open-book bg-softBlue dark:bg-lightBlue text-white py-1 px-3 rounded hover:bg-lightBlue dark:hover:bg-softBlue text-sm" onclick="openBook('level-300-sem2-data')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-lightBlue dark:bg-paleGreen rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Forecasting" alt="Forecasting Models Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Forecasting Models</h4>
-                  <button class="open-book bg-softBlue dark:bg-lightBlue text-white py-1 px-3 rounded hover:bg-lightBlue dark:hover:bg-softBlue text-sm" onclick="openBook('level-300-sem2-forecasting')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-softBlue hover:text-lightBlue" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="level-300-sem2-risk" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-softBlue dark:text-paleGreen mb-2">Climate Risk</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Risk assessment guides</p>
-          </div>
-          <div id="level-300-sem2-data" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-softBlue dark:text-paleGreen mb-2">Big Data in Climate</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Data processing tutorials</p>
-          </div>
-          <div id="level-300-sem2-forecasting" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-softBlue dark:text-paleGreen mb-2">Forecasting Models</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Modeling software</p>
-          </div>
+
+        <div>
+          <h3 class="subsection-title"><i class="fas fa-cloud mr-2"></i>Core Focus Areas</h3>
+          <ul class="space-y-2">
+            <li>Weather Forecasting & Prediction</li>
+            <li>Climate Modeling & Analysis</li>
+            <li>Tropical Meteorology</li>
+            <li>Atmospheric Physics & Dynamics</li>
+            <li>Agricultural Meteorology</li>
+            <li>Aviation & Marine Meteorology</li>
+            <li>Remote Sensing & Satellite Meteorology</li>
+            <li>Climate Change & Environmental Monitoring</li>
+          </ul>
         </div>
       </div>
 
-      <!-- Career Pathways -->
-      <section class="max-w-7xl mx-auto py-10 px-4">
-        <h2 class="text-2xl font-semibold mb-6 text-softBlue dark:text-paleGreen">Career Pathways</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-softBlue dark:border-lightBlue card-animate">
-            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Climate Scientist</h3>
-            <p class="text-gray-600 dark:text-gray-300 text-sm"><a href="https://www.ametsoc.org/" target="_blank" class="underline hover:text-softBlue">American Meteorological Society</a> career resources</p>
+      <div class="mt-6">
+        <h3 class="subsection-title"><i class="fas fa-flask mr-2"></i>Laboratory Facilities</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+          <div class="research-item">
+            <i class="fas fa-satellite text-2xl sm:text-3xl text-sky-600 mb-3"></i>
+            <h4 class="font-semibold text-base sm:text-lg mb-2">Remote Sensing Laboratory</h4>
+            <p class="text-sm">Satellite data processing, weather imagery analysis, GIS applications, atmospheric remote sensing</p>
           </div>
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-softBlue dark:border-lightBlue card-animate">
-            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Metrologist</h3>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Coming Soon - Metrology standards resources</p>
+          <div class="research-item">
+            <i class="fas fa-temperature-half text-2xl sm:text-3xl text-sky-600 mb-3"></i>
+            <h4 class="font-semibold text-base sm:text-lg mb-2">Weather Station & Instruments Lab</h4>
+            <p class="text-sm">Meteorological instruments, data loggers, atmospheric monitoring, weather observations</p>
           </div>
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-softBlue dark:border-lightBlue card-animate">
-            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Climate Policy Analyst</h3>
-            <p class="text-gray-600 dark:text-gray-300 text-sm"><a href="https://www.ipcc.ch/" target="_blank" class="underline hover:text-softBlue">IPCC</a> policy resources</p>
+          <div class="research-item">
+            <i class="fas fa-computer text-2xl sm:text-3xl text-sky-600 mb-3"></i>
+            <h4 class="font-semibold text-base sm:text-lg mb-2">Climate Modeling Lab</h4>
+            <p class="text-sm">Numerical weather prediction, climate simulations, data analysis software, computing systems</p>
           </div>
         </div>
-      </section>
+      </div>
+    </div>
 
-      <!-- Footer -->
-      <footer class="bg-softBlue dark:bg-lightBlue text-white pt-10 px-4">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          <div>
-            <h3 class="text-lg font-semibold mb-4">Subscribe to Our Newsletter</h3>
-            <div class="flex flex-col space-y-3">
-              <input
-                type="email"
-                name="email"
-                placeholder="Your email"
-                class="p-2 rounded-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-white w-full"
-                required
-              />
-              <button
-                type="button"
-                id="submit"
-                class="bg-white text-softBlue font-semibold dark:bg-lightBlue dark:text-white py-2 px-4 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 transition"
-              >
-                Subscribe
-              </button>
+    <!-- Research & Specialization Areas -->
+    <div class="info-card">
+      <h2 class="section-title"><i class="fas fa-search mr-3"></i>Research Focus Areas</h2>
+      <p class="text-base sm:text-lg mb-6">Our department conducts critical research in atmospheric and climate science disciplines:</p>
+
+      <div class="space-y-4">
+        <div class="research-item">
+          <h3 class="font-bold text-base sm:text-lg mb-2"><i class="fas fa-cloud-sun-rain mr-2"></i>Weather Forecasting & Prediction</h3>
+          <p class="text-sm sm:text-base">Numerical weather prediction, synoptic meteorology, weather analysis, short and long-term forecasting, severe weather warning systems.</p>
+        </div>
+
+        <div class="research-item">
+          <h3 class="font-bold text-base sm:text-lg mb-2"><i class="fas fa-globe-africa mr-2"></i>Climate Change Research</h3>
+          <p class="text-sm sm:text-base">Climate trends analysis, global warming impacts, climate variability, adaptation strategies, mitigation policies, carbon cycle dynamics.</p>
+        </div>
+
+        <div class="research-item">
+          <h3 class="font-bold text-base sm:text-lg mb-2"><i class="fas fa-wind mr-2"></i>Tropical Meteorology</h3>
+          <p class="text-sm sm:text-base">Tropical weather systems, monsoons, tropical cyclones, rainfall patterns, West African weather dynamics, ITCZ movement.</p>
+        </div>
+
+        <div class="research-item">
+          <h3 class="font-bold text-base sm:text-lg mb-2"><i class="fas fa-seedling mr-2"></i>Agricultural Meteorology</h3>
+          <p class="text-sm sm:text-base">Crop-weather relationships, agroclimatic analysis, drought monitoring, soil moisture dynamics, farm weather services.</p>
+        </div>
+
+        <div class="research-item">
+          <h3 class="font-bold text-base sm:text-lg mb-2"><i class="fas fa-plane mr-2"></i>Aviation & Marine Meteorology</h3>
+          <p class="text-sm sm:text-base">Flight weather briefings, aeronautical meteorology, marine weather forecasting, sea surface temperature analysis, oceanographic meteorology.</p>
+        </div>
+
+        <div class="research-item">
+          <h3 class="font-bold text-base sm:text-lg mb-2"><i class="fas fa-satellite-dish mr-2"></i>Remote Sensing & Satellite Meteorology</h3>
+          <p class="text-sm sm:text-base">Satellite imagery interpretation, radar meteorology, atmospheric remote sensing, GIS applications in climate analysis.</p>
+        </div>
+
+        <div class="research-item">
+          <h3 class="font-bold text-base sm:text-lg mb-2"><i class="fas fa-smog mr-2"></i>Air Quality & Atmospheric Chemistry</h3>
+          <p class="text-sm sm:text-base">Air pollution monitoring, atmospheric composition, aerosol dynamics, air quality forecasting, environmental health impacts.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Career Opportunities -->
+    <div class="info-card">
+      <h2 class="section-title"><i class="fas fa-briefcase mr-3"></i>Career Opportunities</h2>
+      <p class="text-base sm:text-lg mb-6">Meteorology and Climate Science graduates pursue diverse careers in weather services, environmental agencies, and research institutions:</p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="resource-card">
+          <i class="fas fa-cloud-sun resource-icon"></i>
+          <h4 class="resource-title">Weather Forecaster</h4>
+          <p class="text-sm">Predict weather conditions for public services and media broadcasts</p>
+        </div>
+
+        <div class="resource-card">
+          <i class="fas fa-chart-line resource-icon"></i>
+          <h4 class="resource-title">Climate Analyst</h4>
+          <p class="text-sm">Analyze climate data trends and produce climate assessments</p>
+        </div>
+
+        <div class="resource-card">
+          <i class="fas fa-plane resource-icon"></i>
+          <h4 class="resource-title">Aviation Meteorologist</h4>
+          <p class="text-sm">Provide weather briefings for aviation operations and flight safety</p>
+        </div>
+
+        <div class="resource-card">
+          <i class="fas fa-seedling resource-icon"></i>
+          <h4 class="resource-title">Agricultural Weather Consultant</h4>
+          <p class="text-sm">Advise farmers on weather impacts and optimal planting strategies</p>
+        </div>
+
+        <div class="resource-card">
+          <i class="fas fa-microscope resource-icon"></i>
+          <h4 class="resource-title">Atmospheric Researcher</h4>
+          <p class="text-sm">Conduct research on atmospheric phenomena and climate dynamics</p>
+        </div>
+
+        <div class="resource-card">
+          <i class="fas fa-tv resource-icon"></i>
+          <h4 class="resource-title">Broadcast Meteorologist</h4>
+          <p class="text-sm">Present weather forecasts on television, radio, and online platforms</p>
+        </div>
+
+        <div class="resource-card">
+          <i class="fas fa-leaf resource-icon"></i>
+          <h4 class="resource-title">Environmental Consultant</h4>
+          <p class="text-sm">Advise on environmental impact assessments and climate adaptation</p>
+        </div>
+
+        <div class="resource-card">
+          <i class="fas fa-university resource-icon"></i>
+          <h4 class="resource-title">Academic Researcher</h4>
+          <p class="text-sm">Teach and conduct research at universities and institutions</p>
+        </div>
+
+        <div class="resource-card">
+          <i class="fas fa-solar-panel resource-icon"></i>
+          <h4 class="resource-title">Renewable Energy Analyst</h4>
+          <p class="text-sm">Assess wind and solar resources for renewable energy projects</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Course Resources by Level -->
+    <div class="info-card">
+      <h2 class="section-title"><i class="fas fa-book-reader mr-3"></i>Course Materials & Resources</h2>
+      <p class="text-base sm:text-lg mb-6">Access comprehensive meteorology and climate science materials, data analysis guides, and research resources organized by academic level.</p>
+
+      <!-- Tabs Navigation -->
+      <div class="tabs-container">
+        <div class="tabs-nav">
+          <button class="tab-btn active" data-tab="100level">
+            <i class="fas fa-layer-group mr-2"></i>100 Level
+          </button>
+          <button class="tab-btn" data-tab="200level">
+            <i class="fas fa-layer-group mr-2"></i>200 Level
+          </button>
+          <button class="tab-btn" data-tab="300level">
+            <i class="fas fa-layer-group mr-2"></i>300 Level
+          </button>
+          <button class="tab-btn" data-tab="400level">
+            <i class="fas fa-layer-group mr-2"></i>400 Level
+          </button>
+        </div>
+
+        <!-- 100 Level Content -->
+        <div id="100level" class="tab-content active">
+          <h3 class="subsection-title">100 Level Resources - Foundation Sciences</h3>
+          <p class="mb-4 text-gray-600 dark:text-gray-400 text-sm sm:text-base">General science foundations including mathematics, physics, and introduction to atmospheric sciences.</p>
+
+          <div class="grid md:grid-cols-2 gap-6">
+            <div>
+              <h4 class="font-semibold text-base sm:text-lg mb-3 text-sky-600 dark:text-sky-400">
+                <i class="fas fa-calendar-alt mr-2"></i>First Semester
+              </h4>
+              <div class="bg-gradient-to-r from-sky-50 to-sky-100 dark:from-sky-900/20 dark:to-sky-800/20 p-4 sm:p-6 rounded-lg border-l-4 border-sky-500">
+                <div class="flex flex-col sm:flex-row items-start gap-4">
+                  <i class="fas fa-folder-open text-3xl sm:text-4xl text-sky-600 dark:text-sky-400"></i>
+                  <div>
+                    <h5 class="font-bold text-base sm:text-lg mb-2">Foundation Resources</h5>
+                    <p class="text-xs sm:text-sm mb-4">Mathematics, Physics, Chemistry, and Introduction to Atmospheric Science.</p>
+                    <a href="#" class="inline-flex items-center gap-2 bg-sky-600 hover:bg-sky-700 text-white px-3 sm:px-4 py-2 rounded-lg font-semibold transition-all text-sm sm:text-base">
+                      <i class="fas fa-download"></i>
+                      Access Offline Study Packs
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h4 class="font-semibold text-base sm:text-lg mb-3 text-cyan-600 dark:text-cyan-400">
+                <i class="fas fa-calendar-alt mr-2"></i>Second Semester
+              </h4>
+              <div class="bg-gradient-to-r from-cyan-50 to-cyan-100 dark:from-cyan-900/20 dark:to-cyan-800/20 p-4 sm:p-6 rounded-lg border-l-4 border-cyan-500">
+                <div class="flex flex-col sm:flex-row items-start gap-4">
+                  <i class="fas fa-folder-open text-3xl sm:text-4xl text-cyan-600 dark:text-cyan-400"></i>
+                  <div>
+                    <h5 class="font-bold text-base sm:text-lg mb-2">General Studies & Computing</h5>
+                    <p class="text-xs sm:text-sm mb-4">Use of English, Introduction to Computers, General Studies.</p>
+                    <a href="#" class="inline-flex items-center gap-2 bg-cyan-600 hover:bg-cyan-700 text-white px-3 sm:px-4 py-2 rounded-lg font-semibold transition-all text-sm sm:text-base">
+                      <i class="fas fa-download"></i>
+                      Go to Offline Study Packs
+                    </a>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-          <div>
-            <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
-            <ul class="space-y-2">
-              <li><a href="index.html" class="hover:underline">Home</a></li>
-              <li><a href="/about.html" class="hover:underline">About Us</a></li>
-              <li><a href="/terms.html" class="hover:underline">Terms & Conditions</a></li>
-              <li><a href="/privacy.html" class="hover:underline">Privacy Policy</a></li>
-            </ul>
-          </div>
-          <div>
-            <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
-            <ul class="space-y-2">
-              <li>Email: <a href="mailto:info@naemsslibrary.com" class="hover:underline">info@naemsslibrary.com</a></li>
-              <li>Phone: <a href="tel:+2341234567890" class="hover:underline">+234 123 456 7890</a></li>
-              <li>Address: NAEMSS Secretariat, University Campus</li>
-            </ul>
-          </div>
-          <div>
-            <h3 class="text-lg font-semibold mb-4">Follow Us</h3>
-            <div class="social-icons flex gap-4">
-              <a href="#" class="text-white hover:text-paleGreen"><i class="fab fa-facebook-f"></i></a>
-              <a href="#" class="text-white hover:text-paleGreen"><i class="fab fa-twitter"></i></a>
-              <a href="#" class="text-white hover:text-paleGreen"><i class="fab fa-instagram"></i></a>
-              <a href="#" class="text-white hover:text-paleGreen"><i class="fab fa-linkedin-in"></i></a>
+
+          <div class="mt-6 p-4 bg-sky-50 dark:bg-sky-900/20 border-l-4 border-sky-500 rounded">
+            <div class="flex items-start gap-3">
+              <i class="fas fa-info-circle text-xl sm:text-2xl text-sky-600 dark:text-sky-400"></i>
+              <div>
+                <h5 class="font-semibold text-base sm:text-lg mb-2">Foundation Year</h5>
+                <p class="text-xs sm:text-sm">100 Level covers general science foundation. Courses include Mathematics, Physics, Chemistry, Biology, Use of English, Computer Science, and Introduction to Earth Science.</p>
+              </div>
             </div>
           </div>
         </div>
-        <div class="text-center py-6 mt-8 border-t border-white/20">
-          <p>&copy; 2025 NAEMSS eLibrary. All rights reserved.</p>
+
+        <!-- 200 Level Content -->
+        <div id="200level" class="tab-content">
+          <h3 class="subsection-title">200 Level Resources - Core Meteorology</h3>
+          <p class="mb-4 text-gray-600 dark:text-gray-400 text-sm sm:text-base">Fundamental meteorology concepts, atmospheric science principles, and instrumentation.</p>
+
+          <div class="bg-gradient-to-r from-sky-50 to-sky-100 dark:from-sky-900/20 dark:to-sky-800/20 p-4 sm:p-6 rounded-lg mb-6">
+            <h5 class="font-bold text-base sm:text-lg mb-3"><i class="fas fa-download mr-2"></i>Download 200 Level Materials</h5>
+            <p class="mb-4 text-sm sm:text-base">General meteorology, climatology, hydrology, and meteorological instrumentation.</p>
+            <a href="#" class="inline-flex items-center gap-2 bg-sky-600 hover:bg-sky-700 text-white px-3 sm:px-4 py-2 rounded-lg font-semibold transition-all text-sm sm:text-base">
+              <i class="fas fa-folder-open"></i>
+              Access Study Packs
+            </a>
+          </div>
+
+          <div class="resource-grid">
+            <div class="resource-card">
+              <i class="fas fa-cloud resource-icon"></i>
+              <h4 class="resource-title">General Meteorology</h4>
+              <p class="text-sm">Atmospheric structure, weather elements, air masses, fronts</p>
+            </div>
+
+            <div class="resource-card">
+              <i class="fas fa-globe resource-icon"></i>
+              <h4 class="resource-title">Climatology</h4>
+              <p class="text-sm">Climate classification, regional climates, climate controls</p>
+            </div>
+
+            <div class="resource-card">
+              <i class="fas fa-water resource-icon"></i>
+              <h4 class="resource-title">Elements of Hydrology</h4>
+              <p class="text-sm">Water cycle, precipitation, evaporation, runoff processes</p>
+            </div>
+
+            <div class="resource-card">
+              <i class="fas fa-thermometer-half resource-icon"></i>
+              <h4 class="resource-title">Meteorological Instrumentation</h4>
+              <p class="text-sm">Weather instruments, data collection, observation techniques</p>
+            </div>
+
+            <div class="resource-card">
+              <i class="fas fa-calculator resource-icon"></i>
+              <h4 class="resource-title">Mathematical Methods</h4>
+              <p class="text-sm">Statistics, calculus applications, computational methods</p>
+            </div>
+
+            <div class="resource-card">
+              <i class="fas fa-laptop-code resource-icon"></i>
+              <h4 class="resource-title">Programming for Meteorology</h4>
+              <p class="text-sm">Data analysis software, programming basics, visualization</p>
+            </div>
+          </div>
         </div>
-      </footer>
 
-      <!-- Back to Top Button -->
-      <button id="backToTop" class="hidden">
-        <i class="fas fa-arrow-up"></i>
-      </button>
+        <!-- 300 Level Content -->
+        <div id="300level" class="tab-content">
+          <h3 class="subsection-title">300 Level Resources - Applied Meteorology</h3>
+          <p class="mb-4 text-gray-600 dark:text-gray-400 text-sm sm:text-base">Specialized meteorology applications, synoptic analysis, and weather prediction.</p>
 
-      <script>
-        // Mobile menu toggle
-        const toggleMenu = document.getElementById('toggleMenu');
-        const mobileMenu = document.getElementById('mobileMenu');
+          <div class="bg-gradient-to-r from-sky-50 to-sky-100 dark:from-sky-900/20 dark:to-sky-800/20 p-4 sm:p-6 rounded-lg mb-6">
+            <h5 class="font-bold text-base sm:text-lg mb-3"><i class="fas fa-flask-vial mr-2"></i>Applied Meteorology</h5>
+            <p class="mb-4 text-sm sm:text-base">Tropical weather systems, agricultural meteorology, remote sensing applications.</p>
+            <a href="#" class="inline-flex items-center gap-2 bg-sky-600 hover:bg-sky-700 text-white px-3 sm:px-4 py-2 rounded-lg font-semibold transition-all text-sm sm:text-base">
+              <i class="fas fa-folder-open"></i>
+              Access 300 Level Resources
+            </a>
+          </div>
 
-        toggleMenu.addEventListener('click', () => {
-          mobileMenu.classList.toggle('hidden');
-          toggleMenu.textContent = mobileMenu.classList.contains('hidden') ? '☰' : '✕';
-        });
+          <div class="resource-grid">
+            <div class="resource-card">
+              <i class="fas fa-chart-area resource-icon"></i>
+              <h4 class="resource-title">Synoptic Meteorology</h4>
+              <p class="text-sm">Weather maps, synoptic analysis, forecasting techniques</p>
+            </div>
 
-        // Slideshow functionality
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('#slideshow > div');
-        const totalSlides = slides.length;
+            <div class="resource-card">
+              <i class="fas fa-sun resource-icon"></i>
+              <h4 class="resource-title">Tropical Weather Systems</h4>
+              <p class="text-sm">Monsoons, ITCZ, tropical cyclones, rainfall patterns</p>
+            </div>
 
-        function showSlide(index) {
-          if (index >= totalSlides) currentSlide = 0;
-          else if (index < 0) currentSlide = totalSlides - 1;
-          else currentSlide = index;
-          document.getElementById('slideshow').style.transform = `translateX(-${currentSlide * 100}%)`;
-        }
+            <div class="resource-card">
+              <i class="fas fa-seedling resource-icon"></i>
+              <h4 class="resource-title">Agricultural Meteorology</h4>
+              <p class="text-sm">Crop-weather relations, drought, agroclimatic analysis</p>
+            </div>
 
-        function nextSlide() {
-          showSlide(currentSlide + 1);
-        }
+            <div class="resource-card">
+              <i class="fas fa-satellite resource-icon"></i>
+              <h4 class="resource-title">Remote Sensing & GIS</h4>
+              <p class="text-sm">Satellite imagery, radar meteorology, GIS applications</p>
+            </div>
 
-        function prevSlide() {
-          showSlide(currentSlide - 1);
-        }
+            <div class="resource-card">
+              <i class="fas fa-wind resource-icon"></i>
+              <h4 class="resource-title">Atmospheric Dynamics</h4>
+              <p class="text-sm">Atmospheric motion, circulation patterns, wind systems</p>
+            </div>
 
-        // Auto-rotate slideshow every 5 seconds
-        let slideInterval = setInterval(nextSlide, 5000);
+            <div class="resource-card">
+              <i class="fas fa-industry resource-icon"></i>
+              <h4 class="resource-title">SIWES Industrial Training</h4>
+              <p class="text-sm">Practical experience in meteorological agencies</p>
+            </div>
+          </div>
+        </div>
 
-        // Pause slideshow on hover
-        document.getElementById('slideshow').addEventListener('mouseenter', () => {
-          clearInterval(slideInterval);
-        });
+        <!-- 400 Level Content -->
+        <div id="400level" class="tab-content">
+          <h3 class="subsection-title">400 Level Resources - Advanced Applications & Research</h3>
+          <p class="mb-4 text-gray-600 dark:text-gray-400 text-sm sm:text-base">Advanced weather prediction, climate modeling, and research projects.</p>
 
-        document.getElementById('slideshow').addEventListener('mouseleave', () => {
-          slideInterval = setInterval(nextSlide, 5000);
-        });
+          <div class="bg-gradient-to-r from-sky-50 to-sky-100 dark:from-sky-900/20 dark:to-sky-800/20 p-4 sm:p-6 rounded-lg mb-6">
+            <h5 class="font-bold text-base sm:text-lg mb-3"><i class="fas fa-research mr-2"></i>Research & Specialization</h5>
+            <p class="mb-4 text-sm sm:text-base">Numerical weather prediction, climate change studies, final year research project.</p>
+            <a href="#" class="inline-flex items-center gap-2 bg-sky-600 hover:bg-sky-700 text-white px-3 sm:px-4 py-2 rounded-lg font-semibold transition-all text-sm sm:text-base">
+              <i class="fas fa-folder-open"></i>
+              Access 400 Level Resources
+            </a>
+          </div>
 
-        // Card animation on scroll
-        const cards = document.querySelectorAll('.card-animate');
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-              }
-            });
-          },
-          { threshold: 0.1 }
-        );
+          <div class="resource-grid">
+            <div class="resource-card">
+              <i class="fas fa-computer resource-icon"></i>
+              <h4 class="resource-title">Numerical Weather Prediction</h4>
+              <p class="text-sm">Weather models, forecast verification, model output</p>
+            </div>
 
-        cards.forEach((card) => observer.observe(card));
+            <div class="resource-card">
+              <i class="fas fa-globe-americas resource-icon"></i>
+              <h4 class="resource-title">Climate Change Science</h4>
+              <p class="text-sm">Global warming, climate projections, impact assessment</p>
+            </div>
 
-        // Back to Top Button functionality
-        const backToTopButton = document.getElementById('backToTop');
+            <div class="resource-card">
+              <i class="fas fa-plane resource-icon"></i>
+              <h4 class="resource-title">Aviation & Marine Meteorology</h4>
+              <p class="text-sm">Flight weather, aeronautical forecasting, marine weather</p>
+            </div>
 
-        window.addEventListener('scroll', () => {
-          if (window.scrollY > 300) {
-            backToTopButton.classList.add('visible');
-            backToTopButton.classList.remove('hidden');
-          } else {
-            backToTopButton.classList.remove('visible');
-            backToTopButton.classList.add('hidden');
-          }
-        });
+            <div class="resource-card">
+              <i class="fas fa-exclamation-triangle resource-icon"></i>
+              <h4 class="resource-title">Environmental Disaster Management</h4>
+              <p class="text-sm">Hazard assessment, early warning systems, risk management</p>
+            </div>
 
-        backToTopButton.addEventListener('click', () => {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
+            <div class="resource-card">
+              <i class="fas fa-file-alt resource-icon"></i>
+              <h4 class="resource-title">Final Year Project</h4>
+              <p class="text-sm">Research thesis, data analysis, scientific presentation</p>
+            </div>
 
-        // Level tabs
-        function showLevel(levelId) {
-          document.querySelectorAll('.level-content').forEach((content) => {
-            content.classList.add('hidden');
-          });
-          document.getElementById(levelId).classList.remove('hidden');
+            <div class="resource-card">
+              <i class="fas fa-briefcase resource-icon"></i>
+              <h4 class="resource-title">Professional Practice</h4>
+              <p class="text-sm">Career development, operational meteorology, ethics</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-          document.querySelectorAll('.tab').forEach((tab) => {
-            tab.classList.remove('active');
-          });
-          document.querySelector(`button[onclick="showLevel('${levelId}')"]`).classList.add('active');
+    <!-- Admission Requirements -->
+    <div class="info-card">
+      <h2 class="section-title"><i class="fas fa-clipboard-check mr-3"></i>Admission Requirements</h2>
 
-          // Show first semester by default
-          const firstSemester = document.querySelector(`#${levelId} .semester-content`);
-          const firstSubTab = document.querySelector(`#${levelId} .sub-tab`);
-          showSemester(firstSemester.id);
-          document.querySelectorAll(`#${levelId} .sub-tab`).forEach((tab) => {
-            tab.classList.remove('active');
-          });
-          firstSubTab.classList.add('active');
-        }
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="research-item">
+          <h3 class="font-bold text-base sm:text-lg mb-3"><i class="fas fa-file-alt mr-2"></i>UTME Requirements</h3>
+          <ul class="space-y-2 text-sm sm:text-base">
+            <li>Minimum UTME score as set by JAMB and FUTA</li>
+            <li>Subject combination: English Language, Physics, Mathematics, Chemistry/Geography</li>
+            <li>Five O'Level credit passes in no more than two sittings</li>
+            <li>O'Level credits must include: English, Mathematics, Physics, and Chemistry/Geography</li>
+          </ul>
+        </div>
 
-        // Semester tabs
-        function showSemester(semesterId) {
-          document.querySelectorAll('.semester-content').forEach((content) => {
-            content.classList.add('hidden');
-          });
-          document.getElementById(semesterId).classList.remove('hidden');
+        <div class="research-item">
+          <h3 class="font-bold text-base sm:text-lg mb-3"><i class="fas fa-graduation-cap mr-2"></i>Direct Entry Requirements (200 Level)</h3>
+          <ul class="space-y-2 text-sm sm:text-base">
+            <li>A'Level passes in Mathematics and Physics (minimum grade C)</li>
+            <li>ND Upper Credit in Meteorology plus O'Level requirements</li>
+            <li>WMO Class II Certificate in Weather Forecasting</li>
+            <li>Plus O'Level requirements as stated above</li>
+          </ul>
+        </div>
+      </div>
+    </div>
 
-          document.querySelectorAll('.sub-tab').forEach((tab) => {
-            tab.classList.remove('active');
-          });
-          document.querySelector(`button[onclick="showSemester('${semesterId}')"]`).classList.add('active');
+  </main>
 
-          // Reset book slider for this semester
-          initializeSlider(semesterId);
-        }
+  <!-- Enhanced Footer -->
+  <footer class="footer py-12 px-4 lg:px-8 mt-auto">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div>
+        <h4 class="footer-heading text-lg font-bold mb-4">NAEMSS eLibrary</h4>
+        <p class="text-gray-600 dark:text-gray-400 text-sm">
+          Empowering SEMS students with comprehensive educational resources for academic excellence.
+        </p>
+        <div class="flex gap-4 mt-4">
+          <a href="#" class="social-icon text-blue-600 hover:bg-blue-600 hover:text-white">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="#" class="social-icon text-blue-400 hover:bg-blue-400 hover:text-white">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="#" class="social-icon text-pink-600 hover:bg-pink-600 hover:text-white">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="#" class="social-icon text-blue-700 hover:bg-blue-700 hover:text-white">
+            <i class="fab fa-linkedin-in"></i>
+          </a>
+        </div>
+      </div>
 
-        // Book content toggle
-        function openBook(bookId) {
-          document.querySelectorAll('.book-content').forEach((content) => {
-            content.classList.add('hidden');
-          });
-          document.getElementById(bookId).classList.remove('hidden');
-        }
+      <div>
+        <h4 class="footer-heading text-lg font-bold mb-4">Quick Links</h4>
+        <ul class="space-y-2 text-gray-600 dark:text-gray-400">
+          <li><a href="index.html" class="footer-link">Home</a></li>
+          <li><a href="dashboard.html" class="footer-link">Dashboard</a></li>
+        </ul>
+      </div>
 
-        // Book slider functionality
-        function initializeSlider(semesterId) {
-          const sliderContainer = document.querySelector(`#${semesterId} .slider-container`);
-          const bookSlider = document.querySelector(`#${semesterId} .book-slider`);
-          const books = document.querySelectorAll(`#${semesterId} .book`);
-          const prevButton = document.querySelector(`#${semesterId} .prev-slide`);
-          const nextButton = document.querySelector(`#${semesterId} .next-slide`);
+      <div>
+        <h4 class="footer-heading text-lg font-bold mb-4">SEMS Departments</h4>
+        <ul class="space-y-2 text-gray-600 dark:text-gray-400">
+          <li><a href="mcs.html" class="footer-link">Meteorology & Climate Science</a></li>
+          <li><a href="agy.html" class="footer-link">Applied Geology</a></li>
+          <li><a href="agp.html" class="footer-link">Applied Geophysics</a></li>
+          <li><a href="mst.html" class="footer-link">Marine Science and Technology</a></li>
+          <li><a href="rsg.html" class="footer-link">Remote Sensing & GIS</a></li>
+        </ul>
+      </div>
 
-          let currentPosition = 0;
-          const bookWidth = books[0].offsetWidth + 16; // Including margin
-          const maxPosition = -(books.length - 1) * bookWidth;
+      <div>
+        <h4 class="footer-heading text-lg font-bold mb-4">Contact Us</h4>
+        <ul class="space-y-3 text-gray-600 dark:text-gray-400 text-sm">
+          <li class="flex items-start gap-3">
+            <i class="fas fa-map-marker-alt mt-1 text-sky-500"></i>
+            <span>Federal University of Technology, Akure, Ondo State, Nigeria</span>
+          </li>
+        </ul>
+      </div>
+    </div>
 
-          function updateButtons() {
-            prevButton.classList.toggle('disabled', currentPosition >= 0);
-            nextButton.classList.toggle('disabled', currentPosition <= maxPosition);
-          }
+    <div class="max-w-7xl mx-auto mt-8 pt-8 border-t border-gray-200 dark:border-gray-700 text-center text-gray-600 dark:text-gray-400 text-sm">
+      <p>&copy; 2025 NAEMSS eLibrary. All rights reserved. Built for NAEMSSITES by Gabriel Adeniji</p>
+    </div>
+  </footer>
 
-          prevButton.addEventListener('click', () => {
-            if (currentPosition < 0) {
-              currentPosition += bookWidth;
-              bookSlider.style.transform = `translateX(${currentPosition}px)`;
-              updateButtons();
-            }
-          });
+  <!-- Back to Top Button -->
+  <button id="backToTop" class="back-to-top">
+    <i class="fas fa-arrow-up"></i>
+  </button>
 
-          nextButton.addEventListener('click', () => {
-            if (currentPosition > maxPosition) {
-              currentPosition -= bookWidth;
-              bookSlider.style.transform = `translateX(${currentPosition}px)`;
-              updateButtons();
-            }
-          });
+  <script>
+    // Mobile Menu Toggle
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
 
-          // Touch support for slider
-          let startX, currentX;
-          sliderContainer.addEventListener('touchstart', (e) => {
-            startX = e.touches[0].clientX;
-          });
+    menuToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('active');
+      const icon = menuToggle.querySelector('i');
+      icon.classList.toggle('fa-bars');
+      icon.classList.toggle('fa-times');
+    });
 
-          sliderContainer.addEventListener('touchmove', (e) => {
-            currentX = e.touches[0].clientX;
-          });
+    // Slideshow
+    const slideshow = document.getElementById('slideshow');
+    const slides = slideshow.querySelectorAll('.slide');
+    let currentSlide = 0;
 
-          sliderContainer.addEventListener('touchend', () => {
-            const deltaX = currentX - startX;
-            if (deltaX > 50 && currentPosition < 0) {
-              currentPosition += bookWidth;
-              bookSlider.style.transform = `translateX(${currentPosition}px)`;
-            } else if (deltaX < -50 && currentPosition > maxPosition) {
-              currentPosition -= bookWidth;
-              bookSlider.style.transform = `translateX(${currentPosition}px)`;
-            }
-            updateButtons();
-          });
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % slides.length;
+      slideshow.style.transform = `translateX(-${currentSlide * 100}%)`;
+    }
 
-          updateButtons();
-        }
+    setInterval(nextSlide, 5000);
 
-        // Subscription form
-        document.getElementById('submit').addEventListener('click', () => {
-          const emailInput = document.querySelector('input[name="email"]');
-          if (emailInput.value) {
-            alert('Subscribed successfully!');
-            emailInput.value = '';
-          } else {
-            alert('Please enter a valid email address.');
-          }
-        });
+    // Tabs
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
 
-        // Initialize sliders for all semesters
-        document.querySelectorAll('.semester-content').forEach((semester) => {
-          if (!semester.classList.contains('hidden')) {
-            initializeSlider(semester.id);
-          }
-        });
-      </script>
-    </body>
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tabId = btn.getAttribute('data-tab');
+
+        tabBtns.forEach(b => b.classList.remove('active'));
+        tabContents.forEach(c => c.classList.remove('active'));
+
+        btn.classList.add('active');
+        document.getElementById(tabId).classList.add('active');
+      });
+    });
+
+    // Navbar Scroll Effect
+    const navbar = document.querySelector('.navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    // Back to Top Button
+    const backToTop = document.getElementById('backToTop');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        backToTop.classList.add('visible');
+      } else {
+        backToTop.classList.remove('visible');
+      }
+    });
+
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</body>
 </html>

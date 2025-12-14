@@ -1,1143 +1,1299 @@
 <!DOCTYPE html>
 <html lang="en" class="dark">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Marine Science and Technology - NAEMSS eLibrary</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjV8FJ0V7irTLQ8Uo0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-      body {
-        font-family: 'Poppins', sans-serif;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marine Science & Technology - LEGACY by Gabriel</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="shortcut icon" href="ChatGPT Image Jul 8, 2025, 07_14_09 PM.png" type="image/x-icon">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --color-primary: #3b82f6;
+      --color-gold: #f59e0b;
+      --color-ocean-blue: #0369a1;
+      --color-ocean-teal: #14b8a6;
+      --transition-speed: 0.3s;
+    }
 
-      /* Card slide-in animation */
-      .card-animate {
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* Navbar Enhancements */
+    .navbar {
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.95);
+      transition: all var(--transition-speed) ease;
+    }
+
+    .dark .navbar {
+      background: rgba(31, 41, 55, 0.95);
+    }
+
+    .navbar.scrolled {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-link {
+      position: relative;
+      transition: all var(--transition-speed) ease;
+      font-weight: 500;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--color-primary);
+      transition: width var(--transition-speed) ease;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .nav-link:hover {
+      color: var(--color-primary);
+      transform: translateY(-2px);
+    }
+
+    .logo-container {
+      transition: transform var(--transition-speed) ease;
+    }
+
+    .logo-container:hover {
+      transform: scale(1.05);
+    }
+
+    .mobile-menu {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease-in-out;
+    }
+
+    .mobile-menu.active {
+      max-height: 500px;
+    }
+
+    /* Slideshow Enhancements */
+    .slideshow-container {
+      position: relative;
+      width: 100%;
+      height: 400px;
+      overflow: hidden;
+      border-radius: 0 0 24px 24px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .slideshow {
+      display: flex;
+      transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      height: 100%;
+    }
+
+    .slide {
+      min-width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .slide::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(3, 105, 161, 0.6), rgba(20, 184, 166, 0.5));
+    }
+
+    .slideshow-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+      text-align: center;
+      width: 90%;
+    }
+
+    .slideshow-text h2 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      color: white;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      animation: fadeInUp 1s ease;
+    }
+
+    .slideshow-text p {
+      font-size: clamp(1rem, 2vw, 1.5rem);
+      color: white;
+      margin-top: 12px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    @keyframes fadeInUp {
+      from {
         opacity: 0;
-        transform: translateY(20px);
-        transition: all 0.8s ease-in-out;
+        transform: translateY(30px);
       }
-
-      .card-animate.visible {
+      to {
         opacity: 1;
         transform: translateY(0);
       }
+    }
 
-      /* Social icons */
-      .social-icons i {
+    /* Content Section Styles */
+    .content-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    @media (min-width: 768px) {
+      .content-section {
+        padding: 24px;
+      }
+    }
+
+    .dept-header {
+      background: linear-gradient(135deg, var(--color-ocean-blue), var(--color-ocean-teal));
+      color: white;
+      padding: 32px 24px;
+      border-radius: 16px;
+      margin-bottom: 32px;
+      box-shadow: 0 10px 30px rgba(3, 105, 161, 0.3);
+    }
+
+    @media (min-width: 768px) {
+      .dept-header {
+        padding: 48px 32px;
+      }
+    }
+
+    .dark .dept-header {
+      background: linear-gradient(135deg, #003f5c, #006b7f);
+    }
+
+    .info-card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    @media (min-width: 768px) {
+      .info-card {
+        padding: 24px;
+      }
+    }
+
+    .dark .info-card {
+      background: rgba(31, 41, 55, 0.8);
+    }
+
+    .info-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--color-ocean-blue);
+      margin-bottom: 16px;
+      position: relative;
+      padding-bottom: 12px;
+    }
+
+    @media (min-width: 768px) {
+      .section-title {
         font-size: 2rem;
-        transition: transform 0.3s ease;
       }
+    }
 
-      .social-icons i:hover {
-        transform: scale(1.2);
+    .dark .section-title {
+      color: #22d3ee;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 60px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--color-ocean-blue), var(--color-ocean-teal));
+      border-radius: 2px;
+    }
+
+    .subsection-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--color-primary);
+      margin-top: 24px;
+      margin-bottom: 12px;
+    }
+
+    @media (min-width: 768px) {
+      .subsection-title {
+        font-size: 1.5rem;
       }
+    }
 
-      /* Back to Top Button */
-      #backToTop {
-        position: fixed;
-        bottom: 30px;
-        right: 20px;
-        background-color: #FFD700; /* Gold */
-        color: #333;
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    .dark .subsection-title {
+      color: #60a5fa;
+    }
+
+    /* Tabs System */
+    .tabs-container {
+      margin: 32px 0;
+    }
+
+    .tabs-nav {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+      padding-bottom: 0;
+      margin-bottom: 24px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+    }
+
+    .tabs-nav::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    .tabs-nav::-webkit-scrollbar-thumb {
+      background: var(--color-ocean-blue);
+      border-radius: 2px;
+    }
+
+    .dark .tabs-nav {
+      border-bottom-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .tab-btn {
+      padding: 10px 16px;
+      background: transparent;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      white-space: nowrap;
+      color: #6b7280;
+      font-size: 0.875rem;
+    }
+
+    @media (min-width: 768px) {
+      .tab-btn {
+        padding: 12px 24px;
+        font-size: 1rem;
+      }
+    }
+
+    .dark .tab-btn {
+      color: #9ca3af;
+    }
+
+    .tab-btn::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 3px;
+      background: var(--color-ocean-blue);
+      transition: width 0.3s ease;
+    }
+
+    .tab-btn:hover {
+      color: var(--color-ocean-blue);
+    }
+
+    .tab-btn.active {
+      color: var(--color-ocean-blue);
+    }
+
+    .dark .tab-btn.active {
+      color: #22d3ee;
+    }
+
+    .tab-btn.active::after {
+      width: 100%;
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
         opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        z-index: 1000;
+        transform: translateY(10px);
       }
-
-      #backToTop:hover {
-        background-color: #B8860B; /* Dark gold */
-        transform: scale(1.1);
-      }
-
-      #backToTop.visible {
+      to {
         opacity: 1;
-        visibility: visible;
+        transform: translateY(0);
       }
+    }
 
-      /* Responsive navbar title */
-      @media (max-width: 640px) {
-        .desktop-title {
-          display: none;
-        }
-        .mobile-title {
-          display: inline;
-        }
-        .book {
-          width: 48%;
-        }
-        .slide-nav-button {
-          padding: 1rem;
-        }
-      }
-      @media (min-width: 641px) {
-        .desktop-title {
-          display: inline;
-        }
-        .mobile-title {
-          display: none;
-        }
-      }
+    /* Resource Cards */
+    .resource-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-top: 24px;
+    }
 
-      /* Tab styling */
-      .tab {
-        background-color: #1E3A8A; /* Deep blue */
-        color: white;
-        padding: 0.5rem 1rem;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
+    @media (min-width: 640px) {
+      .resource-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
+    }
 
-      .tab:hover {
-        background-color: #38BDF8; /* Light blue */
+    @media (min-width: 1024px) {
+      .resource-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
       }
+    }
 
-      .tab.active {
-        background-color: #115E59; /* Teal */
-        font-weight: bold;
-      }
+    .resource-card {
+      background: linear-gradient(135deg, #e0f2fe, #ccf0ff);
+      border: 2px solid #a5d8ff;
+      border-radius: 12px;
+      padding: 16px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
 
-      .sub-tab {
-        background-color: #38BDF8; /* Light blue */
-        color: white;
-        padding: 0.5rem;
-        cursor: pointer;
-        transition: 0.3s ease;
+    @media (min-width: 768px) {
+      .resource-card {
+        padding: 20px;
       }
+    }
 
-      .sub-tab:hover {
-        background-color: #1E3A8A; /* Deep blue */
-      }
+    .dark .resource-card {
+      background: linear-gradient(135deg, rgba(3, 105, 161, 0.1), rgba(20, 184, 166, 0.1));
+      border-color: rgba(3, 105, 161, 0.3);
+    }
 
-      .sub-tab.active {
-        background-color: #FFD700; /* Gold */
-        color: #1E3A8A; /* Deep blue text */
-      }
+    .resource-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 28px rgba(3, 105, 161, 0.3);
+      border-color: var(--color-ocean-blue);
+    }
 
-      /* Book slider */
-      .book {
-        transition: transform 0.3s ease;
-      }
+    .resource-icon {
+      font-size: 1.75rem;
+      color: var(--color-ocean-blue);
+      margin-bottom: 12px;
+    }
 
-        .book:hover {
-          transform: scale(1.05);
-        }
-      
-      .slider-container {
-        position: relative;
-        overflow: hidden;
-        width: 100%;
+    @media (min-width: 768px) {
+      .resource-icon {
+        font-size: 2rem;
       }
-      .book-slider {
-        display: flex;
-        transition: transform 0.5s ease-in-out;
+    }
+
+    .resource-title {
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 8px;
+      color: #003f5c;
+    }
+
+    @media (min-width: 768px) {
+      .resource-title {
+        font-size: 1.1rem;
       }
-      .slide-nav-button {
-        transition: background-color 0.3s ease;
+    }
+
+    .dark .resource-title {
+      color: #a5f3fc;
+    }
+
+    /* Research Areas */
+    .research-item {
+      background: linear-gradient(135deg, #e0f2fe, #f0f9ff);
+      border-left: 4px solid var(--color-ocean-blue);
+      padding: 16px 20px;
+      margin-bottom: 16px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .dark .research-item {
+      background: linear-gradient(135deg, rgba(3, 105, 161, 0.1), rgba(20, 184, 166, 0.1));
+    }
+
+    .research-item:hover {
+      transform: translateX(8px);
+      box-shadow: 0 6px 16px rgba(3, 105, 161, 0.2);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin: 4px;
+    }
+
+    .badge-blue {
+      background: #e0f2fe;
+      color: #003f5c;
+    }
+
+    .dark .badge-blue {
+      background: rgba(3, 105, 161, 0.2);
+      color: #22d3ee;
+    }
+
+    .badge-teal {
+      background: #ccf0f6;
+      color: #0d7c7a;
+    }
+
+    .dark .badge-teal {
+      background: rgba(20, 184, 166, 0.2);
+      color: #5eead4;
+    }
+
+    .badge-cyan {
+      background: #cffafe;
+      color: #0891b2;
+    }
+
+    .dark .badge-cyan {
+      background: rgba(34, 211, 238, 0.2);
+      color: #a5f3fc;
+    }
+
+    /* Footer Enhancements */
+    .footer {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(249, 250, 251, 1) 100%);
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .dark .footer {
+      background: linear-gradient(180deg, rgba(17, 24, 39, 0.98) 0%, rgba(0, 0, 0, 0.95) 100%);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .footer-heading {
+      position: relative;
+      display: inline-block;
+      padding-bottom: 8px;
+      margin-bottom: 16px;
+    }
+
+    .footer-heading::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 40px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--color-primary), var(--color-gold));
+      border-radius: 2px;
+    }
+
+    .footer-link {
+      transition: all var(--transition-speed) ease;
+      display: inline-block;
+    }
+
+    .footer-link:hover {
+      color: var(--color-primary);
+      transform: translateX(5px);
+    }
+
+    .social-icon {
+      transition: all var(--transition-speed) ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(59, 130, 246, 0.1);
+    }
+
+    .social-icon:hover {
+      transform: translateY(-5px) scale(1.1);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .whatsapp-float {
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
       }
-    </style>
-    <script>
-      tailwind.config = {
-        darkMode: 'class',
-        theme: {
-          extend: {
-            fontFamily: {
-              poppins: ['Poppins', 'sans-serif']
-            },
-            colors: {
-              gold: '#FFD700',
-              darkgold: '#B8860B',
-              oceanBlue: '#1E3A8A',
-              lightBlue: '#38BDF8',
-              teal: '#115E59'
-            }
-          }
-        }
+      50% {
+        transform: scale(1.05);
       }
-    </script>
-  </head>
-  <body class="bg-blue-100 dark:bg-blue-950 text-gray-900 dark:text-white transition duration-300">
-    <!-- Navbar -->
-    <nav class="bg-gold dark:bg-darkgold p-4 shadow-md fixed w-full top-0 z-50">
-      <div class="max-w-7xl mx-auto flex justify-between items-center">
-        <h1 class="text-xl font-bold text-white">
-         NAEMSS ELibrary
+    }
+
+    .back-to-top {
+      position: fixed;
+      bottom: 24px;
+      left: 24px;
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, var(--color-ocean-blue), var(--color-ocean-teal));
+      color: white;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transition: all var(--transition-speed) ease;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .back-to-top:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .text-primary-custom {
+      color: var(--color-primary);
+    }
+
+    .dark .text-primary-custom {
+      color: #60a5fa;
+    }
+
+    .text-gold-custom {
+      color: var(--color-gold);
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    ul li {
+      padding: 8px 0;
+      padding-left: 24px;
+      position: relative;
+    }
+
+    ul li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--color-ocean-blue);
+      font-weight: bold;
+    }
+
+    /* Mobile Responsive Grid */
+    @media (max-width: 767px) {
+      .grid.md\:grid-cols-2, 
+      .grid.md\:grid-cols-3,
+      .grid.lg\:grid-cols-3 {
+        grid-template-columns: 1fr !important;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white min-h-screen flex flex-col">
+
+  <!-- Enhanced Navbar -->
+  <header class="navbar sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex items-center justify-between p-4 lg:px-8">
+      <div class="logo-container flex items-center gap-3 cursor-pointer">
+        <img src="download-6.jpeg" alt="Logo" class="w-12 h-12 rounded-full shadow-lg border-2 border-blue-500" />
+        <h1 class="text-xl lg:text-2xl font-bold">
+          <span class="text-gold-custom">NAEMSS eLibrary</span>
         </h1>
-        <button id="toggleMenu" class="sm:hidden text-white focus:outline-none text-2xl">
-          ☰
-        </button>
-        <ul id="menu" class="hidden sm:flex gap-4">
-          <li><a href="index.html" class="text-white hover:underline">Home</a></li>
-          <li><a href="#" class="text-white hover:underline">About</a></li>
-          <li><a href="#" class="text-white hover:underline">Contact</a></li>
-        </ul>
+      </div>
+
+      <nav class="hidden lg:flex items-center space-x-8">
+        <a href="index.html" class="nav-link flex items-center gap-2">
+          <i class="fas fa-home"></i> Home
+        </a>
+        <a href="dashboard.html" class="nav-link flex items-center gap-2">
+          <i class="fas fa-tools"></i> Dashboard
+        </a>
+        <a href="login.html" class="nav-link flex items-center gap-2 text-red-500 hover:text-red-600">
+          <i class="fas fa-sign-out-alt"></i> Login
+        </a>
+      </nav>
+
+      <button id="menuToggle" class="lg:hidden text-primary-custom text-3xl focus:outline-none transition-transform duration-300">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+
+    <!-- Enhanced Mobile Menu -->
+    <nav id="mobileMenu" class="mobile-menu lg:hidden bg-white dark:bg-gray-800 shadow-lg mx-4">
+      <div class="p-6 space-y-4">
+        <a href="index.html" class="footer-link block text-lg">
+          <i class="fas fa-home mr-3 text-primary-custom"></i> Home
+        </a>
+        <a href="dashboard.html" class="footer-link block text-lg">
+          <i class="fas fa-tools mr-3 text-primary-custom"></i> Dashboard
+        </a>
+        <a href="login.html" class="footer-link block text-lg text-red-500">
+          <i class="fas fa-sign-out-alt mr-3"></i> Login
+        </a>
       </div>
     </nav>
+  </header>
 
-    <!-- Mobile menu -->
-    <div id="mobileMenu" class="sm:hidden hidden bg-gold dark:bg-darkgold px-4 py-2 space-y-2 mt-16">
-      <a href="index.html" class="block text-white py-2 hover:bg-yellow-600 rounded">Home</a>
-      <a href="#" class="block text-white py-2 hover:bg-yellow-600 rounded">About</a>
-      <a href="#" class="block text-white py-2 hover:bg-yellow-600 rounded">Contact</a>
-    </div>
-
-    <!-- Slideshow -->
-    <div class="relative w-full overflow-hidden h-64 sm:h-80 md:h-96 mt-16">
-      <div id="slideshow" class="flex transition-transform duration-700 ease-in-out">
-        <div class="w-full flex-shrink-0">
-          <img src="download (5).jpg" alt="Marine Research" class="w-full h-64 sm:h-80 md:h-96 object-cover" />
-        </div>
-        <div class="w-full flex-shrink-0">
-          <img src="download.jpg" alt="Marine Ecosystems" class="w-full h-64 sm:h-80 md:h-96 object-cover" />
-        </div>
-        <div class="w-full flex-shrink-0">
-          <img src="images (1).jpg" alt="Coastal Studies" class="w-full h-64 sm:h-80 md:h-96 object-cover" />
-        </div>
-        <div class="w-full flex-shrink-0">
-          <img src="images (2).jpg" alt="Coastal Studies" class="w-full h-64 sm:h-80 md:h-96 object-cover" />
-        </div>
-        <div class="w-full flex-shrink-0">
-          <img src="images (3).jpg" alt="Coastal Studies" class="w-full h-64 sm:h-80 md:h-96 object-cover" />
-        </div>
-        <div class="w-full flex-shrink-0">
-          <img src="images (4).jpg" alt="Coastal Studies" class="w-full h-64 sm:h-80 md:h-96 object-cover" />
-        </div>
-        <div class="w-full flex-shrink-0">
-          <img src="images (5).jpg" alt="Coastal Studies" class="w-full h-64 sm:h-80 md:h-96 object-cover" />
-        </div>
-        <div class="w-full flex-shrink-0">
-          <img src="images.jpg" alt="Coastal Studies" class="w-full h-64 sm:h-80 md:h-96 object-cover" />
-        </div>
+  <!-- Enhanced Hero Section with Department-Specific Slideshow -->
+  <div class="slideshow-container mt-4">
+    <div id="slideshow" class="slideshow">
+      <div class="slide">
+        <img src="https://images.unsplash.com/photo-1505142468610-359e7d316be0?w=1280&h=400&fit=crop" alt="Ocean Waves" />
+      </div>
+      <div class="slide">
+        <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1280&h=400&fit=crop" alt="Marine Life" />
+      </div>
+      <div class="slide">
+        <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=1280&h=400&fit=crop" alt="Sea Research" />
+      </div>
+      <div class="slide">
+        <img src="https://images.unsplash.com/photo-1511593358241-7eea1f3c84e5?w=1280&h=400&fit=crop" alt="Aquatic Science" />
       </div>
     </div>
+    <div class="slideshow-text">
+      <h2>Marine Science & Technology</h2>
+      <p>Exploring Ocean Resources and Marine Ecosystems</p>
+    </div>
+  </div>
 
-    <!-- Header Section -->
-    <section class="max-w-7xl mx-auto py-10 px-4">
-      <h2 class="text-3xl font-semibold mb-6 text-oceanBlue dark:text-lightBlue">Department of Marine Science and Technology</h2>
-      <p class="text-gray-600 dark:text-gray-300 text-sm mb-6">Access resources, course materials, and tools for Marine Science and Technology students at all levels.</p>
-    </section>
+  <!-- Main Content -->
+  <main class="flex-grow content-section py-8">
 
-    <!-- Tabs for Levels -->
-    <section class="max-w-7xl mx-auto py-10 px-4">
-      <h3 class="text-2xl font-semibold mb-4 text-gold dark:text-gold">Course Materials by Level</h3>
-      <div class="flex flex-wrap gap-2 mb-4">
-        <button class="tab active" onclick="showLevel('level-100')">100 Level</button>
-        <button class="tab" onclick="showLevel('level-200')">200 Level</button>
-        <button class="tab" onclick="showLevel('level-300')">300 Level</button>
-        <button class="tab" onclick="showLevel('level-400')">400 Level</button>
-        <button class="tab" onclick="showLevel('level-500')">500 Level</button>
-      </div>
-
-      <!-- Level Content -->
-      <div id="level-100" class="level-content">
-        <div class="flex gap-2 mb-4">
-          <button class="sub-tab active" onclick="showSemester('level-100-sem1')">1st Semester</button>
-          <button class="sub-tab" onclick="showSemester('level-100-sem2')">2nd Semester</button>
-        </div>
-        <div id="level-100-sem1" class="semester-content">
-          <div class="slider-container">
-            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-gold dark:bg-darkgold text-white p-2 rounded-full hover:bg-darkgold dark:hover:bg-gold z-10">
-              <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-gold dark:bg-darkgold text-white p-2 rounded-full hover:bg-darkgold dark:hover:bg-gold z-10">
-              <i class="fas fa-chevron-right"></i>
-            </button>
-            <div class="book-slider">
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-oceanBlue dark:bg-teal rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Oceanography" alt="BIOLOGY" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">BIO 101/103 FOLDER</h4>
-                  <button class="open-book bg-gold dark:bg-darkgold text-white py-1 px-3 rounded hover:bg-darkgold dark:hover:bg-gold text-sm" onclick="openBook('level-100-sem1-oceanography')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-gold hover:text-darkgold" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-gold hover:text-darkgold" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-lightBlue dark:bg-oceanBlue rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Marine+Biology" alt="Chemistry" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">CHE 101/103 FOLDER</h4>
-                  <button class="open-book bg-gold dark:bg-darkgold text-white py-1 px-3 rounded hover:bg-darkgold dark:hover:bg-gold text-sm" onclick="openBook('level-100-sem1-biology')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-gold hover:text-darkgold" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-gold hover:text-darkgold" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-teal dark:bg-lightBlue rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Chemistry" alt="Chemistry Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">General Chemistry</h4>
-                  <button class="open-book bg-gold dark:bg-darkgold text-white py-1 px-3 rounded hover:bg-darkgold dark:hover:bg-gold text-sm" onclick="openBook('level-100-sem1-chemistry')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-gold hover:text-darkgold" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-gold hover:text-darkgold" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="level-100-sem1-oceanography" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-oceanBlue dark:text-lightBlue mb-2">Introduction to Oceanography</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Course notes and slides</p>
-          </div>
-          <div id="level-100-sem1-biology" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-oceanBlue dark:text-lightBlue mb-2">Marine Biology Basics</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Textbook chapters</p>
-          </div>
-          <div id="level-100-sem1-chemistry" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-oceanBlue dark:text-lightBlue mb-2">General Chemistry</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Lab manuals</p>
-          </div>
-        </div>
-        <div id="level-100-sem2" class="semester-content hidden">
-          <div class="slider-container">
-            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-gold dark:bg-darkgold text-white p-2 rounded-full hover:bg-darkgold dark:hover:bg-gold z-10">
-              <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-gold dark:bg-darkgold text-white p-2 rounded-full hover:bg-darkgold dark:hover:bg-gold z-10">
-              <i class="fas fa-chevron-right"></i>
-            </button>
-            <div class="book-slider">
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-oceanBlue dark:bg-teal rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Geology" alt="Geology Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Marine Geology</h4>
-                  <button class="open-book bg-gold dark:bg-darkgold text-white py-1 px-3 rounded hover:bg-darkgold dark:hover:bg-gold text-sm" onclick="openBook('level-100-sem2-geology')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-gold hover:text-darkgold" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-gold hover:text-darkgold" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-lightBlue dark:bg-oceanBlue rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Physics" alt="Physics Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Physics</h4>
-                  <button class="open-book bg-gold dark:bg-darkgold text-white py-1 px-3 rounded hover:bg-darkgold dark:hover:bg-gold text-sm" onclick="openBook('level-100-sem2-physics')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-gold hover:text-darkgold" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-gold hover:text-darkgold" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-teal dark:bg-lightBlue rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Math" alt="Math Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Mathematics</h4>
-                  <button class="open-book bg-gold dark:bg-darkgold text-white py-1 px-3 rounded hover:bg-darkgold dark:hover:bg-gold text-sm" onclick="openBook('level-100-sem2-math')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-gold hover:text-darkgold" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-gold hover:text-darkgold" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="level-100-sem2-geology" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-oceanBlue dark:text-lightBlue mb-2">Marine Geology</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Study guides</p>
-          </div>
-          <div id="level-100-sem2-physics" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-oceanBlue dark:text-lightBlue mb-2">Physics for Marine Sciences</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Problem sets</p>
-          </div>
-          <div id="level-100-sem2-math" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-oceanBlue dark:text-lightBlue mb-2">Mathematics for Scientists</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Tutorials</p>
-          </div>
-        </div>
-      </div>
-      <div id="level-200" class="level-content hidden">
-        <div class="flex gap-2 mb-4">
-          <button class="sub-tab active" onclick="showSemester('level-200-sem1')">1st Semester</button>
-          <button class="sub-tab" onclick="showSemester('level-200-sem2')">2nd Semester</button>
-        </div>
-        <div id="level-200-sem1" class="semester-content">
-          <div class="slider-container">
-            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-gold dark:bg-darkgold text-white p-2 rounded-full hover:bg-darkgold dark:hover:bg-gold z-10">
-              <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-gold dark:bg-darkgold text-white p-2 rounded-full hover:bg-darkgold dark:hover:bg-gold z-10">
-              <i class="fas fa-chevron-right"></i>
-            </button>
-            <div class="book-slider">
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-oceanBlue dark:bg-teal rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Physical+Ocean" alt="Physical Oceanography Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Physical Oceanography</h4>
-                  <button class="open-book bg-gold dark:bg-darkgold text-white py-1 px-3 rounded hover:bg-darkgold dark:hover:bg-gold text-sm" onclick="openBook('level-200-sem1-oceanography')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-gold hover:text-darkgold" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-gold hover:text-darkgold" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-lightBlue dark:bg-oceanBlue rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Ecology" alt="Ecology Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Marine Ecology</h4>
-                  <button class="open-book bg-gold dark:bg-darkgold text-white py-1 px-3 rounded hover:bg-darkgold dark:hover:bg-gold text-sm" onclick="openBook('level-200-sem1-ecology')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-gold hover:text-darkgold" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-gold hover:text-darkgold" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-teal dark:bg-lightBlue rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Stats" alt="Stats Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Statistics</h4>
-                  <button class="open-book bg-gold dark:bg-darkgold text-white py-1 px-3 rounded hover:bg-darkgold dark:hover:bg-gold text-sm" onclick="openBook('level-200-sem1-stats')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-gold hover:text-darkgold" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-gold hover:text-darkgold" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="level-200-sem1-oceanography" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-oceanBlue dark:text-lightBlue mb-2">Physical Oceanography</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Lecture notes</p>
-          </div>
-          <div id="level-200-sem1-ecology" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-oceanBlue dark:text-lightBlue mb-2">Marine Ecology</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Research papers</p>
-          </div>
-          <div id="level-200-sem1-stats" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-oceanBlue dark:text-lightBlue mb-2">Statistics for Marine Science</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Tutorials</p>
-          </div>
-        </div>
-        <div id="level-200-sem2" class="semester-content hidden">
-          <div class="slider-container">
-            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-gold dark:bg-darkgold text-white p-2 rounded-full hover:bg-darkgold dark:hover:bg-gold z-10">
-              <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-gold dark:bg-darkgold text-white p-2 rounded-full hover:bg-darkgold dark:hover:bg-gold z-10">
-              <i class="fas fa-chevron-right"></i>
-            </button>
-            <div class="book-slider">
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-oceanBlue dark:bg-teal rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Coastal" alt="Coastal Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Coastal Processes</h4>
-                  <button class="open-book bg-gold dark:bg-darkgold text-white py-1 px-3 rounded hover:bg-darkgold dark:hover:bg-gold text-sm" onclick="openBook('level-200-sem2-coastal')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-gold hover:text-darkgold" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-gold hover:text-darkgold" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-lightBlue dark:bg-oceanBlue rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Chemistry" alt="Chemistry Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Marine Chemistry</h4>
-                  <button class="open-book bg-gold dark:bg-darkgold text-white py-1 px-3 rounded hover:bg-darkgold dark:hover:bg-gold text-sm" onclick="openBook('level-200-sem2-chemistry')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-gold hover:text-darkgold" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-gold hover:text-darkgold" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-teal dark:bg-lightBlue rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Data" alt="Data Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Data Analysis</h4>
-                  <button class="open-book bg-gold dark:bg-darkgold text-white py-1 px-3 rounded hover:bg-darkgold dark:hover:bg-gold text-sm" onclick="openBook('level-200-sem2-data')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-gold hover:text-darkgold" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-gold hover:text-darkgold" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="level-200-sem2-coastal" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-oceanBlue dark:text-lightBlue mb-2">Coastal Processes</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Case studies</p>
-          </div>
-          <div id="level-200-sem2-chemistry" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-oceanBlue dark:text-lightBlue mb-2">Marine Chemistry</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Lab reports</p>
-          </div>
-          <div id="level-200-sem2-data" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-oceanBlue dark:text-lightBlue mb-2">Data Analysis in Marine Science</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Software guides</p>
-          </div>
-        </div>
-      </div>
-      <div id="level-300" class="level-content hidden">
-        <div class="flex gap-2 mb-4">
-          <button class="sub-tab active" onclick="showSemester('level-300-sem1')">1st Semester</button>
-          <button class="sub-tab" onclick="showSemester('level-300-sem2')">2nd Semester</button>
-        </div>
-        <div id="level-300-sem1" class="semester-content">
-          <div class="slider-container">
-            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-gold dark:bg-darkgold text-white p-2 rounded-full hover:bg-darkgold dark:hover:bg-gold z-10">
-              <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-gold dark:bg-darkgold text-white p-2 rounded-full hover:bg-darkgold dark:hover:bg-gold z-10">
-              <i class="fas fa-chevron-right"></i>
-            </button>
-            <div class="book-slider">
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-oceanBlue dark:bg-teal rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Microbiology" alt="Microbiology Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Marine Microbiology</h4>
-                  <button class="open-book bg-gold dark:bg-darkgold text-white py-1 px-3 rounded hover:bg-darkgold dark:hover:bg-gold text-sm" onclick="openBook('level-300-sem1-microbiology')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-gold hover:text-darkgold" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-gold hover:text-darkgold" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-lightBlue dark:bg-oceanBlue rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Dynamics" alt="Dynamics Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Ocean Dynamics</h4>
-                  <button class="open-book bg-gold dark:bg-darkgold text-white py-1 px-3 rounded hover:bg-darkgold dark:hover:bg-gold text-sm" onclick="openBook('level-300-sem1-dynamics')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-gold hover:text-darkgold" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-gold hover:text-darkgold" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-teal dark:bg-lightBlue rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=GIS" alt="GIS Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Marine GIS</h4>
-                  <button class="open-book bg-gold dark:bg-darkgold text-white py-1 px-3 rounded hover:bg-darkgold dark:hover:bg-gold text-sm" onclick="openBook('level-300-sem1-gis')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-gold hover:text-darkgold" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-gold hover:text-darkgold" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="level-300-sem1-microbiology" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-oceanBlue dark:text-lightBlue mb-2">Marine Microbiology</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Lab protocols</p>
-          </div>
-          <div id="level-300-sem1-dynamics" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-oceanBlue dark:text-lightBlue mb-2">Ocean Dynamics</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Modeling resources</p>
-          </div>
-          <div id="level-300-sem1-gis" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-oceanBlue dark:text-lightBlue mb-2">Marine GIS</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Software tutorials</p>
-          </div>
-        </div>
-        <div id="level-300-sem2" class="semester-content hidden">
-          <div class="slider-container">
-            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-gold dark:bg-darkgold text-white p-2 rounded-full hover:bg-darkgold dark:hover:bg-gold z-10">
-              <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-gold dark:bg-darkgold text-white p-2 rounded-full hover:bg-darkgold dark:hover:bg-gold z-10">
-              <i class="fas fa-chevron-right"></i>
-            </button>
-            <div class="book-slider">
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-oceanBlue dark:bg-teal rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Biotech" alt="Biotech Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Marine Biotech</h4>
-                  <button class="open-book bg-gold dark:bg-darkgold text-white py-1 px-3 rounded hover:bg-darkgold dark:hover:bg-gold text-sm" onclick="openBook('level-300-sem2-biotech')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-gold hover:text-darkgold" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-gold hover:text-darkgold" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-lightBlue dark:bg-oceanBlue rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Fisheries" alt="Fisheries Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Fisheries Science</h4>
-                  <button class="open-book bg-gold dark:bg-darkgold text-white py-1 px-3 rounded hover:bg-darkgold dark:hover:bg-gold text-sm" onclick="openBook('level-300-sem2-fisheries')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-gold hover:text-darkgold" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-gold hover:text-darkgold" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-teal dark:bg-lightBlue rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Fieldwork" alt="Fieldwork Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Fieldwork Techniques</h4>
-                  <button class="open-book bg-gold dark:bg-darkgold text-white py-1 px-3 rounded hover:bg-darkgold dark:hover:bg-gold text-sm" onclick="openBook('level-300-sem2-fieldwork')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-gold hover:text-darkgold" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-gold hover:text-darkgold" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="level-300-sem2-biotech" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-oceanBlue dark:text-lightBlue mb-2">Marine Biotechnology</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Research articles</p>
-          </div>
-          <div id="level-300-sem2-fisheries" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-oceanBlue dark:text-lightBlue mb-2">Fisheries Science</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Management guides</p>
-          </div>
-          <div id="level-300-sem2-fieldwork" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-oceanBlue dark:text-lightBlue mb-2">Fieldwork Techniques</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Practical guides</p>
-          </div>
-        </div>
-      </div>
-      <div id="level-400" class="level-content hidden">
-        <div class="flex gap-2 mb-4">
-          <button class="sub-tab active" onclick="showSemester('level-400-sem1')">1st Semester</button>
-          <button class="sub-tab" onclick="showSemester('level-400-sem2')">2nd Semester</button>
-        </div>
-        <div id="level-400-sem1" class="semester-content">
-          <div class="slider-container">
-            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-gold dark:bg-darkgold text-white p-2 rounded-full hover:bg-darkgold dark:hover:bg-gold z-10">
-              <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-gold dark:bg-darkgold text-white p-2 rounded-full hover:bg-darkgold dark:hover:bg-gold z-10">
-              <i class="fas fa-chevron-right"></i>
-            </button>
-            <div class="book-slider">
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-oceanBlue dark:bg-teal rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Pollution" alt="Pollution Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Marine Pollution</h4>
-                  <button class="open-book bg-gold dark:bg-darkgold text-white py-1 px-3 rounded hover:bg-darkgold dark:hover:bg-gold text-sm" onclick="openBook('level-400-sem1-pollution')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-gold hover:text-darkgold" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-gold hover:text-darkgold" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-lightBlue dark:bg-oceanBlue rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Engineering" alt="Engineering Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Ocean Engineering</h4>
-                  <button class="open-book bg-gold dark:bg-darkgold text-white py-1 px-3 rounded hover:bg-darkgold dark:hover:bg-gold text-sm" onclick="openBook('level-400-sem1-engineering')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-gold hover:text-darkgold" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-gold hover:text-darkgold" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-teal dark:bg-lightBlue rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Research" alt="Research Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Research Methodology</h4>
-                  <button class="open-book bg-gold dark:bg-darkgold text-white py-1 px-3 rounded hover:bg-darkgold dark:hover:bg-gold text-sm" onclick="openBook('level-400-sem1-research')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-gold hover:text-darkgold" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-gold hover:text-darkgold" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="level-400-sem1-pollution" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-oceanBlue dark:text-lightBlue mb-2">Marine Pollution</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Case studies</p>
-          </div>
-          <div id="level-400-sem1-engineering" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-oceanBlue dark:text-lightBlue mb-2">Ocean Engineering</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Technical reports</p>
-          </div>
-          <div id="level-400-sem1-research" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-oceanBlue dark:text-lightBlue mb-2">Research Methodology</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Proposal templates</p>
-          </div>
-        </div>
-        <div id="level-400-sem2" class="semester-content hidden">
-          <div class="slider-container">
-            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-gold dark:bg-darkgold text-white p-2 rounded-full hover:bg-darkgold dark:hover:bg-gold z-10">
-              <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-gold dark:bg-darkgold text-white p-2 rounded-full hover:bg-darkgold dark:hover:bg-gold z-10">
-              <i class="fas fa-chevron-right"></i>
-            </button>
-            <div class="book-slider">
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-oceanBlue dark:bg-teal rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Climate" alt="Climate Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Climate Change</h4>
-                  <button class="open-book bg-gold dark:bg-darkgold text-white py-1 px-3 rounded hover:bg-darkgold dark:hover:bg-gold text-sm" onclick="openBook('level-400-sem2-climate')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-gold hover:text-darkgold" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-gold hover:text-darkgold" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-lightBlue dark:bg-oceanBlue rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Conservation" alt="Conservation Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Marine Conservation</h4>
-                  <button class="open-book bg-gold dark:bg-darkgold text-white py-1 px-3 rounded hover:bg-darkgold dark:hover:bg-gold text-sm" onclick="openBook('level-400-sem2-conservation')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-gold hover:text-darkgold" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-gold hover:text-darkgold" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-teal dark:bg-lightBlue rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Project" alt="Project Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                  <h4 class="text-md font-bold text-white mb-2">Project Work</h4>
-                  <button class="open-book bg-gold dark:bg-darkgold text-white py-1 px-3 rounded hover:bg-darkgold dark:hover:bg-gold text-sm" onclick="openBook('level-400-sem2-project')">Open Book</button>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-gold hover:text-darkgold" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-gold hover:text-darkgold" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="level-400-sem2-climate" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-oceanBlue dark:text-lightBlue mb-2">Climate Change and Oceans</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Policy briefs</p>
-          </div>
-          <div id="level-400-sem2-conservation" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-oceanBlue dark:text-lightBlue mb-2">Marine Conservation</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Conservation plans</p>
-          </div>
-          <div id="level-400-sem2-project" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-oceanBlue dark:text-lightBlue mb-2">Project Work</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Guidelines</p>
-          </div>
-        </div>
-      </div>
-      <div id="level-500" class="level-content hidden">
-        <div class="flex gap-2 mb-4">
-          <button class="sub-tab active" onclick="showSemester('level-500-sem1')">1st Semester</button>
-          <button class="sub-tab" onclick="showSemester('level-500-sem2')">2nd Semester</button>
-        </div>
-        <div id="level-500-sem1" class="semester-content">
-          <div class="slider-container">
-            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-gold dark:bg-darkgold text-white p-2 rounded-full hover:bg-darkgold dark:hover:bg-gold z-10">
-              <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-gold dark:bg-darkgold text-white p-2 rounded-full hover:bg-darkgold dark:hover:bg-gold z-10">
-              <i class="fas fa-chevron-right"></i>
-            </button>
-            <div class="book-slider">
-              <div class="w-full flex-shrink-0 mx-2">
-                <div class="bg-oceanBlue dark:bg-teal rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Adv.+Ocean" alt="Advanced Oceanography Book Cover" class="w-full h-40 object-cover rounded mb-2">
-                <h4 class="text-md font-bold text-white mb-2">Adv. Oceanography</h4>
-                <button class="open-book bg-gold dark:bg-darkgold text-white py-1 px-3 rounded hover:bg-darkgold dark:hover:bg-gold text-sm" onclick="openBook('level-500-sem1-oceanography')">Open Book</button>
-                <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-gold hover:text-darkgold" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-gold hover:text-darkgold" title="Save to Vault"><i class="fas fa-save"></i></a>
-                </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-lightBlue dark:bg-oceanBlue rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Policy" alt="Policy Book Cover" class="w-full h-40 object-cover rounded mb-2">
-                <h4 class="text-md font-bold text-white mb-2">Marine Policy</h4>
-                <button class="open-book bg-gold dark:bg-darkgold text-white py-1 px-3 rounded hover:bg-darkgold dark:hover:bg-gold text-sm" onclick="openBook('level-500-sem1-policy')">Open Book</button>
-                <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-gold hover:text-darkgold" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-gold hover:text-darkgold" title="Save to Vault"><i class="fas fa-save"></i></a>
-                </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-teal dark:bg-lightBlue rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Thesis" alt="Thesis Book Cover" class="w-full h-40 object-cover rounded mb-2" />
-                <h4 class="text-md font-bold text-white mb-2">Thesis Prep</h4>
-                <button class="open-book bg-gold dark:bg-darkgold text-white py-1 px-3 rounded hover:bg-darkgold dark:hover:bg-gold text-sm" onclick="openBook('level-500-sem1-thesis')">Open Book</button>
-                <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-gold hover:text-darkgold" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-gold hover:text-darkgold" title="Save to Vault"><i class="fas fa-save"></i></a>
-                </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="level-500-sem1-oceanography" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-oceanBlue dark:text-lightBlue mb-2">Advanced Oceanography</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Research papers</p>
-          </div>
-          <div id="level-500-sem1-policy" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-oceanBlue dark:text-lightBlue mb-2">Marine Policy and Law</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Legal texts</p>
-          </div>
-          <div id="level-500-sem1-thesis" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-oceanBlue dark:text-lightBlue mb-2">Thesis Preparation</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Templates</p>
-          </div>
-        </div>
-        <div id="level-500-sem2" class="semester-content hidden">
-          <div class="slider-container">
-            <button class="slide-nav-button prev-slide absolute left-0 top-1/2 transform -translate-y-1/2 bg-gold dark:bg-darkgold text-white p-2 rounded-full hover:bg-darkgold dark:hover:bg-gold z-10">
-              <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="slide-nav-button next-slide absolute right-0 top-1/2 transform -translate-y-1/2 bg-gold dark:bg-darkgold text-white p-2 rounded-full hover:bg-darkgold dark:hover:bg-gold z-10">
-              <i class="fas fa-chevron-right"></i>
-            </button>
-            <div class="book-slider">
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-oceanBlue dark:bg-teal rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Tech" alt="Tech Book Cover" class="w-full h-40 object-cover rounded mb-2">
-                    <h4 class="text-md font-bold text-white mb-2">Marine Tech</h4>
-                  <button class="open-book bg-gold dark:bg-darkgold text-white py-1 px-3 rounded hover:bg-darkgold dark:hover:bg-gold text-sm" onclick="openBook('level'-500-sem2-tech')">Open Book</button>
-                  </div>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-gold hover:text-darkgold" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-gold hover:text-darkgold" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-lightBlue dark:bg-oceanBlue rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Seminar" alt="Seminar Book Cover" class="w-full h-40 object-cover rounded mb-2">
-                    <h4 class="text-md font-bold text-white mb-2">Seminar</h4>
-                  <button class="open-book bg-gold dark:bg-darkgold text-white py-1 px-3 rounded hover:bg-darkgold dark:hover:bg-gold text-sm" onclick="openBook('level'-500-sem2-seminar+'">Open Book</button>
-                  </div>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-gold hover:text-darkgold" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-gold hover:text-darkgold" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="book w-64 sm:w-48 flex-shrink-0 mx-2">
-                <div class="bg-teal dark:bg-lightBlue rounded-lg shadow-md p-4 text-center">
-                  <img src="https://via.placeholder.com/150x200?text=Project" alt="Project Book Cover" class="w-full h-40 object-cover rounded mb-2">
-                    <h4 class="text-md font-bold text-white mb-2">Final Project</h4>
-                  <button class="open-book bg-gold dark:bg-darkgold text-white py-1 px-3 rounded hover:bg-darkgold dark:hover:bg-gold text-sm" onclick="openBook('level'-500-sem2-project')">Open Book</button>
-                  </div>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <a href="#" class="text-gold hover:text-darkgold" title="Download"><i class="fas fa-download"></i></a>
-                    <a href="#" class="text-gold hover:text-darkgold" title="Save to Vault"><i class="fas fa-save"></i></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="level-500-sem2-tech" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-oceanBlue dark:text-lightBlue mb-2">Marine Technology Applications</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Case studies</p>
-          </div>
-          <div id="level-500-sem2-seminar" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-oceanBlue dark:text-lightBlue mb-2">Seminar in Marine Science</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Presentation guides</p>
-          </div>
-          <div id="level-500-sem2-project" class="book-content hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
-            <h4 class="text-lg font-bold text-oceanBlue dark:text-lightBlue mb-2">Final Year Project</h4>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Submission guidelines</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Career Pathways -->
-    <section class="max-w-7xl mx-auto py-10 px-4">
-      <h2 class="text-2xl font-semibold mb-6 text-gold dark:text-gold">Career Pathways</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-gold dark:border-darkgold card-animate">
-          <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Marine Scientist</h3>
-          <p class="text-gray-600 dark:text-gray-300 text-sm"><a href="https://www.careers.noaa.gov/" class="underline hover:text-gold">Explore NOAA careers</a> in marine research</p>
-        </div>
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition duration-300 border-t-4 border-gold dark:border-darkgold card-animate">
-          <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Ocean Engineer</h3>
-          <p class="text-gray-600 dark:text-gray-300 text-sm">Coming Soon - Resources for ocean engineering careers</p>
-        </div>
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transform hover:bg-scale-105 transition duration-300 border-t-4 border-gold dark:border-darkgold card-animate">
-          <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Marine Policy Advisor</h3>
-          <p class="text-gray-600 dark:text-gray-300 text-sm"><a href="https://www.oceanconservancy.org/" class="underline hover:text-gold">Ocean Conservancy</a> policy resources</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-gold dark:bg-darkgold text-white pt-10 px-4 mt-10">
-      <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+    <!-- Department Header -->
+    <div class="dept-header">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-4">
+        <i class="fas fa-water text-4xl sm:text-6xl"></i>
         <div>
-          <h3 class="text-lg font-semibold mb-4">Subscribe to Our Newsletter</h3>
-          <div class="flex flex-col space-y-3">
-            <input
-              type="email"
-              name="email"
-              placeholder="Your email"
-              class="p-2 rounded-full text-gray-900 focus:outline-none focus:ring-2 focus:ring-white w-full"
-              required
-            />
-            <button
-              type="button"
-              class="bg-white text-gold font-semibold py-2 px-4 rounded-full hover:bg-yellow-200 transition"
-            >
-              Subscribe
-            </button>
-          </div>
+          <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2">Department of Marine Science and Technology</h1>
+          <p class="text-base sm:text-lg lg:text-xl opacity-90">School of Earth and Mineral Sciences (SEMS) • Federal University of Technology, Akure</p>
         </div>
+      </div>
+      <div class="flex flex-wrap gap-2 sm:gap-3 mt-6">
+        <span class="badge badge-blue bg-white text-blue-900 font-semibold text-xs sm:text-sm">Oceanography</span>
+        <span class="badge badge-blue bg-white text-blue-900 font-semibold text-xs sm:text-sm">Marine Biology</span>
+        <span class="badge badge-teal bg-white text-teal-900 font-semibold text-xs sm:text-sm">Aquaculture</span>
+        <span class="badge badge-teal bg-white text-teal-900 font-semibold text-xs sm:text-sm">Fisheries Management</span>
+        <span class="badge badge-cyan bg-white text-cyan-900 font-semibold text-xs sm:text-sm">Coastal Resource Management</span>
+        <span class="badge badge-cyan bg-white text-cyan-900 font-semibold text-xs sm:text-sm">Marine Environmental Protection</span>
+      </div>
+    </div>
+
+    <!-- About Department -->
+    <div class="info-card">
+      <h2 class="section-title"><i class="fas fa-info-circle mr-3"></i>About the Department</h2>
+      <p class="text-base sm:text-lg leading-relaxed mb-4">
+        The Department of Marine Science and Technology at the Federal University of Technology, Akure (FUTA), within the School of Earth and Mineral Sciences, is dedicated to advancing knowledge of marine resources, oceanography, and coastal ecosystems. Our department trains highly skilled scientists and technologists capable of managing marine resources sustainably, conducting oceanographic research, and developing technologies for marine resource utilization and environmental protection.
+      </p>
+      <p class="text-base sm:text-lg leading-relaxed mb-4">
+        Marine Science and Technology is the comprehensive study of the ocean environment, marine organisms, and the technologies used to explore and utilize marine resources. Our curriculum integrates oceanography, marine biology, fisheries science, aquaculture technology, coastal management, and environmental monitoring. Students develop expertise in oceanographic data collection, marine ecosystem assessment, aquaculture systems, fisheries management, coastal protection, marine biotechnology, and sustainable marine resource utilization.
+      </p>
+      <p class="text-base sm:text-lg leading-relaxed mb-4">
+        The department features advanced marine science facilities including oceanographic laboratories, aquaculture systems, marine monitoring equipment, fish processing facilities, and research centers. We maintain strategic collaborations with fisheries agencies, oil and gas companies, environmental organizations, and international research institutions, providing students with internship opportunities, field experience, and exposure to operational oceanography and marine resource management.
+      </p>
+      <p class="text-base sm:text-lg leading-relaxed">
+        Graduates of Marine Science and Technology are highly sought professionals in fisheries management, aquaculture industries, environmental consulting, marine research institutions, oil and gas environmental units, coastal management agencies, and regulatory bodies. They excel as oceanographers, marine biologists, aquaculture technicians, fisheries officers, coastal resource managers, and marine environmental specialists. Our alumni contribute significantly to sustainable fisheries development, marine ecosystem conservation, and blue economy advancement.
+      </p>
+    </div>
+
+    <!-- What We Offer -->
+    <div class="info-card">
+      <h2 class="section-title"><i class="fas fa-graduation-cap mr-3"></i>What We Offer</h2>
+
+      <div class="grid md:grid-cols-2 gap-6">
         <div>
-          <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
-            <ul class="space-y-2">
-            <li><a href="index.html" class="hover:underline">Home</a></li>
-            <li><a href="/about.html" class="hover:underline">About Us</a></li>
-            <li><a href="/terms.html" class="hover:underline">Terms & Conditions</a></li>
-            <li><a href="/contact.html" class="hover:underline">Contact</a></li>
+          <h3 class="subsection-title"><i class="fas fa-book-open mr-2"></i>Academic Programs</h3>
+          <ul class="space-y-2">
+            <li><strong>B.Sc in Marine Science and Technology</strong> - 4-year undergraduate program</li>
+            <li><strong>B.Tech in Marine Science and Technology</strong> - 4-year technology program</li>
+            <li><strong>M.Sc in Marine Science</strong> - Postgraduate specialization program</li>
+            <li><strong>Ph.D in Marine Science</strong> - Advanced research degree</li>
           </ul>
         </div>
+
         <div>
-          <h3 class="text-lg font-semibold mb-4">About the eLibrary</h3>
-          <p class="text-sm leading-relaxed">
-            The NAEMSS eLibrary provides digital access to department-specific resources, geoscience tools, career paths, and student learning support for all departments in the School Of Earth and Mineral Science Students.
-          </p>
+          <h3 class="subsection-title"><i class="fas fa-fish mr-2"></i>Core Focus Areas</h3>
+          <ul class="space-y-2">
+            <li>Oceanography & Marine Physics</li>
+            <li>Marine Biology & Ecology</li>
+            <li>Fisheries Science & Management</li>
+            <li>Aquaculture Technology</li>
+            <li>Marine Biotechnology</li>
+            <li>Coastal Resource Management</li>
+            <li>Marine Environmental Protection</li>
+            <li>Oil & Gas Environmental Management</li>
+          </ul>
         </div>
-        <div>
-          <h3 class="text-lg font-semibold mb-4">Connect With Us</h3>
-          <div class="flex gap-x-4 mb-4 social-icons">
-            <a href="https://www.facebook.com" aria-label="Facebook" class="text-blue-500 hover:text-blue-200">
-              <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="https://www.twitter.com" aria-label="Twitter" class="text-blue-400 hover:text-blue-200">
-              <i class="fab fa-twitter"></i>
-            </a>
-            <a href="https://www.instagram.com" aria-label="Instagram" class="text-pink-500 hover:text-pink-300">
-              <i class="fab fa-instagram"></i>
-            </a>
-            <a href="https://www.linkedin.com" aria-label="LinkedIn" class="text-blue-700 hover:text-blue-300">
-              <i class="fab fa-linkedin"></i>
-            </a>
+      </div>
+
+      <div class="mt-6">
+        <h3 class="subsection-title"><i class="fas fa-flask mr-2"></i>Laboratory Facilities</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+          <div class="research-item">
+            <i class="fas fa-microscope text-2xl sm:text-3xl text-ocean-blue mb-3"></i>
+            <h4 class="font-semibold text-base sm:text-lg mb-2">Marine Biology Laboratory</h4>
+            <p class="text-sm">Specimen identification, marine organism culture, taxonomic analysis, ecosystem assessment</p>
           </div>
-          <div class="text-sm space-y-2">
-            <p class="flex items-center space-x-2">
-              <i class="fas fa-envelope text-blue-500"></i>
-              <a href="mailto:naemsselibrary@gmail.com" class="hover:underline">naemsselibrary@gmail.com</a>
-            </p>
-            <p class="flex items-center space-x-2">
-              <i class="fas fa-phone text-green-500"></i>
-              <a href="tel:+1234567890" class="hover:underline">+123 456 7890</a>
-            </p>
+          <div class="research-item">
+            <i class="fas fa-droplets text-2xl sm:text-3xl text-ocean-blue mb-3"></i>
+            <h4 class="font-semibold text-base sm:text-lg mb-2">Oceanography Laboratory</h4>
+            <p class="text-sm">Water quality analysis, salinity testing, oceanographic data processing, marine chemistry</p>
+          </div>
+          <div class="research-item">
+            <i class="fas fa-fish text-2xl sm:text-3xl text-ocean-blue mb-3"></i>
+            <h4 class="font-semibold text-base sm:text-lg mb-2">Aquaculture & Fisheries Lab</h4>
+            <p class="text-sm">Fish breeding systems, feed formulation, aquaculture technology, fishery assessment</p>
           </div>
         </div>
       </div>
-      <div class="border-t border-white/30 my-6"></div>
-      <div class="text-center pb-6 text-sm">
-        <p>&copy; 2025 SEMS eLibrary, FUTA. Built by Gabriel for SEMS Faculty Students.</p>
+    </div>
+
+    <!-- Research & Specialization Areas -->
+    <div class="info-card">
+      <h2 class="section-title"><i class="fas fa-search mr-3"></i>Research Focus Areas</h2>
+      <p class="text-base sm:text-lg mb-6">Our department conducts critical research in marine science and resource management disciplines:</p>
+
+      <div class="space-y-4">
+        <div class="research-item">
+          <h3 class="font-bold text-base sm:text-lg mb-2"><i class="fas fa-water mr-2"></i>Physical Oceanography</h3>
+          <p class="text-sm sm:text-base">Ocean currents, waves, tides, water mass dynamics, coastal hydrodynamics, climate-ocean interactions.</p>
+        </div>
+
+        <div class="research-item">
+          <h3 class="font-bold text-base sm:text-lg mb-2"><i class="fas fa-droplet mr-2"></i>Chemical Oceanography</h3>
+          <p class="text-sm sm:text-base">Seawater chemistry, nutrient cycling, marine pollution, water quality assessment, salinity analysis.</p>
+        </div>
+
+        <div class="research-item">
+          <h3 class="font-bold text-base sm:text-lg mb-2"><i class="fas fa-fish mr-2"></i>Marine Biology & Ecology</h3>
+          <p class="text-sm sm:text-base">Marine organisms, ecosystem dynamics, biodiversity assessment, species interaction, habitat conservation.</p>
+        </div>
+
+        <div class="research-item">
+          <h3 class="font-bold text-base sm:text-lg mb-2"><i class="fas fa-fishing mr-2"></i>Fisheries Science & Management</h3>
+          <p class="text-sm sm:text-base">Fish stock assessment, sustainable fishing, catch monitoring, fishery regulations, aquatic resource management.</p>
+        </div>
+
+        <div class="research-item">
+          <h3 class="font-bold text-base sm:text-lg mb-2"><i class="fas fa-seedling mr-2"></i>Aquaculture Technology</h3>
+          <p class="text-sm sm:text-base">Fish farming, hatchery management, feed development, disease control, production optimization.</p>
+        </div>
+
+        <div class="research-item">
+          <h3 class="font-bold text-base sm:text-lg mb-2"><i class="fas fa-leaf mr-2"></i>Coastal Resource Management</h3>
+          <p class="text-sm sm:text-base">Coastal zone planning, mangrove conservation, beach erosion, sustainable utilization, community engagement.</p>
+        </div>
+
+        <div class="research-item">
+          <h3 class="font-bold text-base sm:text-lg mb-2"><i class="fas fa-shield-alt mr-2"></i>Marine Environmental Protection</h3>
+          <p class="text-sm sm:text-base">Pollution monitoring, conservation strategies, ecosystem restoration, biodiversity protection, climate adaptation.</p>
+        </div>
       </div>
-    </footer>
-<!-- Back to Top Button -->
-<button id="backToTop" title="Back to Top">
-  <i class="fas fa-arrow-up">↑</i>
-</button>
+    </div>
 
-<!-- FontAwesome -->
-<script src="https://kit.fontawesome.com/a2e5be08c1.js" crossorigin="anonymous"></script>
+    <!-- Career Opportunities -->
+    <div class="info-card">
+      <h2 class="section-title"><i class="fas fa-briefcase mr-3"></i>Career Opportunities</h2>
+      <p class="text-base sm:text-lg mb-6">Marine Science and Technology graduates pursue diverse careers in ocean and fisheries sectors:</p>
 
-<!-- Scripts -->
-<script>
-  // Mobile menu toggle
-  document.getElementById('toggleMenu').addEventListener('click', () => {
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="resource-card">
+          <i class="fas fa-water resource-icon"></i>
+          <h4 class="resource-title">Oceanographer</h4>
+          <p class="text-sm">Study ocean processes, water properties, and marine systems</p>
+        </div>
+
+        <div class="resource-card">
+          <i class="fas fa-fish resource-icon"></i>
+          <h4 class="resource-title">Marine Biologist</h4>
+          <p class="text-sm">Research marine organisms and ecosystem dynamics</p>
+        </div>
+
+        <div class="resource-card">
+          <i class="fas fa-fishing resource-icon"></i>
+          <h4 class="resource-title">Fisheries Officer</h4>
+          <p class="text-sm">Manage fish stocks and regulate fishing activities</p>
+        </div>
+
+        <div class="resource-card">
+          <i class="fas fa-barn resource-icon"></i>
+          <h4 class="resource-title">Aquaculture Technician</h4>
+          <p class="text-sm">Manage fish farms and aquaculture operations</p>
+        </div>
+
+        <div class="resource-card">
+          <i class="fas fa-leaf resource-icon"></i>
+          <h4 class="resource-title">Coastal Resource Manager</h4>
+          <p class="text-sm">Manage coastal zones and marine resources sustainably</p>
+        </div>
+
+        <div class="resource-card">
+          <i class="fas fa-flask resource-icon"></i>
+          <h4 class="resource-title">Marine Researcher</h4>
+          <p class="text-sm">Conduct research on marine science topics</p>
+        </div>
+
+        <div class="resource-card">
+          <i class="fas fa-microscope resource-icon"></i>
+          <h4 class="resource-title">Environmental Consultant</h4>
+          <p class="text-sm">Advise on marine environmental impacts and mitigation</p>
+        </div>
+
+        <div class="resource-card">
+          <i class="fas fa-industry resource-icon"></i>
+          <h4 class="resource-title">Oil & Gas Environmental Specialist</h4>
+          <p class="text-sm">Monitor environmental impacts of offshore operations</p>
+        </div>
+
+        <div class="resource-card">
+          <i class="fas fa-university resource-icon"></i>
+          <h4 class="resource-title">Academic Educator</h4>
+          <p class="text-sm">Teach marine science at universities and institutions</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Course Resources by Level -->
+    <div class="info-card">
+      <h2 class="section-title"><i class="fas fa-book-reader mr-3"></i>Course Materials & Resources</h2>
+      <p class="text-base sm:text-lg mb-6">Access comprehensive marine science materials, laboratory manuals, field guides, and research resources organized by academic level.</p>
+
+      <!-- Tabs Navigation -->
+      <div class="tabs-container">
+        <div class="tabs-nav">
+          <button class="tab-btn active" data-tab="100level">
+            <i class="fas fa-layer-group mr-2"></i>100 Level
+          </button>
+          <button class="tab-btn" data-tab="200level">
+            <i class="fas fa-layer-group mr-2"></i>200 Level
+          </button>
+          <button class="tab-btn" data-tab="300level">
+            <i class="fas fa-layer-group mr-2"></i>300 Level
+          </button>
+          <button class="tab-btn" data-tab="400level">
+            <i class="fas fa-layer-group mr-2"></i>400 Level
+          </button>
+        </div>
+
+        <!-- 100 Level Content -->
+        <div id="100level" class="tab-content active">
+          <h3 class="subsection-title">100 Level Resources - Foundation Sciences</h3>
+          <p class="mb-4 text-gray-600 dark:text-gray-400 text-sm sm:text-base">General science foundations including chemistry, biology, and mathematics essentials.</p>
+
+          <div class="grid md:grid-cols-2 gap-6">
+            <div>
+              <h4 class="font-semibold text-base sm:text-lg mb-3 text-blue-600 dark:text-blue-400">
+                <i class="fas fa-calendar-alt mr-2"></i>First Semester
+              </h4>
+              <div class="bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 p-4 sm:p-6 rounded-lg border-l-4 border-blue-500">
+                <div class="flex flex-col sm:flex-row items-start gap-4">
+                  <i class="fas fa-folder-open text-3xl sm:text-4xl text-blue-600 dark:text-blue-400"></i>
+                  <div>
+                    <h5 class="font-bold text-base sm:text-lg mb-2">Foundation Resources</h5>
+                    <p class="text-xs sm:text-sm mb-4">Chemistry, Biology, Mathematics, Physics fundamentals.</p>
+                    <a href="Offlinestudypacks.html" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-2 rounded-lg font-semibold transition-all text-sm sm:text-base">
+                      <i class="fas fa-download"></i>
+                      Access Offline Study Packs
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h4 class="font-semibold text-base sm:text-lg mb-3 text-teal-600 dark:text-teal-400">
+                <i class="fas fa-calendar-alt mr-2"></i>Second Semester
+              </h4>
+              <div class="bg-gradient-to-r from-teal-50 to-teal-100 dark:from-teal-900/20 dark:to-teal-800/20 p-4 sm:p-6 rounded-lg border-l-4 border-teal-500">
+                <div class="flex flex-col sm:flex-row items-start gap-4">
+                  <i class="fas fa-folder-open text-3xl sm:text-4xl text-teal-600 dark:text-teal-400"></i>
+                  <div>
+                    <h5 class="font-bold text-base sm:text-lg mb-2">General Studies & Introduction</h5>
+                    <p class="text-xs sm:text-sm mb-4">Use of English, Introduction to Marine Science, Computing.</p>
+                    <a href="Offlinestudypacks.html" class="inline-flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white px-3 sm:px-4 py-2 rounded-lg font-semibold transition-all text-sm sm:text-base">
+                      <i class="fas fa-download"></i>
+                      Go to Offline Study Packs
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500 rounded">
+            <div class="flex items-start gap-3">
+              <i class="fas fa-info-circle text-xl sm:text-2xl text-blue-600 dark:text-blue-400"></i>
+              <div>
+                <h5 class="font-semibold text-base sm:text-lg mb-2">Foundation Year</h5>
+                <p class="text-xs sm:text-sm">100 Level covers general science foundation. Courses include Chemistry, Biology, Physics, Mathematics, Use of English, Computer Science, and Introduction to Marine Science.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 200 Level Content -->
+        <div id="200level" class="tab-content">
+          <h3 class="subsection-title">200 Level Resources - Core Marine Science</h3>
+          <p class="mb-4 text-gray-600 dark:text-gray-400 text-sm sm:text-base">Fundamental marine science concepts, oceanography, and marine biology.</p>
+
+          <div class="bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 p-4 sm:p-6 rounded-lg mb-6">
+            <h5 class="font-bold text-base sm:text-lg mb-3"><i class="fas fa-download mr-2"></i>Download 200 Level Materials</h5>
+            <p class="mb-4 text-sm sm:text-base">General oceanography, marine biology, and fisheries fundamentals.</p>
+            <a href="Offlinestudypacks.html" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-2 rounded-lg font-semibold transition-all text-sm sm:text-base">
+              <i class="fas fa-folder-open"></i>
+              Access Study Packs
+            </a>
+          </div>
+
+          <div class="resource-grid">
+            <div class="resource-card">
+              <i class="fas fa-water resource-icon"></i>
+              <h4 class="resource-title">General Oceanography</h4>
+              <p class="text-sm">Ocean structure, water properties, currents, waves</p>
+            </div>
+
+            <div class="resource-card">
+              <i class="fas fa-fish resource-icon"></i>
+              <h4 class="resource-title">Marine Biology I</h4>
+              <p class="text-sm">Marine organisms, taxonomy, biodiversity</p>
+            </div>
+
+            <div class="resource-card">
+              <i class="fas fa-droplets resource-icon"></i>
+              <h4 class="resource-title">Aquatic Chemistry</h4>
+              <p class="text-sm">Seawater chemistry, nutrients, salinity</p>
+            </div>
+
+            <div class="resource-card">
+              <i class="fas fa-microscope resource-icon"></i>
+              <h4 class="resource-title">Marine Laboratory Techniques</h4>
+              <p class="text-sm">Sampling methods, specimen preparation, analysis</p>
+            </div>
+
+            <div class="resource-card">
+              <i class="fas fa-fishing resource-icon"></i>
+              <h4 class="resource-title">Fisheries Biology</h4>
+              <p class="text-sm">Fish biology, life cycles, population dynamics</p>
+            </div>
+
+            <div class="resource-card">
+              <i class="fas fa-calculator resource-icon"></i>
+              <h4 class="resource-title">Quantitative Methods</h4>
+              <p class="text-sm">Statistics, data analysis, modeling</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 300 Level Content -->
+        <div id="300level" class="tab-content">
+          <h3 class="subsection-title">300 Level Resources - Applied Marine Science</h3>
+          <p class="mb-4 text-gray-600 dark:text-gray-400 text-sm sm:text-base">Advanced oceanography, aquaculture, and marine resource management applications.</p>
+
+          <div class="bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 p-4 sm:p-6 rounded-lg mb-6">
+            <h5 class="font-bold text-base sm:text-lg mb-3"><i class="fas fa-flask-vial mr-2"></i>Applied Marine Science</h5>
+            <p class="mb-4 text-sm sm:text-base">Aquaculture systems, fisheries management, environmental monitoring.</p>
+            <a href="Offlinestudypacks.html" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-2 rounded-lg font-semibold transition-all text-sm sm:text-base">
+              <i class="fas fa-folder-open"></i>
+              Access 300 Level Resources
+            </a>
+          </div>
+
+          <div class="resource-grid">
+            <div class="resource-card">
+              <i class="fas fa-barn resource-icon"></i>
+              <h4 class="resource-title">Aquaculture Technology</h4>
+              <p class="text-sm">Fish farming, hatchery systems, feed production</p>
+            </div>
+
+            <div class="resource-card">
+              <i class="fas fa-fishing resource-icon"></i>
+              <h4 class="resource-title">Fisheries Management</h4>
+              <p class="text-sm">Stock assessment, sustainable fishing, regulations</p>
+            </div>
+
+            <div class="resource-card">
+              <i class="fas fa-leaf resource-icon"></i>
+              <h4 class="resource-title">Marine Ecology</h4>
+              <p class="text-sm">Ecosystem dynamics, food webs, biodiversity</p>
+            </div>
+
+            <div class="resource-card">
+              <i class="fas fa-map resource-icon"></i>
+              <h4 class="resource-title">Coastal Resource Management</h4>
+              <p class="text-sm">Coastal planning, mangrove conservation, zoning</p>
+            </div>
+
+            <div class="resource-card">
+              <i class="fas fa-dna resource-icon"></i>
+              <h4 class="resource-title">Marine Biotechnology</h4>
+              <p class="text-sm">Bioactive compounds, genetic improvement, bioproducts</p>
+            </div>
+
+            <div class="resource-card">
+              <i class="fas fa-industry resource-icon"></i>
+              <h4 class="resource-title">SIWES Industrial Training</h4>
+              <p class="text-sm">Practical experience in marine industries</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 400 Level Content -->
+        <div id="400level" class="tab-content">
+          <h3 class="subsection-title">400 Level Resources - Advanced Research</h3>
+          <p class="mb-4 text-gray-600 dark:text-gray-400 text-sm sm:text-base">Advanced marine science research and final year projects.</p>
+
+          <div class="bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 p-4 sm:p-6 rounded-lg mb-6">
+            <h5 class="font-bold text-base sm:text-lg mb-3"><i class="fas fa-research mr-2"></i>Research & Specialization</h5>
+            <p class="mb-4 text-sm sm:text-base">Advanced oceanography, marine conservation, final year research project.</p>
+            <a href="Offlinestudypacks.html" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-2 rounded-lg font-semibold transition-all text-sm sm:text-base">
+              <i class="fas fa-folder-open"></i>
+              Access 400 Level Resources
+            </a>
+          </div>
+
+          <div class="resource-grid">
+            <div class="resource-card">
+              <i class="fas fa-water resource-icon"></i>
+              <h4 class="resource-title">Advanced Oceanography</h4>
+              <p class="text-sm">Physical oceanography, current systems, modeling</p>
+            </div>
+
+            <div class="resource-card">
+              <i class="fas fa-shield-alt resource-icon"></i>
+              <h4 class="resource-title">Marine Conservation</h4>
+              <p class="text-sm">Protected areas, species conservation, restoration</p>
+            </div>
+
+            <div class="resource-card">
+              <i class="fas fa-leaf resource-icon"></i>
+              <h4 class="resource-title">Environmental Assessment</h4>
+              <p class="text-sm">Impact assessment, pollution monitoring, mitigation</p>
+            </div>
+
+            <div class="resource-card">
+              <i class="fas fa-microscope resource-icon"></i>
+              <h4 class="resource-title">Marine Research Methods</h4>
+              <p class="text-sm">Research design, fieldwork, data analysis, ethics</p>
+            </div>
+
+            <div class="resource-card">
+              <i class="fas fa-file-alt resource-icon"></i>
+              <h4 class="resource-title">Final Year Project</h4>
+              <p class="text-sm">Research thesis, experimental work, presentation</p>
+            </div>
+
+            <div class="resource-card">
+              <i class="fas fa-briefcase resource-icon"></i>
+              <h4 class="resource-title">Professional Practice</h4>
+              <p class="text-sm">Career development, ethics, industry standards</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Admission Requirements -->
+    <div class="info-card">
+      <h2 class="section-title"><i class="fas fa-clipboard-check mr-3"></i>Admission Requirements</h2>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="research-item">
+          <h3 class="font-bold text-base sm:text-lg mb-3"><i class="fas fa-file-alt mr-2"></i>UTME Requirements</h3>
+          <ul class="space-y-2 text-sm sm:text-base">
+            <li>Minimum UTME score as set by JAMB and FUTA</li>
+            <li>Subject combination: English Language, Physics, Mathematics, Chemistry/Biology</li>
+            <li>Five O'Level credit passes in no more than two sittings</li>
+            <li>O'Level credits must include: English, Mathematics, Chemistry, Physics, Biology</li>
+          </ul>
+        </div>
+
+        <div class="research-item">
+          <h3 class="font-bold text-base sm:text-lg mb-3"><i class="fas fa-graduation-cap mr-2"></i>Direct Entry Requirements (200 Level)</h3>
+          <ul class="space-y-2 text-sm sm:text-base">
+            <li>A'Level passes in Mathematics and Physics (minimum grade C)</li>
+            <li>ND Upper Credit in Oceanography or related marine discipline</li>
+            <li>GCE Advanced Level passes in science subjects</li>
+            <li>Plus O'Level requirements as stated above</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Enhanced Footer -->
+  <footer class="footer py-12 px-4 lg:px-8 mt-auto">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div>
+        <h4 class="footer-heading text-lg font-bold mb-4">NAEMSS eLibrary</h4>
+        <p class="text-gray-600 dark:text-gray-400 text-sm">
+          Empowering SEMS students with comprehensive educational resources for academic excellence.
+        </p>
+        <div class="flex gap-4 mt-4">
+          <a href="#" class="social-icon text-blue-600 hover:bg-blue-600 hover:text-white">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="#" class="social-icon text-blue-400 hover:bg-blue-400 hover:text-white">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="#" class="social-icon text-pink-600 hover:bg-pink-600 hover:text-white">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="#" class="social-icon text-blue-700 hover:bg-blue-700 hover:text-white">
+            <i class="fab fa-linkedin-in"></i>
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="footer-heading text-lg font-bold mb-4">Quick Links</h4>
+        <ul class="space-y-2 text-gray-600 dark:text-gray-400">
+          <li><a href="index.html" class="footer-link">Home</a></li>
+          <li><a href="dashboard.html" class="footer-link">Dashboard</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="footer-heading text-lg font-bold mb-4">SEMS Departments</h4>
+        <ul class="space-y-2 text-gray-600 dark:text-gray-400">
+          <li><a href="mst.html" class="footer-link">Marine Science & Technology</a></li>
+          <li><a href="mcs.html" class="footer-link">Meteorology & Climate Science</a></li>
+          <li><a href="agy.html" class="footer-link">Applied Geology</a></li>
+          <li><a href="agp.html" class="footer-link">Applied Geophysics</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="footer-heading text-lg font-bold mb-4">Contact Us</h4>
+        <ul class="space-y-3 text-gray-600 dark:text-gray-400 text-sm">
+          <li class="flex items-start gap-3">
+            <i class="fas fa-map-marker-alt mt-1 text-blue-500"></i>
+            <span>Federal University of Technology, Akure, Ondo State, Nigeria</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto mt-8 pt-8 border-t border-gray-200 dark:border-gray-700 text-center text-gray-600 dark:text-gray-400 text-sm">
+      <p>&copy; 2025 NAEMSS eLibrary. All rights reserved. Built for NAEMSSITES by Gabriel Adeniji</p>
+    </div>
+  </footer>
+
+
+  <!-- Back to Top Button -->
+  <button id="backToTop" class="back-to-top">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <script>
+    // Mobile Menu Toggle
+    const menuToggle = document.getElementById('menuToggle');
     const mobileMenu = document.getElementById('mobileMenu');
-    mobileMenu.classList.toggle('hidden');
-  });
 
-  // Slideshow logic
-  const slideshow = document.getElementById("slideshow");
-  const slides = slideshow.children.length;
-  let slideIndex = 0;
-
-  setInterval(() => {
-    slideIndex = (slideIndex + 1) % slides;
-    slideshow.style.transform = `translateX(-${slideIndex * 100}%)`;
-  }, 3000);
-
-  // Card animation on scroll
-  const cards = document.querySelectorAll('.card-animate');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
+    menuToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('active');
+      const icon = menuToggle.querySelector('i');
+      icon.classList.toggle('fa-bars');
+      icon.classList.toggle('fa-times');
     });
-  }, { threshold: 0.1 });
-  cards.forEach(card => observer.observe(card));
 
-  // Back to Top Button Logic
-  const backToTopButton = document.getElementById('backToTop');
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 200) {
-      backToTopButton.classList.add('visible');
-    } else {
-      backToTopButton.classList.remove('visible');
-    }
-  });
-  backToTopButton.addEventListener('click', () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  });
+    // Slideshow
+    const slideshow = document.getElementById('slideshow');
+    const slides = slideshow.querySelectorAll('.slide');
+    let currentSlide = 0;
 
-  // Level tab functionality
-  function showLevel(levelId) {
-    document.querySelectorAll('.level-content').forEach(content => {
-      content.classList.add('hidden');
-    });
-    document.querySelectorAll('.tab').forEach(tab => {
-      tab.classList.remove('active');
-    });
-    document.getElementById(levelId).classList.remove('hidden');
-    event.target.classList.add('active');
-
-    // Show first semester by default
-    const firstSemester = document.querySelector(`#${levelId} .semester-content`);
-    const firstSubTab = document.querySelector(`#${levelId} .sub-tab`);
-    document.querySelectorAll(`#${levelId} .semester-content`).forEach(content => {
-      content.classList.add('hidden');
-    });
-    document.querySelectorAll(`#${levelId} .sub-tab`).forEach(tab => {
-      tab.classList.remove('active');
-    });
-    firstSemester.classList.remove('hidden');
-    firstSubTab.classList.add('active');
-  }
-
-  // Semester tab functionality
-  function showSemester(semesterId) {
-    const levelId = semesterId.split('-sem')[0];
-    document.querySelectorAll(`#${levelId} .semester-content`).forEach(content => {
-      content.classList.add('hidden');
-    });
-    document.querySelectorAll(`#${levelId} .sub-tab`).forEach(tab => {
-      tab.classList.remove('active');
-    });
-    document.getElementById(semesterId).classList.remove('hidden');
-    event.target.classList.add('active');
-
-    // Reset slider for the semester
-    const slider = document.querySelector(`#${semesterId} .book-slider`);
-    if (slider) {
-      slider.dataset.currentIndex = 0;
-      updateSlider(semesterId);
-    }
-  }
-
-  // Book slider logic
-function initializeSliders() {
-  const sliders = document.querySelectorAll('.slider-container');
-  sliders.forEach(sliderContainer => {
-    const semesterId = sliderContainer.closest('.semester-content').id;
-    const bookSlider = sliderContainer.querySelector('.book-slider');
-    const books = bookSlider.querySelectorAll('.book');
-    const prevButton = sliderContainer.querySelector('.prev-slide');
-    const nextButton = sliderContainer.querySelector('.next-slide');
-
-    bookSlider.dataset.currentIndex = 0;
-
-    function updateSlider() {
-      const currentIndex = parseInt(bookSlider.dataset.currentIndex);
-      const bookWidth = books[0].offsetWidth + 16; // Include margin (mx-2 = 8px each side)
-      bookSlider.style.transform = `translateX(-${currentIndex * bookWidth}px)`;
-      checkNavigationButtons();
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % slides.length;
+      slideshow.style.transform = `translateX(-${currentSlide * 100}%)`;
     }
 
-    function checkNavigationButtons() {
-      const currentIndex = parseInt(bookSlider.dataset.currentIndex);
-      const containerWidth = sliderContainer.offsetWidth;
-      const bookWidth = books[0].offsetWidth + 16;
-      const visibleBooks = Math.floor(containerWidth / bookWidth);
-      const maxIndex = Math.max(0, books.length - visibleBooks);
+    setInterval(nextSlide, 5000);
 
-      prevButton.classList.toggle('disabled', currentIndex === 0);
-      nextButton.classList.toggle('disabled', currentIndex >= maxIndex);
-    }
+    // Tabs
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
 
-    prevButton.addEventListener('click', () => {
-      let currentIndex = parseInt(bookSlider.dataset.currentIndex);
-      if (currentIndex > 0) {
-        currentIndex--;
-        bookSlider.dataset.currentIndex = currentIndex;
-        updateSlider();
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tabId = btn.getAttribute('data-tab');
+
+        tabBtns.forEach(b => b.classList.remove('active'));
+        tabContents.forEach(c => c.classList.remove('active'));
+
+        btn.classList.add('active');
+        document.getElementById(tabId).classList.add('active');
+      });
+    });
+
+    // Navbar Scroll Effect
+    const navbar = document.querySelector('.navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
       }
     });
 
-    nextButton.addEventListener('click', () => {
-      let currentIndex = parseInt(bookSlider.dataset.currentIndex);
-      const containerWidth = sliderContainer.offsetWidth;
-      const bookWidth = books[0].offsetWidth + 16;
-      const visibleBooks = Math.floor(containerWidth / bookWidth);
-      const maxIndex = Math.max(0, books.length - visibleBooks);
+    // Back to Top Button
+    const backToTop = document.getElementById('backToTop');
 
-      if (currentIndex < maxIndex) {
-        currentIndex++;
-        bookSlider.dataset.currentIndex = currentIndex;
-        updateSlider();
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        backToTop.classList.add('visible');
+      } else {
+        backToTop.classList.remove('visible');
       }
     });
 
-    // Touch support
-    let touchStartX = 0;
-    let touchEndX = 0;
-
-    bookSlider.addEventListener('touchstart', e => {
-      touchStartX = e.changedTouches[0].screenX;
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
-
-    bookSlider.addEventListener('touchend', e => {
-      touchEndX = e.changedTouches[0].screenX;
-      handleSwipe();
-    });
-
-    function handleSwipe() {
-      let currentIndex = parseInt(bookSlider.dataset.currentIndex);
-      const containerWidth = sliderContainer.offsetWidth;
-      const bookWidth = books[0].offsetWidth + 16;
-      const visibleBooks = Math.floor(containerWidth / bookWidth);
-      const maxIndex = Math.max(0, books.length - visibleBooks);
-      const swipeThreshold = 50; // Minimum swipe distance
-
-      if (touchStartX - touchEndX > swipeThreshold && currentIndex < maxIndex) {
-        currentIndex++;
-        bookSlider.dataset.currentIndex = currentIndex;
-        updateSlider();
-      } else if (touchEndX - touchStartX > swipeThreshold && currentIndex > 0) {
-        currentIndex--;
-        bookSlider.dataset.currentIndex = currentIndex;
-        updateSlider();
-      }
-    }
-
-    // Debounced resize handler
-    let resizeTimeout;
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(() => {
-        bookSlider.dataset.currentIndex = 0; // Reset to start on resize
-        updateSlider();
-      }, 100);
-    });
-
-    // Initial check for navigation buttons
-    updateSlider();
-  });
-}
-  // Open book content
-  function openBook(bookId) {
-    const semesterId = bookId.substring(0, bookId.lastIndexOf('-'));
-    document.querySelectorAll(`#${semesterId} .book-content`).forEach(content => {
-      content.classList.add('hidden');
-    });
-    document.getElementById(bookId).classList.remove('hidden');
-  }
-
-  // Initialize sliders on page load
-  window.addEventListener('DOMContentLoaded', initializeSliders);
-</script>
+  </script>
 </body>
 </html>

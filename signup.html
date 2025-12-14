@@ -109,17 +109,17 @@
     </script>
   </head>
   <body class="bg-gray-100 dark:bg-deepSlate text-gray-900 dark:text-white min-h-screen flex items-center justify-center relative">
-    <!-- Slideshow -->
+    <!-- Slideshow with Geosciences Images -->
     <div class="slideshow-container">
       <div id="slideshow" class="slideshow">
         <div class="slide">
-          <img src="download (5).jpg" alt="Atmospheric Monitoring" />
+          <img src="https://pplx-res.cloudinary.com/image/upload/v11765631992/search_images/11ea789658e74bedd5be7d11f6730f658b2e81bd.jpg" alt="Atmospheric Weather" />
         </div>
         <div class="slide">
-          <img src="download.jpg" alt="Climate Modeling" />
+          <img src="https://pplx-res.cloudinary.com/image/upload/v1765053061/search_images/5a710940ac2429c58a3be9d859ac03d17575c798.jpg" alt="Natural Rock Formations" />
         </div>
         <div class="slide">
-          <img src="images (1).jpg"Weather Observation" />
+          <img src="https://pplx-res.cloudinary.com/image/upload/v1763906844/search_images/a51818a0482d18acdff18c2359657389d08546e2.jpg" alt="Clouds and Atmosphere" />
         </div>
       </div>
     </div>
@@ -163,7 +163,7 @@
           <p id="matricNumberError" class="error-message hidden">Matric number must start with AGY, AGP, MST, MCS, or RSG and follow the format XXX/YY/ZZZZ.</p>
         </div>
         <div>
-          <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+          <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email Address</label>
           <input
             type="email"
             id="email"
@@ -292,7 +292,7 @@
             // Update user profile with first name, last name, and matric number
             return user.updateProfile({
               displayName: `${firstName} ${lastName}`,
-              matricNumber: matricNumber // Note: Custom fields like matricNumber may need to be stored in Firestore
+              matricNumber: matricNumber
             });
           })
           .then(() => {
