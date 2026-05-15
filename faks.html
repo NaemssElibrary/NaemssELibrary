@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fakayode Joseph Iyanuoluwa – Product Designer</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --navy:    #0d1b2e;
+      --navy2:   #0f2035;
+      --card:    #132240;
+      --card2:   #16294a;
+      --blue:    #1e90ff;
+      --purple:  #6c47d4;
+      --purple2: #8b5cf6;
+      --pill-bg: #2a2060;
+      --text:    #e2e8f0;
+      --muted:   #94a3b8;
+      --border:  rgba(99,140,255,0.18);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--navy);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ─── NETWORK BG ─── */
+    #network-canvas {
+      position: fixed; inset: 0; z-index: 0;
+      pointer-events: none; opacity: .35;
+    }
+
+    /* ─── WRAPPER ─── */
+    .page-wrap {
+      position: relative; z-index: 1;
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 24px 16px 60px;
+      display: flex; flex-direction: column; gap: 20px;
+    }
+
+    /* ─── CARD BASE ─── */
+    .card {
+      background: linear-gradient(145deg, rgba(19,34,64,.96) 0%, rgba(14,26,52,.98) 100%);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      overflow: hidden;
+      position: relative;
+    }
+    .card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(99,140,255,.05) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    /* ─── HERO ─── */
+    #hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 340px;
+      padding: 36px 36px 36px 36px;
+      gap: 24px;
+      align-items: center;
+      position: relative;
+    }
+    .hero-left { display: flex; flex-direction: column; gap: 16px; }
+
+    .name-pill {
+      display: inline-block;
+      background: rgba(108,71,212,.35);
+      border: 1px solid rgba(139,92,246,.4);
+      border-radius: 50px;
+      padding: 5px 16px;
+      font-size: .8rem;
+      color: var(--text);
+      width: fit-content;
+      backdrop-filter: blur(6px);
+    }
+
+    .hero-greeting { font-size: 1rem; color: var(--text); font-weight: 400; }
+    .hero-name {
+      font-family: 'Manrope', sans-serif;
+      font-size: 2rem;
+      font-weight: 400;
+      line-height: 1.15;
+    }
+    .hero-name strong { font-weight: 800; }
+
+    .hero-bio {
+      font-size: .85rem;
+      color: var(--muted);
+      line-height: 1.7;
+      text-align: justify;
+    }
+
+    .hero-btns { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+
+    .btn-primary {
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      padding: 10px 22px;
+      border-radius: 50px;
+      font-size: .88rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: filter .2s;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .btn-primary:hover { filter: brightness(1.15); }
+
+    .btn-ghost {
+      background: rgba(255,255,255,.07);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,.18);
+      padding: 10px 22px;
+      border-radius: 50px;
+      font-size: .88rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background .2s;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .btn-ghost:hover { background: rgba(255,255,255,.13); }
+
+    .avatar-badge {
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #4f8ef7, #7c3aed);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .75rem; font-weight: 700; color: #fff;
+      border: 2px solid rgba(255,255,255,.2);
+      flex-shrink: 0;
+    }
+
+    /* Hero photo */
+    .hero-photo-wrap {
+      display: flex; align-items: flex-end; justify-content: center;
+      height: 100%;
+    }
+    .hero-photo-box {
+      width: 220px;
+      aspect-ratio: 3/4;
+      border-radius: 20px;
+      overflow: hidden;
+      background: linear-gradient(160deg, #1a3060, #0f1e3a);
+      position: relative;
+      box-shadow: 0 20px 60px rgba(0,0,0,.5);
+    }
+    .hero-photo-box img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: top center;
+    }
+    /* Big decorative "5" watermark */
+    .hero-bg-num {
+      position: absolute;
+      right: -20px; top: 50%;
+      transform: translateY(-50%);
+      font-size: 18rem;
+      font-weight: 900;
+      color: rgba(99,140,255,.07);
+      pointer-events: none;
+      line-height: 1;
+      z-index: 0;
+      font-family: 'Manrope', sans-serif;
+      user-select: none;
+    }
+
+    /* ─── ABOUT ─── */
+    #about {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      min-height: 320px;
+      align-items: center;
+      overflow: hidden;
+    }
+    .about-photo {
+      height: 100%;
+      min-height: 320px;
+      overflow: hidden;
+      position: relative;
+    }
+    .about-photo img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: top center;
+    }
+    /* cyan/blue top border */
+    #about { border-top: 2px solid rgba(30,144,255,.6); border-bottom: 2px solid rgba(30,144,255,.6); }
+
+    .about-content {
+      padding: 36px 32px;
+      display: flex; flex-direction: column; gap: 20px;
+    }
+    .section-pill {
+      display: inline-block;
+      background: rgba(108,71,212,.4);
+      border: 1px solid rgba(139,92,246,.45);
+      border-radius: 50px;
+      padding: 6px 20px;
+      font-size: .85rem;
+      color: var(--text);
+      width: fit-content;
+      backdrop-filter: blur(6px);
+    }
+    .about-bio-card {
+      background: rgba(255,255,255,.06);
+      border-radius: 16px;
+      padding: 20px 22px;
+      font-size: .87rem;
+      color: var(--muted);
+      line-height: 1.75;
+      text-align: justify;
+      border: 1px solid rgba(255,255,255,.07);
+    }
+    .about-meta { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+    .meta-card {
+      background: rgba(255,255,255,.06);
+      border-radius: 14px;
+      padding: 16px 20px;
+      border: 1px solid rgba(255,255,255,.08);
+      min-width: 120px;
+    }
+    .meta-card .label { font-weight: 700; font-size: .9rem; color: var(--text); }
+    .meta-card .sub { font-size: .78rem; color: var(--muted); margin-top: 4px; line-height: 1.5; }
+    .meta-card .big { font-size: 1.8rem; font-weight: 800; font-family: 'Manrope', sans-serif; color: #fff; }
+    .meta-card .small { font-size: .78rem; color: var(--muted); }
+
+    /* ─── FEATURED PROJECTS ─── */
+    #projects { padding: 36px; display: flex; flex-direction: column; gap: 32px; }
+
+    .project-block { display: flex; flex-direction: column; gap: 16px; }
+
+    .project-mockup-wrap {
+      border-radius: 18px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #141d2f, #1a2a45);
+      border: 1px solid rgba(99,140,255,.15);
+      display: flex; align-items: center; justify-content: center;
+      min-height: 260px;
+      padding: 16px;
+      position: relative;
+    }
+    .project-mockup-wrap img { width: 100%; border-radius: 12px; object-fit: cover; max-height: 300px; }
+
+    /* Feastly gradient */
+    .project-mockup-wrap.feastly {
+      background: linear-gradient(135deg, #1a2235, #1f2d45);
+    }
+    /* Acadly gradient */
+    .project-mockup-wrap.acadly {
+      background: linear-gradient(135deg, #1a1530, #24154a);
+    }
+
+    .project-info { padding: 4px 4px; }
+    .project-info h3 { font-size: .95rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+    .project-info p { font-size: .83rem; color: var(--muted); line-height: 1.7; text-align: justify; margin-bottom: 10px; }
+    .project-info .meta-line { font-size: .83rem; color: var(--text); font-weight: 700; }
+
+    /* floating j badge */
+    .j-badge {
+      position: absolute;
+      bottom: 14px; right: 14px;
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #4f8ef7, #7c3aed);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .8rem; font-weight: 700; color: #fff;
+      border: 2px solid rgba(255,255,255,.25);
+      z-index: 5;
+    }
+
+    /* ─── UI EXPLORATIONS ─── */
+    #explorations { padding: 36px; display: flex; flex-direction: column; gap: 24px; }
+
+    .explore-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .explore-item {
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(99,140,255,.15);
+      aspect-ratio: 16/10;
+    }
+    .explore-item img { width: 100%; height: 100%; object-fit: cover; }
+    .explore-placeholder {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .78rem; color: var(--muted);
+      flex-direction: column; gap: 8px;
+    }
+
+    /* Flight booking placeholder */
+    .flight-mock {
+      background: linear-gradient(135deg, #e8f4ff, #cce4ff);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .7rem; color: #333; padding: 10px;
+    }
+    /* Dashboard placeholder */
+    .dash-mock {
+      background: linear-gradient(135deg, #f0ecff, #e8e0ff);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .7rem; color: #333; padding: 10px;
+    }
+
+    /* ─── CTA / CONTACT ─── */
+    #contact {
+      padding: 40px 36px;
+      text-align: center;
+      display: flex; flex-direction: column; align-items: center; gap: 28px;
+    }
+    #contact h2 {
+      font-family: 'Manrope', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.4;
+    }
+
+    .social-grid { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+    .social-btn {
+      width: 68px; height: 68px;
+      border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none;
+      transition: transform .2s, box-shadow .2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .social-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,.4); }
+    .social-btn img { width: 100%; height: 100%; object-fit: cover; border-radius: 16px; }
+    .social-btn svg { width: 32px; height: 32px; }
+
+    .s-gmail   { background: #fff; }
+    .s-linkedin{ background: #0a66c2; }
+    .s-twitter { background: #000; }
+    .s-behance { background: #1769ff; }
+    .s-whatsapp{ background: #25d366; }
+
+    /* ─── ANIMATIONS ─── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .55s ease, transform .55s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 640px) {
+      #hero { grid-template-columns: 1fr; }
+      .hero-photo-wrap { display: none; }
+      #about { grid-template-columns: 1fr; }
+      .about-photo { min-height: 220px; }
+      .explore-grid { grid-template-columns: 1fr; }
+      .page-wrap { padding: 14px 10px 40px; }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="network-canvas"></canvas>
+
+<div class="page-wrap">
+
+  <!-- ── HERO ── -->
+  <div class="card fade-up" id="hero">
+    <span class="hero-bg-num">5</span>
+    <div class="hero-left" style="position:relative;z-index:1">
+      <div class="name-pill">Fakayode Joseph Iyanuoluwa</div>
+      <div>
+        <p class="hero-greeting">Hey!</p>
+        <p class="hero-name">My name is <strong>JOSEPH</strong></p>
+      </div>
+      <p class="hero-bio">
+        I am Product Designer focused on building intuitive and impactful digital experiences
+        that bridge user needs and business goals across mobile, web, and product design.
+      </p>
+      <div class="hero-btns">
+        <a href="#projects" class="btn-primary">
+          View Projects
+        </a>
+        <a href="https://drive.google.com/file/d/1MADexRKM1g61G1WKSvHSHWg2QGj05rYy/view?usp=drive_link" target="_blank" class="btn-ghost">
+          Download CV
+        </a>
+      </div>
+    </div>
+    <div class="hero-photo-wrap" style="position:relative;z-index:1">
+      <div class="hero-photo-box">
+        <!-- Replace with actual photo -->
+        <img src="faks.jpg" alt="Fakayode Joseph"
+             onerror="this.style.display='none'"/>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ABOUT ── -->
+  <div class="card fade-up" id="about">
+    <div class="about-photo">
+      <img src="faks.jpg" alt="Fakayode Joseph"
+           onerror="this.style.display='none'"/>
+    </div>
+    <div class="about-content">
+      <div class="section-pill">About Me</div>
+      <div class="about-bio-card">
+        I'm a UI/UX designer passionate about creating intuitive mobile experiences.
+        I enjoy turning ideas into visually engaging interfaces while improving my design
+        thinking through case studies and product exploration.
+      </div>
+      <div class="about-meta">
+        <div class="meta-card">
+          <div class="label">Tools</div>
+          <div class="sub">Figma<br/>Adobe Photoshop</div>
+        </div>
+        <div class="meta-card">
+          <div class="big">1+</div>
+          <div class="small">Year Experience</div>
+        </div>
+        <a href="#contact" class="btn-primary" style="margin-left:auto">Contact Me</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FEATURED PROJECTS ── -->
+  <div class="card fade-up" id="projects">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+      <div class="section-pill">Featured Projects</div>
+    </div>
+
+    <!-- Project 1: Feastly -->
+    <a href="https://www.behance.net/gallery/241238177/Feastly-Food-App-Case-Study" target="_blank" style="text-decoration:none;color:inherit;display:block">
+    <div class="project-block">
+      <div class="project-mockup-wrap feastly">
+        <img src="project.png" alt="Feastly Project">
+      </div>
+      <div class="project-info">
+        <h3>Project Name: Feastly</h3>
+        <p>Feastly is a mobile food delivery application designed to make meal selection and ordering effortless, it brings together multiple restaurants on a single platform.</p>
+        <p class="meta-line">Role: UX/UI Designer (Case Study)</p>
+        <p class="meta-line">Duration: 6 Weeks</p>
+      </div>
+    </div>
+    </a>
+
+    <!-- Divider -->
+    <div style="height:1px;background:var(--border);margin:8px 0"></div>
+
+    <!-- Project 2: Acadly -->
+    <a href="https://www.behance.net/gallery/248796023/Acadly-AI-Writing-Assistant-%28UXUI-Case-Study%29" target="_blank" style="text-decoration:none;color:inherit;display:block">
+    <div class="project-block">
+      <div class="project-mockup-wrap acadly">
+        <img src="acadly.png" alt="Acadly Project">
+      </div>
+      <div class="project-info">
+        <h3>Project Name: Acadly</h3>
+        <p>Acadly is a modern AI-powered writing assistant designed to help students overcome common academic writing challenges. It simplifies the writing process and enables students to produce clear and structured submissions.</p>
+        <p class="meta-line">Role: UX/UI Designer (Case Study)</p>
+        <p class="meta-line">Duration: 4 Weeks</p>
+      </div>
+    </div>
+    </a>
+  </div>
+
+  <!-- ── UI EXPLORATIONS ── -->
+  <div class="card fade-up" id="explorations">
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:8px">
+      <div class="section-pill">Other UI Explorations</div>
+    </div>
+        <img src="otherui.png" alt="Other UI">
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CONTACT / CTA ── -->
+  <div class="card fade-up" id="contact">
+    <h2>Let's build something meaningful together</h2>
+    <div class="social-grid">
+      <!-- Gmail -->
+      <a href="mailto:theboyfaks@gmail.com" class="social-btn s-gmail" title="Email">
+        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <path fill="#EA4335" d="M6 40h6V20L4 14v22c0 2.2 1.8 4 4 4z"/>
+          <path fill="#34A853" d="M36 40h6c2.2 0 4-1.8 4-4V14l-10 6v20z"/>
+          <path fill="#FBBC04" d="M36 8H12L4 14l20 12 20-12-8-6z"/>
+          <path fill="#4285F4" d="M4 14l8 6v14H4V14zm40 0l-8 6v14h8V14z"/>
+          <path fill="#C5221F" d="M4 14l20 12L44 14 36 8H12L4 14z"/>
+        </svg>
+      </a>
+      <!-- LinkedIn -->
+      <a href="https://www.linkedin.com/in/joseph-fakayode-b8785b380" target="_blank" class="social-btn s-linkedin" title="LinkedIn">
+        <svg viewBox="0 0 24 24" fill="white">
+          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+        </svg>
+      </a>
+      <!-- Twitter/X -->
+      <a href="https://x.com/Official_Faks" target="_blank" class="social-btn s-twitter" title="X / Twitter">
+        <svg viewBox="0 0 24 24" fill="white">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+        </svg>
+      </a>
+      <!-- Behance -->
+      <a href="https://www.behance.net/josephiyanuol1" target="_blank" class="social-btn s-behance" title="Behance">
+        <svg viewBox="0 0 24 24" fill="white">
+          <path d="M6.938 4.503c.702 0 1.34.06 1.92.188.577.13 1.07.33 1.485.61.41.28.733.65.96 1.12.225.47.34 1.05.34 1.73 0 .74-.17 1.36-.507 1.86-.338.5-.837.9-1.502 1.22.906.26 1.576.72 2.022 1.37.448.66.665 1.45.665 2.36 0 .75-.13 1.39-.41 1.93-.28.55-.67 1.01-1.15 1.36-.48.36-1.05.63-1.69.8-.63.17-1.29.25-1.97.25H0V4.50h6.938zm-.495 5.39c.598 0 1.07-.12 1.43-.4.357-.26.536-.68.536-1.26 0-.33-.06-.6-.18-.82-.12-.22-.28-.4-.48-.52-.2-.13-.44-.2-.71-.26-.27-.05-.56-.07-.87-.07H3.24v3.33h3.2zm.2 5.7c.34 0 .65-.03.94-.1.3-.07.56-.17.79-.34.23-.15.41-.36.55-.6.14-.25.2-.55.2-.9 0-.72-.2-1.24-.6-1.56-.4-.32-.95-.48-1.64-.48H3.24v3.95h3.4zm8.93 1.44c.4.37.97.54 1.71.54.53 0 .99-.13 1.38-.4.39-.25.63-.53.72-.83h2.54c-.41 1.22-1.04 2.1-1.9 2.63-.85.52-1.88.78-3.1.78-.84 0-1.6-.13-2.28-.4-.68-.26-1.26-.64-1.73-1.13-.48-.49-.84-1.08-1.1-1.77-.25-.68-.38-1.44-.38-2.26 0-.8.13-1.54.4-2.23.26-.68.64-1.27 1.12-1.76.48-.5 1.06-.89 1.74-1.16.67-.28 1.42-.42 2.23-.42.9 0 1.69.17 2.37.5.68.35 1.24.82 1.68 1.42.44.6.76 1.28.95 2.05.2.77.27 1.57.22 2.4h-7.58c.04.82.27 1.43.67 1.8zm3.02-4.87c-.32-.34-.82-.51-1.5-.51-.44 0-.8.08-1.1.23-.29.16-.53.35-.71.58-.18.23-.3.47-.37.72-.07.26-.11.5-.12.72h4.47c-.11-.7-.36-1.2-.67-1.54zm-4.25-5.7h5.4V4.5h-5.4v1.97z"/>
+        </svg>
+      </a>
+      <!-- WhatsApp -->
+      <a href="https://wa.me/+2349168416297" target="_blank" class="social-btn s-whatsapp" title="WhatsApp">
+        <svg viewBox="0 0 24 24" fill="white">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+
+</div><!-- /page-wrap -->
+
+<script>
+/* ─ NETWORK CANVAS BG ─ */
+const canvas = document.getElementById('network-canvas');
+const ctx = canvas.getContext('2d');
+let W, H, nodes = [];
+
+function resize() {
+  W = canvas.width  = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', () => { resize(); initNodes(); });
+
+function initNodes() {
+  nodes = [];
+  const count = Math.floor((W * H) / 14000);
+  for (let i = 0; i < count; i++) {
+    nodes.push({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      vx: (Math.random() - .5) * .35,
+      vy: (Math.random() - .5) * .35,
+      r: Math.random() * 2 + 1
+    });
+  }
+}
+initNodes();
+
+function draw() {
+  ctx.clearRect(0, 0, W, H);
+  const D = 130;
+  for (let i = 0; i < nodes.length; i++) {
+    const a = nodes[i];
+    a.x += a.vx; a.y += a.vy;
+    if (a.x < 0 || a.x > W) a.vx *= -1;
+    if (a.y < 0 || a.y > H) a.vy *= -1;
+    ctx.beginPath();
+    ctx.arc(a.x, a.y, a.r, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(99,140,255,.6)';
+    ctx.fill();
+    for (let j = i + 1; j < nodes.length; j++) {
+      const b = nodes[j];
+      const dx = a.x - b.x, dy = a.y - b.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < D) {
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+        ctx.strokeStyle = `rgba(99,140,255,${(1 - dist / D) * .25})`;
+        ctx.lineWidth = .7;
+        ctx.stroke();
+      }
+    }
+  }
+  requestAnimationFrame(draw);
+}
+draw();
+
+/* ─ FADE-UP ON SCROLL ─ */
+const fadeEls = document.querySelectorAll('.fade-up');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+}, { threshold: .12 });
+fadeEls.forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
